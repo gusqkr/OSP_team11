@@ -1,7 +1,10 @@
 from flask import Flask, render_template, request
+from database import DBhandler
 import sys
 
 application = Flask(__name__)
+
+DB = DBhandler()
 
 @application.route('/')
 def home():
@@ -46,6 +49,7 @@ def reg_item_submit_post():
     image_file = request.files['file']
     image_file.save("static/images/{}".format(image_file.filename))
     data=request.form
+    DB.insert_item(data['name'], data, image_file.filename)
 
     print ("\n=========== 입력받은 값 확인 ===========")
     print ("판매자 아이디 :", data['seller'])
