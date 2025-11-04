@@ -63,5 +63,27 @@ def reg_item_submit_post():
     print ("===============================================\n")
     return render_template('result.html', data=data, img_path="static/images/{}".format(image_file.filename))
 
+@application.route("/login")
+def login():
+    return render_template("login.html")
+
+@application.route("/signup")
+def signup():
+    return render_template("signup.html")
+
+@application.route("/signup_post", methods=['POST'])
+def register_user():
+    data = request.form
+    pw = data['pw']
+    pw_hash = hashlib.sha256(pw.encode('utf-8')).hexdigest()
+
+    # DBhandler에 insert_user() 함수가 있다고 가정
+    if DB.insert_user(data, pw_hash):
+        return render_template("login.html")
+    else:
+        flash("user id already exist!")
+        return render_template("signup.html")
+
+
 if __name__ == "__main__":
     application.run(debug=True, host='0.0.0.0')
