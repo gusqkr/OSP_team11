@@ -23,14 +23,12 @@ class DBhandler:
         print(data, img_path)
         return True
 
-def insert_user(self, data, pw):
+    def insert_user(self, data, pw):
         user_info = {
             "id": data['id'],
             "pw": pw,
             "nickname": data['nickname']
         }
-
-    
         if self.user_duplicate_check(str(data['id'])):
             self.db.child("user").push(user_info)
             print("New user added:", data)
@@ -42,8 +40,6 @@ def insert_user(self, data, pw):
     def user_duplicate_check(self, id_string):
         users = self.db.child("user").get()
         print("users###", users.val())
-
-
         if str(users.val()) == "None":
             return True
         else:

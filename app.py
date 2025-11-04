@@ -1,8 +1,10 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, flash, redirect, url_for, session
 from database import DBhandler
+import hashlib
 import sys
 
 application = Flask(__name__)
+application.config['SECRET_KEY'] = "helloosp"
 
 DB = DBhandler()
 
@@ -76,8 +78,6 @@ def register_user():
     data = request.form
     pw = data['pw']
     pw_hash = hashlib.sha256(pw.encode('utf-8')).hexdigest()
-
- 
     if DB.insert_user(data, pw_hash):
         return render_template("login.html")
     else:
