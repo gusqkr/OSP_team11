@@ -3,7 +3,7 @@
 {% block section %}
 {% with mesg = get_flashed_messages() %}
 {% if mesg != [] %}
-<script>alert("{{ mesg[0] }}")</script>
+    <script>alert("{{ mesg[0] }}")</script>
 {% endif %}
 {% endwith %}
 
@@ -17,6 +17,6 @@
 </form>
 
 <a href="/signup">
-    <button type="button">회원가입</button>
+    <button onclick="/signup">회원가입</button>
 </a>
 {% endblock section %}
