@@ -77,7 +77,7 @@ def register_user():
     pw = data['pw']
     pw_hash = hashlib.sha256(pw.encode('utf-8')).hexdigest()
 
-    # DBhandler에 insert_user() 함수가 있다고 가정
+ 
     if DB.insert_user(data, pw_hash):
         return render_template("login.html")
     else:
