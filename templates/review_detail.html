@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>e-pick</title>
+    <link rel="stylesheet" href="#">
+    <style>
+        *{
+    margin:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:"Inter",sans-serif;
+    color:#000000;
+}
+
+.header{
+    display:flex;
+    align-items:center;
+    padding:40px 60px;
+    justify-content:space-between;
+}
+
+.logo{
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: center;
+    padding-top:20px;
+    width:160px;
+    height:auto;
+}
+
+.header-right{
+    position:absolute;
+    right:100px;
+}
+
+.header-right a{
+    margin-left:10px;
+    text-decoration:none;
+    color:#000000;
+    font-size:13px;
+}
+
+.header-right a:hover{
+    text-decoration:underline;
+}
+
+.nav{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    overflow:hidden;
+    padding:70px;
+    padding-top:20px;
+    padding-bottom:8px;
+    border-bottom:1px solid black;
+}
+
+.nav a{
+    float:none;
+    text-align:center;
+    text-decoration:none;
+    font-weight:500;
+    font-size:20px;
+    color:black;
+    position:relative;
+}
+
+/*활성화된 탭 볼드+밑줄*/
+.nav a.active{
+    color:rgb(0,70,42);
+    font-weight:800;
+}
+
+.nav a.active::after{
+    content:"";
+    position:absolute;
+    bottom:-9px;
+    left:50%;
+    transform:translateX(-50%);
+    width:90px;
+    height:6px;
+    background-color:rgb(0,70,42);
+    border-radius:9px;
+}
+
+#page-title{
+    margin-left: 50px;
+    margin-top: 20px;
+}
+.review-wrapper {
+    display: flex;
+    margin: 20px 50px;
+    border: 2px solid rgb(189, 189, 189);
+    border-radius: 8px;
+}
+.review-detail-section {
+    margin: 40px;
+}
+.review-header-group, .review-info, .review-summary {
+    display: flex;
+}
+.review-header-group h2 {
+    margin-top: 0;
+    margin-bottom: 0;
+
+    line-height: 1.2;
+}
+#num-rate {
+    font-size: larger;
+    color: gray;
+}
+
+.review-id{
+    padding-right: 5px;
+}
+
+.review-product{
+    background-color: rgb(205, 205, 205);
+    padding: 5px 20px;
+    font-size: 17px;
+    border-radius: 5px;
+}
+.review-info {
+    margin-top: 10px;
+    margin-bottom: 20px;
+    color: gray;
+    font-size: 17px;
+}
+.review-rate {
+    margin:5px 15px;
+    font-size: 20px;
+    color: #00462a;
+    
+}
+.review-summary {
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+.review-image-wrapper {
+    display: flex;
+    margin: 50px;
+}
+.review-image {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="logo.png" alt="e-pick" class="logo">
+        <div class="header-right">
+            <a href="#">찜 목록</a>
+            <a href="#">마이페이지</a>
+            <a href="#">로그아웃</a>
+        </div>
+    </div>
+    
+    <!--화면마다 변경해야 할 네비게이션 부분-->
+    <div class="nav">
+        <a href="#">상품조회</a>
+        <a href="#" class="active">리뷰조회</a>
+        <a href="#">리뷰작성</a>
+        <a href="#">상품등록</a>
+        <a href="#">Q&A 모아보기</a>
+    </div>
+    <h4 id="page-title">상품 상세 리뷰</h4>
+    <div class="review-wrapper">
+    <div class="review-detail-section">
+        <div class="review-header-group">
+        <h2 style="padding-right: 5px;">최고예요!!</h2>
+        <div id="num-rate"><b>(4.0/5.0)</b></div>
+        </div>
+        <div class="review-info">
+            <div class="review-id">작성자 : freshair</div>
+            <div class="review-date">| 2025.9.19.</div>
+        </div>
+        <div class="review-summary">
+            <div class="review-product">공기청정기 구매</div>
+            <div class="review-rate">
+                &#9733; &#9733; &#9733; &#9733; &#9734;
+            </div>
+        </div>
+        <div class="review-content">
+            <p>처음으로 마켓을 이용해서 상품을 구매해봤어요. 친절하신 판매자 분 덕분에 좋은 컨디션의 제품을 가성비있게 구매할 수 있었네요. 바로 작동시켜 봤는데 문제 없이 잘 돌아갑니다..^^ 잘 사용하도록 하겠습니다!!</p>
+        </div>
+    </div>
+    <div class="review-image-wrapper">
+        <img class="review-image" src="https://www.cescomall.co.kr/upload/item/G2000000786/20250619161057L.jpg" alt="리뷰 이미지 1">
+    </div>
+    </div>
+    
+</body>
+</html>
