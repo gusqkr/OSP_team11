@@ -1,22 +1,48 @@
-{% extends "index.html" %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>e-pick</title>
+    <link rel="stylesheet" href="login.css">
+</head>
+<body>
+    <div class="header">
+        <img src="logo.png" alt="e-pick" class="logo">
+        <div class="header-right">
+            <a href="#">찜 목록</a>
+            <a href="#">마이페이지</a>
+            <a href="#">로그아웃</a>
+        </div>
+    </div>
 
-{% block section %}
-{% with mesg = get_flashed_messages() %}
-{% if mesg != [] %}
-    <script>alert("{{ mesg[0] }}")</script>
-{% endif %}
-{% endwith %}
+    <main class="login-container">
+        <h2>e-pick에 로그인하세요</h2>
 
-<form action="#" method="post">
-    <p>ID : <input type="text" name="id"></p>
-    <p>password : <input type="password" name="pw"></p>
-    <p>
-        아이디와 비밀번호를 입력하고 로그인 버튼을 누르세요.<br>
-        <input type="submit" value="로그인">
-    </p>
-</form>
+        <form class="login-form">
+            <input type="text" placeholder="아이디" required>
+            <div class="password-box">
+                <input type="password" placeholder="비밀번호" required>
+                <button type="button" class="toggle-password">
+                    <img src="eye-off.png" alt="비밀번호 보기" class="eye-icon">
+                </button>
+            </div>
+            <p class="error-msg">아이디 또는 비밀번호가 일치하지 않습니다.</p>
 
-<a href="/signup">
-    <button onclick="/signup">회원가입</button>
-</a>
-{% endblock section %}
+            <div class="options">
+                <label><input type="checkbox"> 자동 로그인</label>
+            </div>
+
+            <button type="submit" class="login-btn">로그인</button>
+
+            <p class="signup-text">
+                e-pick 계정이 없으신가요?
+                <a href="#">회원가입</a>
+            </p>
+        </form>
+    </main>
+
+    <script src="login.js"></script>
+</body>
+</html>
+
