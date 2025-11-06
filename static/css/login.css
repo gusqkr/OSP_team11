@@ -1,0 +1,180 @@
+*{
+    margin:0;
+    box-sizing:border-box;
+}
+
+html,body{
+    width:1440px;
+    overflow-x:auto;
+}
+
+body{
+    font-family:"Inter",sans-serif;
+    color:#000000;
+}
+
+.header{
+    display:flex;
+    align-items:center;
+    padding:40px 60px;
+    justify-content:space-between;
+    position:relative;
+}
+
+.logo{
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: center;
+    padding-top:20px;
+    width:160px;
+    height:auto;
+}
+
+.header-right{
+    position:absolute;
+    right:100px;
+}
+
+.header-right a{
+    margin-left:10px;
+    text-decoration:none;
+    color:#000000;
+    font-size:13px;
+}
+
+.header-right a:hover{
+    text-decoration:underline;
+}
+
+.login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 150px;
+}
+
+.login-container h2 {
+    font-size: 30px;
+    color: #1e3c2f;
+    margin-bottom: 40px;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 400px;
+}
+
+.login-form input {
+    width: 100%;
+    padding: 12px 14px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
+
+.password-box {
+    position: relative;
+    width: 100%;
+}
+
+.password-box input {
+    width: 100%;
+    padding-right:50px;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 10px;
+  top: 26%;
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.toggle-password img{
+    width:22px;
+    height:auto;
+    opacity:0.6;
+}
+
+.toggle-password img[src="eye-on.png"] {
+  transform: translateY(-1px);
+}
+
+.toggle-password:hover img[src="eye-on.png"] {
+  opacity: 1;
+  transform: translateY(-1px) scale(1.05); 
+}
+
+.toggle-password:hover img[src="eye-off.png"] {
+  opacity: 1;
+  transform: scale(1.05); 
+}
+
+.error-msg {
+    color: red;
+    font-size: 14px;
+    margin: 5px 0 15px;
+    align-self: flex-start;
+    display:none;
+}
+
+.options {
+    display:flex;
+    align-self:flex-end;
+    align-items:center;
+    padding:5px 1px;
+    margin-bottom: 15px;
+    font-size: 14px;
+}
+
+.options label {
+    display: flex;     
+    flex-direction:row;      
+    align-items: center;     
+    white-space:nowrap;   
+    gap:10px;          
+}
+
+.options label input[type="checkbox"] {
+    margin: 0;             
+    padding: 0;            
+    vertical-align: middle;
+    width: 16px;           
+    height: 16px;
+}
+
+.login-btn {
+    width: 100%;
+    padding: 14px;
+    background-color: #678b76;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.login-btn:hover {
+    background-color: rgb(0,72,40,0.5);
+}
+
+.signup-text {
+    font-size: 15px;
+    color: #555;
+    margin-top: 18px;
+}
+
+.signup-text a {
+    color: #1e3c2f;
+    font-weight: 600;
+    text-decoration: underline;
+}
