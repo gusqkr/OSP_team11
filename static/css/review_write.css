@@ -21,6 +21,7 @@ body {
     align-items: center;
     padding: 40px 60px;
     justify-content: space-between;
+    position: relative;
 }
 
 .logo {
@@ -36,7 +37,7 @@ body {
 
 .header-right {
     position: absolute;
-    right: 100px;
+    right: 140px;
 }
 
 .header-right a {
@@ -62,6 +63,7 @@ body {
 }
 
 .nav a {
+    float: none;
     text-align: center;
     text-decoration: none;
     font-weight: 500;
