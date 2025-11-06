@@ -4,162 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>e-pick</title>
-    <link rel="stylesheet" href="#">
-    <style>
-        *{
-    margin:0;
-    box-sizing:border-box;
-}
-
-body{
-    font-family:"Inter",sans-serif;
-    color:#000000;
-}
-
-.header{
-    display:flex;
-    align-items:center;
-    padding:40px 60px;
-    justify-content:space-between;
-}
-
-.logo{
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    justify-content: center;
-    padding-top:20px;
-    width:160px;
-    height:auto;
-}
-
-.header-right{
-    position:absolute;
-    right:100px;
-}
-
-.header-right a{
-    margin-left:10px;
-    text-decoration:none;
-    color:#000000;
-    font-size:13px;
-}
-
-.header-right a:hover{
-    text-decoration:underline;
-}
-
-.nav{
-    display:grid;
-    grid-template-columns:repeat(5,1fr);
-    overflow:hidden;
-    padding:70px;
-    padding-top:20px;
-    padding-bottom:8px;
-    border-bottom:1px solid black;
-}
-
-.nav a{
-    float:none;
-    text-align:center;
-    text-decoration:none;
-    font-weight:500;
-    font-size:20px;
-    color:black;
-    position:relative;
-}
-
-/*활성화된 탭 볼드+밑줄*/
-.nav a.active{
-    color:rgb(0,70,42);
-    font-weight:800;
-}
-
-.nav a.active::after{
-    content:"";
-    position:absolute;
-    bottom:-9px;
-    left:50%;
-    transform:translateX(-50%);
-    width:90px;
-    height:6px;
-    background-color:rgb(0,70,42);
-    border-radius:9px;
-}
-
-#page-title{
-    margin-left: 50px;
-    margin-top: 20px;
-}
-
-.review-list-container {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
-    padding: 20px;
-    margin: 30px;
-    margin-top: 0px;
-}
-.review-item {
-    border : 1px solid rgb(189, 189, 189);
-    border-radius: 5px;
-    padding: 15px;
-}
-
-.review-id {
-    margin:0;
-    color: gray;
-}
-
-.review-product{
-    text-align: center;
-    padding: 1px;
-    padding-left: 5px;
-    padding-right: 5px;
-    padding-top: 1px;
-    padding-bottom: 2px;
-    border-radius: 5px;
-    background-color: rgb(235, 234, 234);
-}
-.review-id, .review-product {
-    font-size: 10px;
-    margin-bottom: 10px;
-}
-.image-wrapper {
-    display: flex;
-    justify-content: center;
-    margin-top: 10px;
-}
-
-.review-image {
-    width: 100%;
-    border-radius: 8px;
-}
-
-.pagenation {
-    display: flex;
-    justify-content: center;
-    gap: 5px;
-}
-
-.page-num {
-    background-color: white;
-    width: 25px;
-    text-align: center;
-    border-radius: 5px;
-    padding-bottom: 2px;
-}
-
-#selected-num {
-    background-color: rgb(189, 189, 189);
-    color: white
-}
-
-.footer{
-    margin: 50px;
-}
-    </style>
+    <link rel="stylesheet" href="../static/css/review_list.css">
 </head>
 <body>
     <div class="header">
@@ -180,55 +25,55 @@ body{
         <a href="#">Q&A 모아보기</a>
     </div>
 
-    <h4 id="page-title">전체 상품 리뷰</h4>
+    <h2 id="page-title">전체 상품 리뷰</h4>
     <div class="review-list-container">
         <div class="review-item">
-            <h5 class="review-title">최고예요!!</h5>
+            <h2 class="review-title">최고예요!!</h2>
                 <div class="review-id">작성자: freshair</div>
                 <span class="review-product">공기청정기 구매</span>
-                <div class="image-wrapper"><img class="review-image" src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyNTA5MTdfNDAg%2FMDAxNzU4MDc2ODc5NTM5.-trcZNMDDEWxCzAKUfo00pYJ1aQ6bRASeL7MO4UEWw0g.bMIwL1vKjbm1weEME4ek2J6UUQlMZd-0zBLU2qgvAUsg.JPEG%2FLG%25C0%25FC%25C0%25DALG%25C7%25BB%25B8%25AE%25C4%25C9%25BE%25EE_0.jpg&type=sc960_832" alt="리뷰 이미지 1"></div>
+                <div class="image-wrapper"><img class="review-image" src="../static/images/air-cleaner.jpeg" alt="공기청정기"></div>
         </div>
         <div class="review-item">
-            <h5 class="review-title">최고예요!!</h5>
-                <div class="review-id">작성자: freshair</div>
-                <span class="review-product">공기청정기 구매</span>
-                <div class="image-wrapper"><img class="review-image" src="https://cf.product-image.s.zigzag.kr/original/d/2023/5/22/20508_202305221519300468_99776.jpeg"></div>
+            <h2 class="review-title">새상품 같아요</h2>
+                <div class="review-id">작성자: lovenew</div>
+                <span class="review-product">정장 세트 구매</span>
+                <div class="image-wrapper"><img class="review-image" src="../static/images/정장.jpg" alt="정장 세트"></div>
         </div>
         <div class="review-item">
-            <h5 class="review-title">최고예요!!</h5>
-                <div class="review-id">작성자: freshair</div>
-                <span class="review-product">공기청정기 구매</span>
-                <div class="image-wrapper"><img class="review-image" src="https://cf.product-image.s.zigzag.kr/original/d/2023/5/22/20508_202305221519300468_99776.jpeg"></div>
+            <h2 class="review-title">올해 산 것 중에 ..</h2>
+                <div class="review-id">작성자: happyday</div>
+                <span class="review-product">베이프 후드티 S 구매</span>
+                <div class="image-wrapper"><img class="review-image" src="../static/images/bape.jpg" alt="베이프 후드티 S"></div>
         </div>
         <div class="review-item">
-            <h5 class="review-title">최고예요!!</h5>
-                <div class="review-id">작성자: freshair</div>
-                <span class="review-product">공기청정기 구매</span>
-                <div class="image-wrapper"><img class="review-image" src="https://cf.product-image.s.zigzag.kr/original/d/2023/5/22/20508_202305221519300468_99776.jpeg"></div>
+            <h2 class="review-title">마음에 들어요~</h2>
+                <div class="review-id">작성자: comcomlove</div>
+                <span class="review-product">로지텍 무선 마우스 구매</span>
+                <div class="image-wrapper"><img class="review-image" src="../static/images/mouse.jpg" alt="로지텍 무선 마우스"></div>
         </div>
         <div class="review-item">
-            <h5 class="review-title">최고예요!!</h5>
-                <div class="review-id">작성자: freshair</div>
-                <span class="review-product">공기청정기 구매</span>
-                <div class="image-wrapper"><img class="review-image" src="https://cf.product-image.s.zigzag.kr/original/d/2023/5/22/20508_202305221519300468_99776.jpeg"></div>
+            <h2 class="review-title">상품이 사진이랑 좀..</h2>
+                <div class="review-id">작성자: armyking</div>
+                <span class="review-product">BT21 대형 인형 슈키 구매</span>
+                <div class="image-wrapper"><img class="review-image" src="../static/images/suki.jpg" alt="BT21 대형 인형 슈키"></div>
         </div>
         <div class="review-item">
-            <h5 class="review-title">최고예요!!</h5>
-                <div class="review-id">작성자: freshair</div>
-                <span class="review-product">공기청정기 구매</span>
-                <div class="image-wrapper"><img class="review-image" src="https://cf.product-image.s.zigzag.kr/original/d/2023/5/22/20508_202305221519300468_99776.jpeg"></div>
+            <h2 class="review-title">싸게 잘 샀어용</h2>
+                <div class="review-id">작성자: originqueen</div>
+                <span class="review-product">커피 캡슐 구매</span>
+                <div class="image-wrapper"><img class="review-image" src="../static/images/coffee capsule.jpg" alt="커피 캡슐"></div>
         </div>
         <div class="review-item">
-            <h5 class="review-title">최고예요!!</h5>
-                <div class="review-id">작성자: freshair</div>
-                <span class="review-product">공기청정기 구매</span>
-                <div class="image-wrapper"><img class="review-image" src="https://cf.product-image.s.zigzag.kr/original/d/2023/5/22/20508_202305221519300468_99776.jpeg"></div>
+            <h2 class="review-title">짱!!</h2>
+                <div class="review-id">작성자: parrotking</div>
+                <span class="review-product">에어팟 3세대 구매</span>
+                <div class="image-wrapper"><img class="review-image" src="../static/images/airpods.jpg" alt="에어팟 3세대"></div>
         </div>
         <div class="review-item">
-            <h5 class="review-title">최고예요!!</h5>
-                <div class="review-id">작성자: freshair</div>
-                <span class="review-product">공기청정기 구매</span>
-                <div class="image-wrapper"><img class="review-image" src="https://cf.product-image.s.zigzag.kr/original/d/2023/5/22/20508_202305221519300468_99776.jpeg"></div>
+            <h2 class="review-title">사진이랑 똑같음</h2>
+                <div class="review-id">작성자: jewjew</div>
+                <span class="review-product">반지 구매</span>
+                <div class="image-wrapper"><img class="review-image" src="../static/images/ring.jpg" alt="반지"></div>
         </div>
     </div>
     <div class = "pagenation">

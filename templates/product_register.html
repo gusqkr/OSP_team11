@@ -24,11 +24,11 @@
         <a href="#" class="active">상품등록</a>
         <a href="#">Q&A 모아보기</a>
     </div>
-    <h3 style="margin: 20px; margin-left: 50px">상품 정보 입력</h3>
+    <h2 class="reg-title">상품 정보 입력</h2>
     <hr>
     <form action="/submit_item_post" method="post" enctype="multipart/form-data">
     <div class="form-group">
-        <div>
+        <div class="photo-input-wrapper">
         <label for="img">상품 사진 </label>
         <input type="file" name="file" id="img" style="display: none;" />
         <label for="img" class="photo-placeholder" style="vertical-align: middle;">
@@ -58,11 +58,11 @@
     </div>
     <div>
         <label for="price">가격 </label>
-        <input type="text" id="price" name="price" required>
+        <div id="won"><input type="text" id="price" name="price" required> 원</div>
     </div>
     <div>
         <label for="description">상품 설명 </label>
-        <textarea id="description" name="description" rows="4" required></textarea>
+        <textarea id="description" name="description" rows="4" placeholder="2000자 이내로 작성해주세요." required></textarea>
     </div>
     </div>
     <div class="button-wrapper">
