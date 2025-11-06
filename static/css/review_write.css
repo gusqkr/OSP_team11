@@ -2,6 +2,10 @@
     margin: 0;
     box-sizing: border-box;
 }
+html,body{
+    width:1440px;
+    overflow-x:auto;
+}
 
 body {
     font-family: "Inter", "Pretendard", "Noto Sans KR", sans-serif;
