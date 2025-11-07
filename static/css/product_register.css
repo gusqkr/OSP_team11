@@ -205,11 +205,16 @@ div #won {
     margin-right: 160px;
 }
 #submit-btn{
-    font-size: 24px;
+    margin-top: 30px;
+    width: 120px;
+    padding: 8px;
     background-color: #00462a;
-    color: white;
-    border: #00462a;
-    border-radius: 20px;
-    width: 200px;
-    height: 60px;
+    color: #fff;
+    font-size: 15px;
+    border: none;
+    border-radius: 10px;
+}
+
+.footer{
+    height:200px;
 }
