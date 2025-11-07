@@ -103,6 +103,11 @@ body{
     padding: 15px;
 }
 
+.review-item a {
+    text-decoration: none;
+    color: black;
+}
+
 .review-title {
     margin: 10px;
 }
