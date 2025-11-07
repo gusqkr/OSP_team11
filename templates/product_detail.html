@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>e-pick</title>
-    <link rel="stylesheet" href="product_detail.css">
+    <link rel="stylesheet" href="../static/css/product_detail.css">
 </head>
 <body>
     <div class="header">
-        <img src="logo.png" alt="e-pick" class="logo">
+        <img src="../static/images/logo.png" alt="e-pick" class="logo">
         <div class="header-right">
             <a href="#">찜 목록</a>
             <a href="#">마이페이지</a>
@@ -18,15 +18,15 @@
     
     <!--화면마다 변경해야 할 네비게이션 부분-->
     <div class="nav">
-        <a href="#" class="active">상품조회</a>
-        <a href="#">리뷰조회</a>
-        <a href="#">리뷰작성</a>
-        <a href="#">상품등록</a>
+        <a href="./All_product.html" class="active">상품조회</a>
+        <a href="./review_list.html">리뷰조회</a>
+        <a href="./Write_review.html">리뷰작성</a>
+        <a href="./product_register.html">상품등록</a>
         <a href="#">Q&A 모아보기</a>
     </div>
 
     <div class="top-section">
-        <img src="product.png" alt="pic" class="product">
+        <img src="../static/images/product.png" alt="pic" class="product">
         <div class="top-column">
             <p class="product-name">카카오프렌즈 춘식이 잠옷 인형</p>
             <p class="price">22,000원</p>
@@ -44,7 +44,10 @@
                 <p class="value">서대문구 아현동</p>
             </div>
             <div class="buttons">
-                <button class="like">♡ 4</button>
+                <button class="like">
+                    <span class="heart-symbol">♡</span>
+                    <span class="like-count">4</span>
+                </button>
                 <button class="buy">구매하기</button>
             </div>
         </div>
@@ -84,7 +87,7 @@
         </div>
     </div>
 
-    <script src="product_detail.js"></script>
+    <script src="../static/js/product_detail.js"></script>
 </body>
 
 </html>

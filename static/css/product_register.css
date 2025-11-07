@@ -1,0 +1,220 @@
+*{
+    margin:0;
+    box-sizing:border-box;
+}
+
+html,body{
+width:1440px;
+overflow-x:auto;
+}
+
+body{
+    font-family:"Inter",sans-serif;
+    color:#000000;
+}
+
+.header{
+    display:flex;
+    align-items:center;
+    padding:40px 60px;
+    justify-content:space-between;
+    position:relative;
+}
+
+.logo{
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: center;
+    padding-top:20px;
+    width:160px;
+    height:auto;
+}
+
+.header-right{
+    position:absolute;
+    right:140px;
+}
+
+.header-right a{
+    margin-left:10px;
+    text-decoration:none;
+    color:#000000;
+    font-size:13px;
+}
+
+.header-right a:hover{
+    text-decoration:underline;
+}
+
+.nav{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    overflow:hidden;
+    padding:70px;
+    padding-top:20px;
+    padding-bottom:8px;
+    border-bottom:1px solid black;
+}
+
+.nav a{
+    float:none;
+    text-align:center;
+    text-decoration:none;
+    font-weight:500;
+    font-size:20px;
+    color:black;
+    position:relative;
+}
+
+/*활성화된 탭 볼드+밑줄*/
+.nav a.active{
+    color:rgb(0,70,42);
+    font-weight:800;
+}
+
+.nav a.active::after{
+    content:"";
+    position:absolute;
+    bottom:-9px;
+    left:50%;
+    transform:translateX(-50%);
+    width:90px;
+    height:6px;
+    background-color:rgb(0,70,42);
+    border-radius:9px;
+}
+
+.reg-title{
+    margin: 20px 160px;
+}
+
+hr {
+    width: 1120px;
+    margin: 0 auto;
+}
+.photo-placeholder{
+    width: 120px;
+    height: 120px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+
+    display:inline-flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+
+    margin-left: 20px;
+    vertical-align: middle;
+}
+
+.photo-placeholder{
+    padding: 0;
+    margin: 0;
+    width:80px;
+    height:80px;
+    background-color: #e7e7e7;
+    border: none;
+    border-radius: 10px;
+}
+.photo-placeholder .camera-icon::before{
+    content: "\1F4F7";
+    font-size: 40px;
+    line-height: 1;
+
+    position: relative;
+    top: -5px;
+}
+
+#seller, #name, #addr, #price{
+    background-color: #e7e7e7;
+    border: 1px solid #e7e7e7;
+    border-radius: 10px;
+    height: 40px;
+
+    font-size:20px;
+    padding: 10px;
+}
+#status{
+    width: 240px;
+    height: 40px;
+    border-radius: 10px;
+
+    font-size:20px;
+    padding-left: 10px;
+}
+#seller{
+    width: 250px;
+}
+#name, #addr{
+    width: 600px;
+}
+#price{
+    width: 200px;
+}
+
+#description{
+    width: 600px;
+    height: 150px;
+    border-radius: 10px;
+    background-color: #e7e7e7;
+    border: 1px solid #e7e7e7;
+    resize: none;
+
+    font-size:20px;
+    padding: 20px;
+}
+
+.form-group{
+    display: grid;
+    max-width: 600px;
+    margin: 20px 180px;
+    font-size: 20px;
+}
+.form-group > div{
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    align-items: start;
+    margin-bottom:20px;
+    gap:0px;
+
+}
+
+.form-section label {
+    grid-column: 1 / 2;
+    text-align: right; 
+    padding-right: 20px;
+}
+
+.form-section input, 
+.form-section select,
+.form-section textarea
+div #won { 
+    grid-column: 2 / 3; 
+    width: 100%;
+    max-width: 100px;
+    background-color: #ccc; 
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 8px;
+}
+.button-wrapper{
+    text-align: right;
+    margin-right: 160px;
+}
+#submit-btn{
+    margin-top: 30px;
+    width: 120px;
+    padding: 8px;
+    background-color: #00462a;
+    color: #fff;
+    font-size: 15px;
+    border: none;
+    border-radius: 10px;
+}
+
+.footer{
+    height:200px;
+}
