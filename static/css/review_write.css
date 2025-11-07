@@ -91,9 +91,9 @@ body {
 }
 
 .review-title {
-    font-size: 22px;
     font-weight: 600;
-    margin: 40px auto 10px;
+    margin: 20px auto 10px;
+    margin-bottom: 20px;
     width: 800px;
 }
 
@@ -213,19 +213,19 @@ input[type="file"] {
     color: #fff;
     font-size: 15px;
     border: none;
-    border-radius: 6px;
+    border-radius: 10px;
     cursor: not-allowed;
     align-self: flex-end;
     transition: background 0.2s ease;
 }
 
 .submit-btn.active {
-    background-color: #006633;
+    background-color: #00462a;
     cursor: pointer;
 }
 
 .submit-btn.active:hover {
-    background-color: #006633;
+    background-color: #00462a;
 }
 
 input::placeholder,
