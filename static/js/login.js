@@ -38,11 +38,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (input.type === 'password') {
           input.type = 'text';
-          img.src = 'eye-on.png';
+          img.src = '../static/images/eye-on.png';
           img.alt = '비밀번호 숨기기';
         } else {
           input.type = 'password';
-          img.src = 'eye-off.png';
+          img.src = '../static/images/eye-off.png';
           img.alt = '비밀번호 보기';
         }
       });
