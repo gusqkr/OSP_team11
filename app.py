@@ -1,7 +1,12 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, flash, redirect, url_for, session
+from database import DBhandler
+import hashlib
 import sys
 
 application = Flask(__name__)
+application.config['SECRET_KEY'] = "helloosp"
+
+DB = DBhandler()
 
 @application.route('/')
 def home():
@@ -46,8 +51,10 @@ def reg_item_submit_post():
     image_file = request.files['file']
     image_file.save("static/images/{}".format(image_file.filename))
     data=request.form
+    DB.insert_item(data['name'], data, image_file.filename)
 
-
+    return render_template("result.html", data=data, img_path="static/images/{}".format(image_file.filename))
+    """
     print ("\n=========== 입력받은 값 확인 ===========")
     print ("판매자 아이디 :", data['seller'])
     print ("상품 이름 :", data['name'])
@@ -58,6 +65,25 @@ def reg_item_submit_post():
     print ("상품 상태 :", data['status'])
     print ("휴대폰 번호 :", data['phone'])
     print ("===============================================\n")
+    """
+@application.route("/login")
+def login():
+    return render_template("user_login.html")
+
+@application.route("/signup")
+def signup():
+    return render_template("user_signup.html")
+
+@application.route("/signup_post", methods=['POST'])
+def register_user():
+    data = request.form
+    pw = request.form['pw']
+    pw_hash = hashlib.sha256(pw.encode('utf-8')).hexdigest()
+    if DB.insert_user(data, pw_hash):
+        return render_template("user_login.html")
+    else:
+        flash("user id already exist!")
+        return render_template("user_signup.html")
 
 if __name__ == "__main__":
     application.run(debug=True, host='0.0.0.0')
