@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, flash, redirect, url_for, ses
 from database import DBhandler
 import hashlib
 import sys
+import os
 
 application = Flask(__name__)
 application.config['SECRET_KEY'] = "helloosp"
@@ -14,7 +15,25 @@ def home():
 
 @application.route('/list')
 def view_list():
-    return render_template('list.html')
+    page = request.args.get("page", 1, type=int)
+    per_page = 9
+
+    items = DB.get_items()
+
+    if items :
+        item_keys = list(items.keys())
+        total_count = len(item_keys)
+        last_page_num = (total_count - 1) // per_page + 1
+        start_idx = (page - 1) * per_page
+        end_idx = page * per_page
+        page_item_keys = item_keys[start_idx:end_idx]
+        page_items = {key: items[key] for key in page_item_keys}
+    else:
+        page_items = {}
+        last_page_num = 1
+
+    return render_template('list.html', items=page_items, page=page, last_page_num=last_page_num)
+
 
 @application.route('/review')
 def view_review():
@@ -22,6 +41,9 @@ def view_review():
 
 @application.route('/reg_items')
 def reg_item():
+    if 'id' not in session:
+        flash("로그인 후 상품 등록 가능합니다.")
+        return redirect(url_for('login'))
     return render_template('reg_items.html')
 
 @application.route('/reg_reviews')
@@ -32,8 +54,8 @@ def reg_review():
 def view_qna():
     return render_template('qna.html')
 
-@application.route('/submit_item')
-def reg_item_submit():
+# @application.route('/submit_item')
+# def reg_item_submit():
     name=request.args.get('name')
     seller=request.args.get('seller')
     addr=request.args.get('addr')
@@ -48,24 +70,55 @@ def reg_item_submit():
 
 @application.route('/submit_item_post', methods=['POST'])
 def reg_item_submit_post():
-    image_file = request.files['file']
-    image_file.save("static/images/{}".format(image_file.filename))
-    data=request.form
-    DB.insert_item(data['name'], data, image_file.filename)
 
-    return render_template("result.html", data=data, img_path="static/images/{}".format(image_file.filename))
-    """
-    print ("\n=========== 입력받은 값 확인 ===========")
-    print ("판매자 아이디 :", data['seller'])
-    print ("상품 이름 :", data['name'])
-    print ("주소 :", data['addr'])
-    print ("카테고리 :", data['category'])
-    print ("이메일 :", data['email'])
-    print ("신용카드 여부 :", data['card'])
-    print ("상품 상태 :", data['status'])
-    print ("휴대폰 번호 :", data['phone'])
-    print ("===============================================\n")
-    """
+    if 'id' not in session:
+        flash("로그인이 필요합니다.")
+        return redirect(url_for('login'))
+    
+    try:
+        data = {
+            "name": request.form.get('name'),
+            "price": request.form.get('price'),
+            "description": request.form.get('description'),
+            "seller": session.get('id'),
+            "addr": request.form.get('addr'),
+            "email": request.form.get('email'),
+            "category": request.form.get('category'),
+            "card": request.form.get('card'),
+            "status": request.form.get('status'),
+            "phone": request.form.get('phone')
+        }
+
+        f = request.files['image']
+
+        filename = f.filename
+        temp_path = os.path.join('static', 'img', filename)
+        f.save(temp_path)
+        storage_path = f"image/{filename}"
+        DB.storage.child(storage_path).put(temp_path)
+        img_url = DB.storage.child(storage_path).get_url()
+
+        DB.insert_item(data, img_url)
+
+        flash("상품이 등록되었습니다.")
+        return redirect(url_for('view_list'))
+    
+    except Exception as e:
+        flash(f"상품 등록 중 오류 발생: {e}")
+        return redirect(url_for('reg_item'))
+    
+
+@application.route("/view_detail/<item_key>")
+def view_item_detail(item_key):
+    item = DB.get_item_by_key(item_key)
+
+    if item:
+        return render_template("product_detail.html", item=item, key=item_key)
+    else:
+        flash("해당 상품을 찾을 수 없습니다.")
+        return redirect(url_for('view_list'))
+    
+ 
 @application.route("/login")
 def login():
     return render_template("user_login.html")
