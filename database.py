@@ -10,7 +10,7 @@ class DBhandler:
         self.db = firebase.database()
         self.storage = firebase.storage()
     
-    def insert_item(self, name, data, img_path):
+    def insert_item(self, data, img_path):
         item_info ={
             "name": data['name'],
             "price": data['price'],
@@ -24,7 +24,7 @@ class DBhandler:
             "phone" : data['phone'],
             "img_path" : img_path
         }
-        self.db.child("items").child(name).set(item_info)
+        self.db.child("items").push(item_info)
         print(data, img_path)
         return True
     
@@ -33,7 +33,7 @@ class DBhandler:
         return items
     
     def get_item_by_key(self, key):
-        itme_data = self.db.child("itmes").child(key).get().val()
+        item_data = self.db.child("items").child(key).get().val()
         return item_data
     
     def insert_user(self, data, pw):
