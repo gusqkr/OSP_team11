@@ -32,9 +32,9 @@ class DBhandler:
         items = self.db.child("items").get().val()
         return items
     
-    def get_items_by_key(self, key):
+    def get_item_by_key(self, key):
         itme_data = self.db.child("itmes").child(key).get().val()
-        return itme_data
+        return item_data
     
     def insert_user(self, data, pw):
         user_info = {
