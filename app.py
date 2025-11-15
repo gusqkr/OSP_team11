@@ -93,9 +93,9 @@ def reg_item_submit_post():
         f = request.files['image']
 
         filename = f.filename
-        temp_path = os.path.join(basedir, 'static', 'img', filename)
+        temp_path = os.path.join(basedir, 'static', 'images', filename)
         f.save(temp_path)
-        storage_path = f"image/{filename}"
+        storage_path = f"images/{filename}"
         DB.storage.child(storage_path).put(temp_path)
         img_url = DB.storage.child(storage_path).get_url()
 
