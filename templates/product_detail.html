@@ -1,49 +1,38 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <title>e-pick</title>
-    <link rel="stylesheet" href="../static/css/product_detail.css">
-</head>
-<body>
-    <div class="header">
-        <img src="../static/images/logo.png" alt="e-pick" class="logo">
-        <div class="header-right">
-            <a href="#">찜 목록</a>
-            <a href="#">마이페이지</a>
-            <a href="#">로그아웃</a>
-        </div>
-    </div>
-    
-    <!--화면마다 변경해야 할 네비게이션 부분-->
-    <div class="nav">
-        <a href="./All_product.html" class="active">상품조회</a>
-        <a href="./review_list.html">리뷰조회</a>
-        <a href="./Write_review.html">리뷰작성</a>
-        <a href="./product_register.html">상품등록</a>
-        <a href="#">Q&A 모아보기</a>
-    </div>
+{% extends "index.html" %} 
+{% block section %} 
 
-    <div class="top-section">
-        <img src="../static/images/product.png" alt="pic" class="product">
-        <div class="top-column">
-            <p class="product-name">카카오프렌즈 춘식이 잠옷 인형</p>
-            <p class="price">22,000원</p>
-            <hr>
-            <div class="info">
-                <p class="label">판매자</p>
-                <p class="value">chunsikabba</p>
+<div class="top-section">
+    <img src="{{ item.img_path }}" alt="{{ item.name }}" class="product">
+    
+    <div class="top-column">
+        <p class="product-name">{{ item.name }}</p>
+        <p class="price">{{ item.price }}원</p>
+        <hr>
+        <div class="info">
+            <p class="label">판매자</p>
+            <p class="value">{{ item.seller }}</p>
+        </div>
+        <div class="info">
+            <p class="label">상품상태</p>
+            <p class="value">{{ item.status }}</p>
+        </div>
+        <div class="info">
+            <p class="label">주소</p>
+            <p class="value">{{ item.addr }}</p>
+        </div>
+        <div class="info">
+                <p class="label">카테고리</p>
+                <p class="value">{{ item.category }}</p>
             </div>
             <div class="info">
-                <p class="label">상품상태</p>
-                <p class="value">새상품</p>
+                <p class="label">이메일</p>
+                <p class="value">{{ item.email }}</p>
             </div>
             <div class="info">
-                <p class="label">주소</p>
-                <p class="value">서대문구 아현동</p>
+                <p class="label">연락처</p>
+                <p class="value">{{ item.phone }}</p>
             </div>
-            <div class="buttons">
+        <div class="buttons">
                 <button class="like">
                     <span class="heart-symbol">♡</span>
                     <span class="like-count">4</span>
@@ -58,8 +47,7 @@
             <p class="small-heading">상품 설명</p>
             <hr>
             <div class="description">
-                <p>비닐을 뜯어 전시했어서 약간의 먼지 붙어있을 수 있습니다~ <br>참고 부탁드려용</p><br>
-                <p>네고 절대 XXX</p>
+                <p>{{ item.description | safe }}</p>
             </div>
         </div>
         <div class="right-column">
@@ -87,7 +75,6 @@
         </div>
     </div>
 
-    <script src="../static/js/product_detail.js"></script>
-</body>
+    <script src="{{ url_for('static', filename='js/product_detail.js') }}"></script>
 
-</html>
+{% endblock section %}
