@@ -4,6 +4,7 @@ import hashlib
 import sys
 import os
 
+basedir = os.path.abspath(os.path.dirname(__file__))
 application = Flask(__name__)
 application.config['SECRET_KEY'] = "helloosp"
 
@@ -92,7 +93,7 @@ def reg_item_submit_post():
         f = request.files['image']
 
         filename = f.filename
-        temp_path = os.path.join('static', 'img', filename)
+        temp_path = os.path.join(basedir, 'static', 'img', filename)
         f.save(temp_path)
         storage_path = f"image/{filename}"
         DB.storage.child(storage_path).put(temp_path)
