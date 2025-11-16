@@ -1,31 +1,10 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <title>e-pick</title>
+{% extends "base.html" %}
+{% block head %}
+    <link rel="stylesheet" href="../static/css/review_write.css">    
+    <script src="{{ url_for('static', filename='js/review_wirte.js') }}" defer></script>
+{% endblock head %}
 
-    <link rel="stylesheet" href="../static/css/review_write.css">
-</head>
-
-<body>
-    <div class="header">
-        <img src="../static/images/logo.png" alt="e-pick" class="logo">
-        <div class="header-right">
-            <a href="#">찜 목록</a>
-            <a href="#">마이페이지</a>
-            <a href="#">로그아웃</a>
-        </div>
-    </div>
-
-    <div class="nav">
-        <a href="./All_product.html">상품조회</a>
-        <a href="./review_list.html">리뷰조회</a>
-        <a href="./Write_review.html"   class="active">리뷰작성</a>
-        <a href="./product_register.html">상품등록</a>
-        <a href="#">Q&A 모아보기</a>
-    </div>
-
+{% block section %}
     <h2 class="review-title">리뷰 작성하기</h2>
 
     <div class="review-container">
@@ -68,7 +47,7 @@
             <button type="submit" class="submit-btn" id="submitBtn">등록하기</button>
         </form>
     </div>
+{% endblock section %}
 
-    <script src="../static/js/review_write.js"></script>
-</body>
-</html>
+
+
