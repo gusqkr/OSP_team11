@@ -15,7 +15,7 @@
             {% for key, item in items.items() %}
             <div class="item-card">
                 <a href="{{ url_for('view_item_detail', item_key=key) }}">
-                    <img src="{{ item.img_path }}" alt="{{ item.name }}">
+                    <img src="{{ url_for('static', filename='images/' + item.img_path) }}" alt="{{ item.name }}">
                     <h4>{{ item.name }}</h4>
                     <p>{{ item.price }}원</p>
                     <p>판매자: {{ item.seller }}</p>
