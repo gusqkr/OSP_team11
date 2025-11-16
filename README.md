@@ -25,7 +25,8 @@
     │      result.html
     │      review.html
     │      user_login.html
-    └─     user_signup.html
+    │      user_signup.html
+    └─     view_detail.html
   ```
   
 
