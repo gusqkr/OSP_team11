@@ -17,14 +17,14 @@
                 <p class="value">chunsikabba</p>
             </div>
             <div class="info">
-                <p class="label">상품상태</p>
-                <p class="value">새상품</p>
+                <p class="label">이메일</p>
+                <p class="value">{{ item.email }}</p>
             </div>
             <div class="info">
-                <p class="label">주소</p>
-                <p class="value">서대문구 아현동</p>
+                <p class="label">연락처</p>
+                <p class="value">{{ item.phone }}</p>
             </div>
-            <div class="buttons">
+        <div class="buttons">
                 <button class="like">
                     <span class="heart-symbol">♡</span>
                     <span class="like-count">4</span>
@@ -39,8 +39,7 @@
             <p class="small-heading">상품 설명</p>
             <hr>
             <div class="description">
-                <p>비닐을 뜯어 전시했어서 약간의 먼지 붙어있을 수 있습니다~ <br>참고 부탁드려용</p><br>
-                <p>네고 절대 XXX</p>
+                <p>{{ item.description | safe }}</p>
             </div>
         </div>
         <div class="right-column">
@@ -68,4 +67,3 @@
         </div>
     </div>
 {% endblock section %}
-
