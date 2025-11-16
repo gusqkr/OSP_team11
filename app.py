@@ -116,7 +116,7 @@ def view_item_detail(item_key):
     item = DB.get_item_by_key(item_key)
 
     if item:
-        return render_template("product_detail.html", item=item, key=item_key)
+        return render_template("view_detail.html", item=item, key=item_key)
     else:
         flash("해당 상품을 찾을 수 없습니다.")
         return redirect(url_for('view_list'))
