@@ -2,7 +2,7 @@
 {% block section %} 
 
 <div class="top-section">
-    <img src="{{ item.img_path }}" alt="{{ item.name }}" class="product">
+    <img src="{{ url_for('static', 'filename='images/' + item.img_path }}" alt="{{ item.name }}" class="product">
     
     <div class="top-column">
         <p class="product-name">{{ item.name }}</p>
