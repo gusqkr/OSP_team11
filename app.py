@@ -90,14 +90,17 @@ def reg_item_submit_post():
             "phone": request.form.get('phone')
         }
 
-        f = request.files['image']
+        f = request.files.get('image')
 
-        filename = f.filename
-        temp_path = os.path.join(basedir, 'static', 'images', filename)
-        f.save(temp_path)
-        storage_path = f"images/{filename}"
-        DB.storage.child(storage_path).put(temp_path)
-        img_url = DB.storage.child(storage_path).get_url()
+        img_url = ""
+
+        if f and f.filename:
+            filename = f.filename
+            storage_path = f"images/{filename}"
+            
+            DB.storage.child(storage_path).put(f)
+            img_url = DB.storage.child(storage_path).get_url()
+
 
         DB.insert_item(data, img_url)
 
