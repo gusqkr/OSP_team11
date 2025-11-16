@@ -92,17 +92,16 @@ def reg_item_submit_post():
 
         f = request.files.get('image')
 
-        img_url = ""
+        img_filename = ""
 
         if f and f.filename:
             filename = f.filename
-            storage_path = f"images/{filename}"
-            
-            DB.storage.child(storage_path).put(f)
-            img_url = DB.storage.child(storage_path).get_url()
+            temp_path = os.path.join(basedir, 'static', 'images', filename)
+            f.save(temp_path)
 
+            img_filename = filename
 
-        DB.insert_item(data, img_url)
+        DB.insert_item(data, img_filename)
 
         flash("상품이 등록되었습니다.")
         return redirect(url_for('view_list'))
