@@ -7,6 +7,12 @@
 * `app.py` 터미널에서 실행
   
     ```
+    python app.py
+    ```
+
+* 실습용 파일 정보
+  
+    ```
     OSP_team11
     ├─ app.py
     ├─ database.py
@@ -34,10 +40,16 @@
 
 * `main_app.py` 터미널에서 실행 : port 5001 사용
 
+    ```
+    python main_app.py
+    ```
+
+* 프로젝트용 파일 정보
+
    ```
     OSP_team11
     ├─ main_app.py
-    ├─ database.py
+    ├─ main_database.py
     ├─ static
     │  ├─css
     │  │      all_product.css
