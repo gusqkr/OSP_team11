@@ -87,13 +87,41 @@ body{
 }
 
 table {
-    width: 100%;
+    width: 1120px;
     border-collapse: collapse;
+    margin: 20px 160px;
+}
+table thead th:nth-child(1),
+table tbody td:nth-child(1) {
+    width: 20%;
+}
+table thead th:nth-child(2),
+table tbody td:nth-child(2) {
+    width: 55%;
+}
+table thead th:nth-child(3),
+table tbody td:nth-child(3) {
+    width: 15%;
+}
+table thead th:nth-child(4),
+table tbody td:nth-child(4) {
+    width: 10%;
 }
 th, td {
     border: 1px solid #ccc;
     padding: 10px;
     text-align: left;
+}
+
+.item-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+img {
+   max-width: 50px;
+   height: auto;
 }
 
 .data-row {
