@@ -4,28 +4,59 @@ document.addEventListener("DOMContentLoaded", () => {
   const idInput = document.querySelector('.input-with-btn input[type="text"]');
   const idGuide = document.querySelector(".input-with-btn").nextElementSibling;
 
-  //임시 아이디 목록
-  const existingIds = ["epick1", "epick2", "epick3"];
-
-  checkBtn.addEventListener("click", () => {
+  checkBtn.addEventListener("click", async () => {
     const enteredId = idInput.value.trim();
 
     if (enteredId === "") {
-      idGuide.textContent = "아이디를 입력해주세요.";
-      idGuide.style.color = "red";
-      return;
-    }
+    idGuide.textContent = "아이디를 입력해주세요.";
+    idGuide.style.color = "red";
+    checkBtn.style.backgroundColor = "#678b76";
+    updateSignupButtonState();
+    return;
+  }
 
-    if (existingIds.includes(enteredId)||enteredId.length < 8) {
-      idGuide.textContent = "다른 아이디를 입력해주세요.";
-      idGuide.style.color = "red";
-    }
-    else {
-      idGuide.textContent = "사용 가능한 아이디입니다.";
-      idGuide.style.color = "green";
-    }
+  if (enteredId.length < 8) {
+    idGuide.textContent = "아이디는 8자 이상이어야 합니다.";
+    idGuide.style.color = "red";
+    checkBtn.style.backgroundColor = "#678b76";
+    updateSignupButtonState();
+    return;
+  }
+
+  const hasLetter = /[a-zA-Z]/.test(enteredId);
+  const hasNumber = /[0-9]/.test(enteredId);
+
+  if (!(hasLetter && hasNumber)) {
+    idGuide.textContent = "아이디는 영문과 숫자를 모두 포함해야 합니다.";
+    idGuide.style.color = "red";
+    checkBtn.style.backgroundColor = "#678b76";
+    updateSignupButtonState();
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append("id", enteredId);
+
+  const res = await fetch("/check_id", {
+        method: "POST",
+        body: formData,
   });
 
+  const data = await res.json();
+  idGuide.textContent = data.message;
+  idGuide.style.color = data.available ? "green" : "red";
+
+  if (data.available) {
+        checkBtn.style.backgroundColor = "rgb(0,72,40)";
+  } else {
+        checkBtn.style.backgroundColor = "#678b76";
+  }
+
+    // 중복확인 후 버튼 활성화 상태 다시 계산
+  updateSignupButtonState();
+  });
+
+ 
   //이메일 형식 검증
   const emailInput = document.querySelector('input[type="email"]');
   const emailGroup = document.querySelector(".email-group");
@@ -59,14 +90,34 @@ document.addEventListener("DOMContentLoaded", () => {
   pw2.parentElement.appendChild(pwMatchError);
 
   pw1.addEventListener("input", () => {
-    if (pw1.value && pw1.value.length < 8) {
-      pwGuide.textContent = "비밀번호는 8자 이상이어야 합니다.";
-      pwGuide.style.color = "red";
+    const value = pw1.value;
+
+    const hasLetter = /[a-zA-Z]/.test(value);
+    const hasNumber = /[0-9]/.test(value);
+
+    if (value) {
+
+      if (value.length < 8) {
+        pwGuide.textContent = "비밀번호는 8자 이상이어야 합니다.";
+        pwGuide.style.color = "red";
+        return;
+      }
+
+      if (!(hasLetter && hasNumber)) {
+        pwGuide.textContent = "비밀번호는 영문과 숫자를 모두 포함해야 합니다.";
+        pwGuide.style.color = "red";
+        return;
+      }
+
+      pwGuide.textContent = "비밀번호 조건을 만족합니다.";
+      pwGuide.style.color = "green";
+
     } else {
       pwGuide.textContent = "영문, 숫자 포함 8자 이상 작성해주세요.";
       pwGuide.style.color = "#777";
     }
   });
+
 
   pw2.addEventListener("input", () => {
     if (pw2.value && pw1.value !== pw2.value) {
@@ -79,6 +130,23 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+    //비밀번호 토글 기능
+  document.querySelectorAll('.toggle-password').forEach(button => {
+    button.addEventListener('click', () => {
+      const input = button.parentElement.querySelector('input');
+      const img = button.querySelector('.eye-icon');
+
+      if (input.type === 'password') {
+        input.type = 'text';
+        img.src = '../static/images/eye-on.png';
+        img.alt = '비밀번호 숨기기';
+      } else {
+        input.type = 'password';
+        img.src = '../static/images/eye-off.png';
+        img.alt = '비밀번호 보기';
+      }
+    });
+  });
 
   //회원가입 버튼 활성화
   const signupBtn=document.querySelector(".signup-btn");
@@ -98,24 +166,5 @@ document.addEventListener("DOMContentLoaded", () => {
   });
   checkBtn.addEventListener("click", updateSignupButtonState);
   agreeCheckbox.addEventListener("change", updateSignupButtonState);
-
-
-  //비밀번호 토글 기능
-  document.querySelectorAll('.toggle-password').forEach(button => {
-    button.addEventListener('click', () => {
-      const input = button.parentElement.querySelector('input');
-      const img = button.querySelector('.eye-icon');
-
-      if (input.type === 'password') {
-        input.type = 'text';
-        img.src = '../static/images/eye-on.png';
-        img.alt = '비밀번호 숨기기';
-      } else {
-        input.type = 'password';
-        img.src = '../static/images/eye-off.png';
-        img.alt = '비밀번호 보기';
-      }
-    });
-  });
 
 });
