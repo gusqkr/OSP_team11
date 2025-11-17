@@ -76,6 +76,10 @@
     display:none;
 }
 
+.error-msg.show {
+    display: block;
+}
+
 .options {
     display:flex;
     align-self:flex-end;

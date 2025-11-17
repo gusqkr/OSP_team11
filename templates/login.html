@@ -8,15 +8,15 @@
     <main class="login-container">
         <h2>e-pick에 로그인하세요</h2>
 
-        <form class="login-form">
-            <input type="text" placeholder="아이디" required>
+        <form class="login-form" action="{{ url_for('login_confirm') }}" method="POST">
+            <input type="text" name="id" placeholder="아이디" required>
             <div class="password-box">
-                <input type="password" placeholder="비밀번호" required>
+                <input type="password" name="pw" placeholder="비밀번호" required>
                 <button type="button" class="toggle-password">
                     <img src="../static/images/eye-off.png" alt="비밀번호 보기" class="eye-icon">
                 </button>
             </div>
-            <p class="error-msg">아이디 또는 비밀번호가 일치하지 않습니다.</p>
+            <p class="error-msg {% if login_failed %}show{% endif %}">아이디 또는 비밀번호가 일치하지 않습니다.</p>
 
             <div class="options">
                 <label><input type="checkbox"> 자동 로그인</label>

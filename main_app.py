@@ -22,8 +22,24 @@ def view_mypage():
 
 @application.route('/login')
 def login():
-    return render_template('login.html')
+    return render_template('login.html', login_failed=False)
 
+@application.route('/login_confirm',methods=['POST'])
+def login_confirm():
+    id = request.form.get("id")
+    pw = request.form.get("pw")
+    pw_hash = hashlib.sha256(pw.encode('utf-8')).hexdigest()
+    
+    if not DB.verify_user(id, pw_hash): #user정보 없으면 false 
+        return render_template("login.html", login_failed=True)
+
+    session["id"] = id #세션에 id 저장 
+    return redirect(url_for("home")) #이후 수정 필요
+
+@application.route('/logout')
+def logout():
+    session.clear()
+    return render_template('login.html') #이후 수정 필요
 @application.route('/signup')
 def signup():
     return render_template('signup.html')
