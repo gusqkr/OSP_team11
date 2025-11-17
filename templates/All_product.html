@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block head %}
   <link rel="stylesheet" href="../static/css/all_product.css">  
+  <script src="{{ url_for('static', filename='js/all_product.js') }}" defer></script>   
 {% endblock head %}
 
 {% block section %}
@@ -20,7 +21,7 @@
       </div>
 
       <div class="product-card">
-        <a href="./product_detail.html">
+        <a href="/product_detail">
         <img src="../static/images/chunsik.jpg" alt="상품 이미지">
         <div class="product-info">
           <div class="product-name">카카오프렌즈 춘식이 장난감</div>
