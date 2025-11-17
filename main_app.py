@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, flash, redirect, url_for, session
-from database import DBhandler
+from main_db import DBhandler
 import hashlib
 import sys
 
@@ -11,13 +11,13 @@ DB = DBhandler()
 def home():
     return render_template('base.html') #수정
 
-@application.route('/heart')
+@application.route('/myheart')
 def view_heart():
-    return render_template('myheart.html') #수정
+    return render_template('myheart.html') 
 
 @application.route('/mypage')
 def view_mypage():
-    return render_template('mypage.html') #수정
+    return render_template('mypage.html') 
 
 @application.route('/login')
 def login():
