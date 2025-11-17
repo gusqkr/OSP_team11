@@ -73,3 +73,13 @@ class DBhandler:
                 return True
         
         return False
+    
+    def reg_review(self, data, img_path):
+        review_info ={
+            "title":data['title'],
+            "rate":data['reviewStar'],
+            "review":data['reviewContents'],
+            "img_path":img_path
+        }
+        self.db.child("review").child(data['name']).set(review_info)
+        return True

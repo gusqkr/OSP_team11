@@ -157,6 +157,18 @@ def register_user():
     else:
         flash("user id already exist!")
         return render_template("user_signup.html")
+    
+@application.route("/reg_review_init/<name>/")
+def reg_review_init(name):
+    return render_template("reg_reviews.html", name=name)
+
+@application.route("/reg_review", methods=['POST'])
+def register_review():
+    data=request.form
+    image_file=request.files["file"]
+    image_file.save("static/images/{}".format(image_file.filename))
+    DB.reg_review(data, image_file.filename)
+    return redirect(url_for('view_review'))
 
 if __name__ == "__main__":
     application.run(debug=True, host='0.0.0.0')
