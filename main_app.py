@@ -1,9 +1,10 @@
-from flask import Flask, render_template, request, flash, redirect, url_for, session
+from flask import Flask, render_template, request, flash, redirect, url_for, session,jsonify
 from main_db import DBhandler
 import hashlib
 import sys
 
 application = Flask(__name__)
+application.secret_key = "SUPERSECRET"
 
 DB = DBhandler()
 
@@ -26,6 +27,26 @@ def login():
 @application.route('/signup')
 def signup():
     return render_template('signup.html')
+
+@application.route("/signup_confirm", methods=["POST"])
+def signup_confirm():
+    data = request.form
+    pw = data.get("pw")
+    pw_hash = hashlib.sha256(pw.encode('utf-8')).hexdigest()
+    
+    if DB.insert_user(data, pw_hash):
+        return render_template("login.html") 
+    else: 
+        flash("insert_data 실패")
+        return render_template("signup.html")
+    
+@application.route("/check_id", methods=["POST"])
+def check_id():
+    user_id = request.form.get("id")
+    if DB.user_duplicate_check(user_id): #중복확인
+        return jsonify({"available": True, "message": "사용 가능한 아이디입니다."})
+    else:
+        return jsonify({"available": False, "message": "이미 사용 중인 아이디입니다."})
 
 @application.route('/product')
 def view_proudct():
