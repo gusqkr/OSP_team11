@@ -26,7 +26,6 @@ document.addEventListener("DOMContentLoaded", function() {
             const detailContent = this.closest(".detail-content");
             if (detailContent) {
                 const answerDisplayArea = detailContent.querySelector(".seller-answer");
-
                 const newAnswerHTML = `
                     <div class="seller-answer">
                         <strong>A:</strong>
@@ -36,8 +35,15 @@ document.addEventListener("DOMContentLoaded", function() {
                 answerDisplayArea.innerHTML = newAnswerHTML;
                 textarea.value = "";
                 this.style.display = "none";
+
+                const parentRow = this.closest(".data-row");
+                if (parentRow) {
+                    const statusElement = parentRow.querySelector(".is-unanswered");
+                    const newStatus =
+                        `<div class="is-answered">답변완료</div>`;
+                    statusElement.innerHTML = newStatus;
             }
-    });
+    }        });
     });
     
     function closeOtherRows(currentOpenRow) {

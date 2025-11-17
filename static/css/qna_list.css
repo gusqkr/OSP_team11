@@ -90,6 +90,7 @@ table {
     width: 1120px;
     border-collapse: collapse;
     margin: 20px 160px;
+    table-layout: fixed;
 }
 table thead th:nth-child(1),
 table tbody td:nth-child(1) {
@@ -119,7 +120,7 @@ th, td {
     gap: 10px;
 }
 
-img {
+.item-wrapper img {
    max-width: 50px;
    height: auto;
 }
@@ -137,6 +138,9 @@ img {
 
 .data-row .summary {
     font-weight: bold;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .data-row.expanded .summary {
     display: none;
@@ -145,6 +149,11 @@ img {
     max-height: 500px;
     opacity: 1;
     padding: 15px;
+}
+
+textarea {
+    margin: 10px 5px;
+    width : 90%;
 }
 .detail-content {
     max-height: 0;
