@@ -83,3 +83,27 @@ class DBhandler:
         }
         self.db.child("review").child(data['name']).set(review_info)
         return True
+
+      def get_heart_byname(self, uid, item_key):
+        hearts = self.db.child("heart").child(uid).get()
+
+        # heart 노드가 없을 때
+        if hearts.val() is None:
+            return None
+
+        # 해당 item_key만 찾기
+        for res in hearts.each():
+            if res.key() == item_key:
+                return res.val()
+
+        return None
+
+
+    def update_heart(self, user_id, isHeart, item_key):
+        heart_info = {
+            "interested": isHeart
+        }
+
+        # heart/user_id/item_key/interested → "Y" 또는 "N"
+        self.db.child("heart").child(user_id).child(item_key).set(heart_info)
+        return True
