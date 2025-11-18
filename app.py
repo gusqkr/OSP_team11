@@ -120,7 +120,39 @@ def view_item_detail(item_key):
     else:
         flash("해당 상품을 찾을 수 없습니다.")
         return redirect(url_for('view_list'))
+
+@application.route('/show_heart/<name>/', methods=['GET'])
+def show_heart(name):
+    # 로그인 안 했으면 'N' 반환
+    if 'id' not in session:
+        return jsonify({'my_heart': {'interested': 'N'}})
+
+    my_heart = DB.get_heart_byname(session['id'], name)
     
+    # 아무 기록 없으면 디폴트 N
+    if not my_heart:
+        my_heart = {'interested': 'N'}
+
+    return jsonify({'my_heart': my_heart})
+
+
+@application.route('/like/<name>/', methods=['POST'])
+def like(name):
+    if 'id' not in session:
+        return jsonify({'msg': '로그인 후 이용 가능합니다.'})
+
+    DB.update_heart(session['id'], 'Y', name)
+    return jsonify({'msg': '좋아요 완료!'})
+
+
+@application.route('/unlike/<name>/', methods=['POST'])
+def unlike(name):
+    if 'id' not in session:
+        return jsonify({'msg': '로그인 후 이용 가능합니다.'})
+
+    DB.update_heart(session['id'], 'N', name)
+    return jsonify({'msg': '안좋아요 완료!'})
+   
  
 @application.route("/login")
 def login():
