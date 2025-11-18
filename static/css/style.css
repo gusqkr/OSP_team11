@@ -113,3 +113,13 @@ a {
     resize: none;
 }
 
+#heart {
+    color: grey;
+    font-size: 50px;
+}
+
+#heart.red {
+    color: red;
+}
+
+
