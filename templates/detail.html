@@ -1,0 +1,144 @@
+﻿{% extends "index.html" %}
+{% block section %}
+<script>
+    // 페이지 로딩 시, 현재 사용자가 이 상품에 좋아요를 눌렀는지 확인
+    function showHeart() {
+        $.ajax({
+            type: 'GET',
+            url: '/show_heart/{{name}}/',   // app.py의 라우트와 맞춰야 함
+            data: {},
+            success: function (response) {
+                let my_heart = response['my_heart'];
+
+                // 과거에 눌렀던 기록이 있고 interested == 'Y' 이면 빨강 + unlike()
+                if (my_heart && my_heart['interested'] == 'Y') {
+                    $("#heart").addClass("red");
+                    $("#heart").attr("onclick", "unlike()");
+                }
+                // 기록이 없거나 'N' 이면 회색 + like()
+                else {
+                    $("#heart").removeClass("red");
+                    $("#heart").attr("onclick", "like()");
+                }
+                // alert("showheart!");
+            }
+        });
+    }
+
+    // 회색 → 클릭 시 좋아요
+    function like() {
+        $.ajax({
+            type: 'POST',
+            url: '/like/{{name}}/',
+            data: {
+                interested: "Y"
+            },
+            success: function (response) {
+                alert(response['msg']);
+                // 페이지 새로고침 대신 화면만 업데이트
+                $("#heart").addClass("red");
+                $("#heart").attr("onclick", "unlike()");
+            }
+        });
+    }
+
+    // 빨강 → 클릭 시 안좋아요
+    function unlike() {
+        $.ajax({
+            type: 'POST',
+            url: '/unlike/{{name}}/',
+            data: {
+                interested: "N"
+            },
+            success: function (response) {
+                alert(response['msg']);
+                $("#heart").removeClass("red");
+                $("#heart").attr("onclick", "like()");
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        showHeart();
+    });
+</script>
+
+
+<div class="top-section">
+    <img src="{{ url_for('static', filename='images/' ~ item.img_path) }}" alt="{{ item.name }}" class="product">
+
+    <div class="top-column">
+        <p class="product-name">{{ item.name }}</p>
+        <p class="price">{{ item.price }}원</p>
+        <hr>
+        <div class="info">
+            <p class="label">판매자</p>
+            <p class="value">{{ item.seller }}</p>
+        </div>
+        <div class="info">
+            <p class="label">상품상태</p>
+            <p class="value">{{ item.status }}</p>
+        </div>
+        <div class="info">
+            <p class="label">주소</p>
+            <p class="value">{{ item.addr }}</p>
+        </div>
+        <div class="info">
+            <p class="label">카테고리</p>
+            <p class="value">{{ item.category }}</p>
+        </div>
+        <div class="info">
+            <p class="label">이메일</p>
+            <p class="value">{{ item.email }}</p>
+        </div>
+        <div class="info">
+            <p class="label">연락처</p>
+            <p class="value">{{ item.phone }}</p>
+        </div>
+        <div class="buttons">
+            <button class="like">
+                <span class="heart-symbol">♡</span>
+                <span class="like-count">4</span>
+            </button>
+            <button class="buy">구매하기</button>
+        </div>
+    </div>
+</div>
+
+<div class="bottom-section">
+    <div class="left-column">
+        <p class="small-heading">상품 설명</p>
+        <hr>
+        <div class="description">
+            <p>{{ item.description | safe }}</p>
+        </div>
+    </div>
+    <div class="right-column">
+        <p class="small-heading">Q&A</p>
+        <div class="qa-box">
+            <div class="qa-content">
+                <div class="question-item">
+                    <div class="bubble">
+                        <strong>Q</strong>
+                        <p>비닐 안 뜯은 새상품 맞나요?</p>
+                    </div>
+                </div>
+                <div class="answer-item">
+                    <div class="bubble">
+                        <strong>A</strong>
+                        <p>상품 설명 읽어주세요 ^^;;</p>
+                    </div>
+                </div>
+                <div class="question-input">
+                    <input type="text" id="inputBox" placeholder="판매자에게 질문하기.." />
+                    <button onclick="location.href='/reg_review_init/{{name}}/';">
+                        리뷰등록
+                    </button>
+                    <i class="fa fa-heart" id="heart"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock section %}
