@@ -21,6 +21,7 @@ body{
     position:relative;
 }
 
+
 .logo{
     position: absolute;
     left: 50%;
@@ -28,6 +29,11 @@ body{
     display: flex;
     justify-content: center;
     padding-top:20px;
+    width:160px;
+    height:auto;
+}
+
+.logo img{
     width:160px;
     height:auto;
 }
