@@ -147,6 +147,34 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   });
+  
+  const telInput = document.querySelector('input[name="tel"]');
+  const telGuide = document.createElement("p");
+  telGuide.className = "error-text";
+  telInput.parentElement.appendChild(telGuide);
+
+  telInput.addEventListener("input", () => {
+  const tel = telInput.value.trim();
+
+  if (!tel) {
+    telGuide.textContent = "";
+    updateSignupButtonState();
+    return;
+  }
+
+  const telRegex = /^010-\d{4}-\d{4}$/;
+
+  if (!telRegex.test(tel)) {
+    telGuide.textContent = "전화번호는 010-1234-5678 형식으로 입력해주세요.";
+    telGuide.style.color = "red";
+  } else {
+    telGuide.textContent = "";   
+  }
+
+  updateSignupButtonState();
+});
+
+
 
   //회원가입 버튼 활성화
   const signupBtn=document.querySelector(".signup-btn");
@@ -158,7 +186,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const pwLengthValid = pw1.value.length >= 8;
   const pwMatchValid = pw1.value === pw2.value && pw2.value !== "";
   const agreeChecked = agreeCheckbox.checked;
-  signupBtn.disabled = !(idValid && emailValid && pwLengthValid && pwMatchValid && agreeChecked);
+  const tel = telInput.value.trim();
+  const telValid = (tel === "" || /^010-\d{4}-\d{4}$/.test(tel));  
+  signupBtn.disabled = !(idValid && emailValid && pwLengthValid && pwMatchValid && telValid && agreeChecked);
   }
 
   [idInput, emailInput, pw1, pw2].forEach(input => {
