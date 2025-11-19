@@ -37,3 +37,40 @@ class DBhandler:
         if user.get('id')==user_id and user.get('pw')==pw :
             return True
         else: return False
+
+    def insert_item(self, name, data, img_path):
+        item_info = {
+            "name": name,
+            "seller":data['seller'],
+            "addr": data['addr'],
+            "status": data['status'],
+            "price": data['price'],
+            "description": data['description'],
+            "img_path": img_path
+        }
+        self.db.child("items").push(item_info)
+        return True
+    
+    def get_items(self):
+        items = self.db.child("items").get().val()
+        return items
+    
+    def get_item_detail(self, name):
+        item = self.db.child("items").child(name).get().val()
+        return item
+    
+    def write_question(self, product_name, data):
+        self.db.child("questions").child(product_name).push(data)
+        return True
+    
+    def get_all_questions(self):
+        questions = self.db.child("questions").get().val()
+        return questions
+    
+    def write_answer(self, product_name, question_id, answer):
+        self.db.child("questions").child(product_name).child(question_id).update({"answer": answer})
+        return True
+    
+    def get_questions(self, product_name):
+        questions = self.db.child("questions").child(product_name).get().val()
+        return questions
