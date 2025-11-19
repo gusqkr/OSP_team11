@@ -14,15 +14,21 @@ def home():
 
 @application.route('/myheart')
 def view_heart():
+    if "id" not in session:
+        return redirect(url_for("login", next="view_heart", need_login=1))
     return render_template('myheart.html') 
 
 @application.route('/mypage')
 def view_mypage():
+    if "id" not in session:
+        return redirect(url_for("login", next="view_mypage")) #로그인 후 mypage로 redirect
     return render_template('mypage.html') 
 
 @application.route('/login')
 def login():
-    return render_template('login.html', login_failed=False)
+    next_page = request.args.get("next")
+    need_login = request.args.get("need_login") == "1"
+    return render_template('login.html', login_failed=False, next_page=next_page, need_login=need_login)
 
 @application.route('/login_confirm',methods=['POST'])
 def login_confirm():
@@ -34,7 +40,9 @@ def login_confirm():
         return render_template("login.html", login_failed=True)
 
     session["id"] = id #세션에 id 저장 
-    return redirect(url_for("home")) #이후 수정 필요
+    next_page = request.form.get("next")
+    return redirect(url_for(next_page)) if next_page else redirect(url_for("home"))
+    #return redirect(url_for("home")) #이후 수정 필요
 
 @application.route('/logout')
 def logout():
