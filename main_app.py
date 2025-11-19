@@ -21,7 +21,7 @@ def view_heart():
 @application.route('/mypage')
 def view_mypage():
     if "id" not in session:
-        return redirect(url_for("login", next="view_mypage")) #로그인 후 mypage로 redirect
+        return redirect(url_for("login", next="view_mypage", need_login=1)) #로그인 후 mypage로 redirect
     return render_template('mypage.html') 
 
 @application.route('/login')
