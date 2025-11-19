@@ -4,6 +4,17 @@ document.addEventListener("DOMContentLoaded", () => {
   const idInput = document.querySelector('.input-with-btn input[type="text"]');
   const idGuide = document.querySelector(".input-with-btn").nextElementSibling;
 
+    idInput.addEventListener("input", () => {
+      const value = idInput.value.trim();
+      const idPattern = /^[A-Za-z0-9]{8,}$/;
+
+      if (idPattern.test(value)) {
+        checkBtn.style.backgroundColor = "rgb(0,72,40)";
+      } else {
+        checkBtn.style.backgroundColor = "#678b76";
+      }
+    });
+    
   checkBtn.addEventListener("click", async () => {
     const enteredId = idInput.value.trim();
 
@@ -90,34 +101,14 @@ document.addEventListener("DOMContentLoaded", () => {
   pw2.parentElement.appendChild(pwMatchError);
 
   pw1.addEventListener("input", () => {
-    const value = pw1.value;
-
-    const hasLetter = /[a-zA-Z]/.test(value);
-    const hasNumber = /[0-9]/.test(value);
-
-    if (value) {
-
-      if (value.length < 8) {
-        pwGuide.textContent = "비밀번호는 8자 이상이어야 합니다.";
-        pwGuide.style.color = "red";
-        return;
-      }
-
-      if (!(hasLetter && hasNumber)) {
-        pwGuide.textContent = "비밀번호는 영문과 숫자를 모두 포함해야 합니다.";
-        pwGuide.style.color = "red";
-        return;
-      }
-
-      pwGuide.textContent = "비밀번호 조건을 만족합니다.";
-      pwGuide.style.color = "green";
-
+    if (pw1.value && pw1.value.length < 8) {
+      pwGuide.textContent = "비밀번호는 8자 이상이어야 합니다.";
+      pwGuide.style.color = "red";
     } else {
       pwGuide.textContent = "영문, 숫자 포함 8자 이상 작성해주세요.";
       pwGuide.style.color = "#777";
     }
   });
-
 
   pw2.addEventListener("input", () => {
     if (pw2.value && pw1.value !== pw2.value) {
@@ -130,7 +121,28 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-    //비밀번호 토글 기능
+
+  //회원가입 버튼 활성화
+  const signupBtn=document.querySelector(".signup-btn");
+  const agreeCheckbox = document.querySelector('.agreement input[type="checkbox"]');
+
+  function updateSignupButtonState() {
+  const idValid = idGuide.textContent === "사용 가능한 아이디입니다.";
+  const emailValid = emailError.textContent === "";
+  const pwLengthValid = pw1.value.length >= 8;
+  const pwMatchValid = pw1.value === pw2.value && pw2.value !== "";
+  const agreeChecked = agreeCheckbox.checked;
+  signupBtn.disabled = !(idValid && emailValid && pwLengthValid && pwMatchValid && agreeChecked);
+  }
+
+  [idInput, emailInput, pw1, pw2].forEach(input => {
+    input.addEventListener("input", updateSignupButtonState);
+  });
+  checkBtn.addEventListener("click", updateSignupButtonState);
+  agreeCheckbox.addEventListener("change", updateSignupButtonState);
+
+
+  //비밀번호 토글 기능
   document.querySelectorAll('.toggle-password').forEach(button => {
     button.addEventListener('click', () => {
       const input = button.parentElement.querySelector('input');
@@ -147,54 +159,5 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   });
-  
-  const telInput = document.querySelector('input[name="tel"]');
-  const telGuide = document.createElement("p");
-  telGuide.className = "error-text";
-  telInput.parentElement.appendChild(telGuide);
-
-  telInput.addEventListener("input", () => {
-  const tel = telInput.value.trim();
-
-  if (!tel) {
-    telGuide.textContent = "";
-    updateSignupButtonState();
-    return;
-  }
-
-  const telRegex = /^010-\d{4}-\d{4}$/;
-
-  if (!telRegex.test(tel)) {
-    telGuide.textContent = "전화번호는 010-1234-5678 형식으로 입력해주세요.";
-    telGuide.style.color = "red";
-  } else {
-    telGuide.textContent = "";   
-  }
-
-  updateSignupButtonState();
-});
-
-
-
-  //회원가입 버튼 활성화
-  const signupBtn=document.querySelector(".signup-btn");
-  const agreeCheckbox = document.querySelector('.agreement input[type="checkbox"]');
-
-  function updateSignupButtonState() {
-  const idValid = idGuide.textContent === "사용 가능한 아이디입니다.";
-  const emailValid = emailError.textContent === "";
-  const pwLengthValid = pw1.value.length >= 8;
-  const pwMatchValid = pw1.value === pw2.value && pw2.value !== "";
-  const agreeChecked = agreeCheckbox.checked;
-  const tel = telInput.value.trim();
-  const telValid = (tel === "" || /^010-\d{4}-\d{4}$/.test(tel));  
-  signupBtn.disabled = !(idValid && emailValid && pwLengthValid && pwMatchValid && telValid && agreeChecked);
-  }
-
-  [idInput, emailInput, pw1, pw2].forEach(input => {
-    input.addEventListener("input", updateSignupButtonState);
-  });
-  checkBtn.addEventListener("click", updateSignupButtonState);
-  agreeCheckbox.addEventListener("change", updateSignupButtonState);
 
 });
