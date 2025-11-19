@@ -100,7 +100,7 @@ document.addEventListener("DOMContentLoaded", () => {
   pwMatchError.className = "error-text";
   pw2.parentElement.appendChild(pwMatchError);
 
-    pw1.addEventListener("input", () => {
+  pw1.addEventListener("input", () => {
     const value = pw1.value;
 
     const hasLetter = /[a-zA-Z]/.test(value);
@@ -140,7 +140,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-      //비밀번호 토글 기능
+    //비밀번호 토글 기능
   document.querySelectorAll('.toggle-password').forEach(button => {
     button.addEventListener('click', () => {
       const input = button.parentElement.querySelector('input');
@@ -194,10 +194,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const emailValid = emailError.textContent === "";
   const pwLengthValid = pw1.value.length >= 8;
   const pwMatchValid = pw1.value === pw2.value && pw2.value !== "";
-  const agreeChecked = agreeCheckbox.checked;  
+  const agreeChecked = agreeCheckbox.checked; 
   const tel = telInput.value.trim();
   const telValid = (tel === "" || /^010-\d{4}-\d{4}$/.test(tel));  
-  signupBtn.disabled = !(idValid && emailValid && pwLengthValid && pwMatchValid && telValid && agreeChecked)
+  signupBtn.disabled = !(idValid && emailValid && pwLengthValid && pwMatchValid && telValid && agreeChecked);
   }
 
   [idInput, emailInput, pw1, pw2].forEach(input => {
