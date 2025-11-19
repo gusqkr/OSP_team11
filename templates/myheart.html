@@ -1,30 +1,10 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <title>e-pick</title>
-    <link rel="stylesheet" href="../static/css/myheart.css">
-</head>
+{% extends "base.html" %}
+{% block head %}
+    <link rel="stylesheet" href="../static/css/myheart.css">     
+  <script src="{{ url_for('static', filename='js/myheart.js') }}" defer></script>   
+{% endblock head %}
 
-<body>
-    <div class="header">
-        <img src="../static/images/logo.png" alt="e-pick" class="logo">
-        <div class="header-right">
-            <a href="#">찜 목록</a>
-            <a href="#">마이페이지</a>
-            <a href="#">로그아웃</a>
-        </div>
-    </div>
-
-    <div class="nav">
-        <a href="./All_product.html">상품조회</a>
-        <a href="./review_list.html">리뷰조회</a>
-        <a href="./Write_review.html">리뷰작성</a>
-        <a href="./product_register.html">상품등록</a>
-        <a href="#">Q&A 모아보기</a>
-    </div>
-
+{% block section %}
     <div class="product-container">
         <div class="product-header">
             <h2>찜 목록</h2>
@@ -41,7 +21,7 @@
             </div>
 
             <div class="product-card">
-                <a href="./product_detail.html">
+                <a href="/product_detail">
                     <img src="../static/images/charger.jpg" alt="상품 이미지">
                     <div class="product-info">
                         <div class="product-name">민트색 충전기(c type)</div>
@@ -134,9 +114,5 @@
             <button>&gt;</button>
         </div>
     </div>
-  
-    <script src="../static/js/myheart.js"></script>
+{% endblock section %}
 
-
-</body>
-</html>

@@ -1,36 +1,15 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <title>e-pick</title>
-    <link rel="stylesheet" href="../static/css/mypage.css">
-</head>
-<body>
-    <div class="header">
-        <img src="../static/images/logo.png" alt="e-pick" class="logo">
-        <div class="header-right">
-            <a href="#">찜 목록</a>
-            <a href="#">마이페이지</a>
-            <a href="#">로그아웃</a>
-        </div>
-    </div>
-    
-    <!--화면마다 변경해야 할 네비게이션 부분-->
-    <div class="nav">
-        <a href="./All_product.html" class="active">상품조회</a>
-        <a href="./review_list.html">리뷰조회</a>
-        <a href="./Write_review.html">리뷰작성</a>
-        <a href="./product_register.html">상품등록</a>
-        <a href="#">Q&A 모아보기</a>
-    </div>
+{% extends "base.html" %}
+{% block head %}
+    <link rel="stylesheet" href="../static/css/mypage.css">    
+{% endblock head %}
 
+{% block section %}
     <div class="product-container">
         <div class="product-header">마이페이지</div><hr>
         <p class="small-header">내가 올린 상품</p>
          <div class="product-grid">
             <div class="product-card">
-                <a href="./product_detail.html">
+                <a href="/product_detail">
                 <img src="../static/images/chunsik.jpg" alt="상품 이미지">
                 <div class="product-info">
                 <div class="product-name">카카오프렌즈 춘식이 장난감</div>
@@ -53,7 +32,7 @@
         <p class="small-header">내가 작성한 리뷰</p>
          <div class="review-grid">
             <div class="review-card">
-                <a href="#">
+                <a href="/review_detail">
                 <div class="review-content">
                     <h3 class="review-title">싸게 잘 샀어용</h3>
                     <p class="review-subtitle">아이폰16 케이스 구매</p>
@@ -137,8 +116,7 @@
     </div>
 
     <button type="submit" class="edit-btn">변경하기</button>
+{% endblock section %}
 
-    <script src="#"></script>
-</body>
 
-</html>
+

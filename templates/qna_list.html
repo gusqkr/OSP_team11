@@ -1,30 +1,9 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <title>e-pick</title>
-    <link rel="stylesheet" href="../static/css/qna_list.css">
-</head>
-<body>
-    <div class="header">
-        <img src="../static/images/logo.png" alt="e-pick" class="logo">
-        <div class="header-right">
-            <a href="#">찜 목록</a>
-            <a href="#">마이페이지</a>
-            <a href="#">로그아웃</a>
-        </div>
-    </div>
-    
-    <!--화면마다 변경해야 할 네비게이션 부분-->
-    <div class="nav">
-        <a href="./All_product.html">상품조회</a>
-        <a href="./review_list.html">리뷰조회</a>
-        <a href="./Write_review.html">리뷰작성</a>
-        <a href="./product_register.html">상품등록</a>
-        <a href="./qna_list.html" class="active">Q&A 답변하기</a>
-    </div>
-
+{% extends "base.html" %}
+{% block head %}
+    <link rel="stylesheet" href="../static/css/qna_list.css">  
+  <script src="{{ url_for('static', filename='js/qna_list.js') }}" defer></script>
+{% endblock head %}
+{% block section %}
     <h2 id="page-title">Q&A 답변하기</h2>
 
     <table class="qna-table">
@@ -190,6 +169,4 @@
   <button>&gt;</button>
 </div>
     <div class="footer"></div>
-    <script src="../static/js/qna_list.js"></script>
-    </body>
-</html>
+{% endblock section %}
