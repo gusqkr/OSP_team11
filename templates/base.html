@@ -8,8 +8,8 @@
     <a href="/product" class="{% if request.path == '/product' %}active{% endif %}">상품조회</a>
     <a href="/review" class="{% if request.path == '/review' %}active{% endif %}">리뷰조회</a>
     <a href="/write_review" class="{% if request.path == '/write_review' %}active{% endif %}">리뷰작성</a>
-    <a href="/register_product" class="{% if request.path == '/reigister_product' %}active{% endif %}">상품등록</a>
-    <a href="/qna" class="{% if request.path == '/qna' %}active{% endif %}">Q&A 모아보기</a>
+    <a href="/register_product" class="{% if request.path == '/register_product' %}active{% endif %}">상품등록</a>
+    <a href="/qna_list" class="{% if request.path == '/qna_list' %}active{% endif %}">Q&A 모아보기</a>
   </div>
   <section>
         {% block section %}{% endblock section %}
