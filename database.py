@@ -4,25 +4,25 @@ import json
 class DBhandler:
     def __init__(self):
         with open('./authentication/firebase_auth.json') as f:
-            config=json.load(f)
+            config = json.load(f)
 
         firebase = pyrebase.initialize_app(config)
         self.db = firebase.database()
         self.storage = firebase.storage()
     
     def insert_item(self, data, img_path):
-        item_info ={
+        item_info = {
             "name": data['name'],
             "price": data['price'],
             "description": data['description'],
-            "seller" : data['seller'],
-            "addr" : data['addr'],
-            "email" : data['email'],
-            "category" : data['category'],
-            "card" : data['card'],
-            "status" : data['status'],
-            "phone" : data['phone'],
-            "img_path" : img_path
+            "seller": data['seller'],
+            "addr": data['addr'],
+            "email": data['email'],
+            "category": data['category'],
+            "card": data['card'],
+            "status": data['status'],
+            "phone": data['phone'],
+            "img_path": img_path
         }
         self.db.child("items").push(item_info)
         print(data, img_path)
@@ -53,57 +53,49 @@ class DBhandler:
     def user_duplicate_check(self, id_string):
         users = self.db.child("user").get()
         print("users###", users.val())
-        if str(users.val()) == "None":
+        if users.val() is None:
             return True
         else:
             for res in users.each():
                 value = res.val()
-                
                 if value['id'] == id_string:
                     return False
             return True
     
-    def find_user(self,id_,pw_):
-        users=self.db.child("user").get()
-        target_value=[]
+    def find_user(self, id_, pw_):
+        users = self.db.child("user").get()
         for res in users.each():
-            value=res.val()
-
-            if value['id']==id_ and value['pw']==pw_:
+            value = res.val()
+            if value['id'] == id_ and value['pw'] == pw_:
                 return True
-        
         return False
     
     def reg_review(self, data, img_path):
-        review_info ={
-            "title":data['title'],
-            "rate":data['reviewStar'],
-            "review":data['reviewContents'],
-            "img_path":img_path
+        review_info = {
+            "title": data['title'],
+            "rate": data['reviewStar'],
+            "review": data['reviewContents'],
+            "img_path": img_path
         }
         self.db.child("review").child(data['name']).set(review_info)
         return True
 
-      def get_heart_byname(self, uid, item_key):
+    def get_heart_byname(self, uid, item_key):
         hearts = self.db.child("heart").child(uid).get()
 
-        # heart 노드가 없을 때
         if hearts.val() is None:
             return None
 
-        # 해당 item_key만 찾기
         for res in hearts.each():
             if res.key() == item_key:
                 return res.val()
 
         return None
 
-
     def update_heart(self, user_id, isHeart, item_key):
         heart_info = {
             "interested": isHeart
         }
 
-        # heart/user_id/item_key/interested → "Y" 또는 "N"
         self.db.child("heart").child(user_id).child(item_key).set(heart_info)
         return True
