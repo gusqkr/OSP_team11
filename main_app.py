@@ -2,9 +2,11 @@ from flask import Flask, render_template, request, flash, redirect, url_for, ses
 from main_db import DBhandler
 import hashlib
 import sys
+from datetime import timedelta
 
 application = Flask(__name__)
 application.secret_key = "SUPERSECRET"
+application.permanent_session_lifetime = timedelta(days=1)  # 자동 로그인 기간 (1일)
 
 DB = DBhandler()
 
@@ -35,11 +37,18 @@ def login_confirm():
     id = request.form.get("id")
     pw = request.form.get("pw")
     pw_hash = hashlib.sha256(pw.encode('utf-8')).hexdigest()
+    remember = request.form.get("remember") 
     
     if not DB.verify_user(id, pw_hash): #user정보 없으면 false 
         return render_template("login.html", login_failed=True)
 
     session["id"] = id #세션에 id 저장 
+    
+    if remember : 
+        session.permanent = True
+    else: 
+        session.permanent = False
+        
     next_page = request.form.get("next")
     return redirect(url_for(next_page)) if next_page else redirect(url_for("home"))
     #return redirect(url_for("home")) #이후 수정 필요
