@@ -178,6 +178,14 @@ textarea {
     border-radius: 5px;
 }
 
+.is-unanswered {
+    color: red;
+}
+
+.is-answered {
+    color: green;
+}
+
 .answer-button {
     margin-left: 450px;
     background-color: #00462a;
