@@ -60,18 +60,24 @@
     │  │      review_detail.css
     │  │      review_list.css
     │  │      review_write.css
-    │  │      signup.css
+    │  │      qna_list.css
+    │  │      myheart.css
+    │  │      mypage.css
     │  ├─images
     │  └─js
     │          login.js
     │          signup.js
     │          all_product.js
     │          product_detail.js
-    │          review_write.js
+    │          qna_list.js
+    │          myheart.js
     ├─ templates
     │      All_product.html
     │      base.html
     │      header_base.html
+    │      qna_list.html
+    │      myheart.html
+    │      mypage.html
     │      product_detail.html
     │      product_register.html
     │      review_detail.html

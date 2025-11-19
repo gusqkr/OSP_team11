@@ -64,9 +64,9 @@ def write_review():
 def register_product():
     return render_template('product_register.html')
     
-@application.route('/qna')
+@application.route('/qna_list')
 def view_qna():
-    return render_template('qna.html') #수정
+    return render_template('qna_list.html') 
 
 @application.route('/product_detail')
 def view_product_detail():

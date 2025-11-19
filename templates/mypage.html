@@ -9,7 +9,7 @@
         <p class="small-header">내가 올린 상품</p>
          <div class="product-grid">
             <div class="product-card">
-                <a href="./product_detail.html">
+                <a href="/product_detail">
                 <img src="../static/images/chunsik.jpg" alt="상품 이미지">
                 <div class="product-info">
                 <div class="product-name">카카오프렌즈 춘식이 장난감</div>
@@ -32,7 +32,7 @@
         <p class="small-header">내가 작성한 리뷰</p>
          <div class="review-grid">
             <div class="review-card">
-                <a href="#">
+                <a href="/review_detail">
                 <div class="review-content">
                     <h3 class="review-title">싸게 잘 샀어용</h3>
                     <p class="review-subtitle">아이폰16 케이스 구매</p>
@@ -83,12 +83,24 @@
 
             <div class="form-group">
                 <label for="new-password">새 비밀번호</label>
-                <input type="password" id="new-password" placeholder="">
+                <div class="password-form">
+                    <input type="password" id="new-password" placeholder="">
+                    <button type="button" class="toggle-password">
+                        <img src="../static/images/eye-off.png" alt="비밀번호 보기" class="eye-icon">
+                    </button>
+                </div>
             </div>
+
+            <p class="guide-text">영문, 숫자 포함 8자 이상 작성해주세요.</p>
 
             <div class="form-group">
                 <label for="confirm-password">새 비밀번호 확인</label>
-                <input type="password" id="confirm-password" placeholder="">
+                <div class="password-form">
+                    <input type="password" id="confirm-password" placeholder="">
+                    <button type="button" class="toggle-password">
+                        <img src="../static/images/eye-off.png" alt="비밀번호 보기" class="eye-icon">
+                    </button>
+                </div>
             </div>
 
             <div class="form-group">

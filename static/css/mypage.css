@@ -211,16 +211,64 @@ p.small-header{
 .form-group input {
   flex: 1;
   padding: 10px 12px;
-  border: none;
-  background-color: #eeeeee;
+  border: 1px solid #ccc;
   border-radius: 8px;
-  font-size: 14px;
-  color: #333;
+  font-size: 15px;
 }
 
-.form-group input:focus {
-  outline: 2px solid #00462a;
-  background-color: #fff;
+.password-form{
+    position:relative;
+    flex:1;
+}
+
+.password-form input{
+    width:100%;
+    padding-right:40px;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 10px;
+  top: 29%;
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.toggle-password img{
+    width:20px;
+    height:auto;
+    opacity:0.6;
+}
+
+.toggle-password img[src="../static/images/eye-on.png"] {
+  transform: translateY(-2px);
+}
+
+.toggle-password:hover img[src="../static/images/eye-on.png"] {
+  opacity: 1;
+  transform: translateY(-2px) scale(1.05); 
+}
+
+.toggle-password:hover img[src="../static/images/eye-off.png"] {
+  opacity: 1;
+  transform: scale(1.05); 
+}
+
+.guide-text {
+  color: #777;
+  font-size: 13px;
+  margin-left:185px;
+  margin-top:-2.5px;
+  margin-bottom:-2.5px;
+}
+
+.error-text{
+    color:red;
+    font-size:13px;
+    margin-top:6px;
 }
 
 .edit-btn {

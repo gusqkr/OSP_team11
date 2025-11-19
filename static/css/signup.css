@@ -119,16 +119,16 @@ input[type="email"] {
     opacity:0.6;
 }
 
-.toggle-password img[src="eye-on.png"] {
+.toggle-password img[src="../staic/images/eye-on.png"] {
   transform: translateY(-2px);
 }
 
-.toggle-password:hover img[src="eye-on.png"] {
+.toggle-password:hover img[src="../static/images/eye-on.png"] {
   opacity: 1;
   transform: translateY(-2px) scale(1.05); 
 }
 
-.toggle-password:hover img[src="eye-off.png"] {
+.toggle-password:hover img[src="../static/images/eye-off.png"] {
   opacity: 1;
   transform: scale(1.05); 
 }
