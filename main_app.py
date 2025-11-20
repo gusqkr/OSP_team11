@@ -133,7 +133,12 @@ def wirte_review_init(item_id):
     image_file.save("static/images/{}".format(image_file.filename))
     DB.insert_review(data,image_file.filename)
     return redirect(url_for('view_review'))
-    
+
+@application.route('/review_detail/<review_id>')
+def view_review_detail(review_id):
+    review = DB.get_review(review_id)
+
+    return render_template('review_detail.html', review=review)   
 
 @application.route('/register_product')
 def register_product():
@@ -147,9 +152,6 @@ def view_qna():
 def view_product_detail():
     return render_template('product_detail.html') 
 
-@application.route('/review_detail')
-def view_review_detail():
-    return render_template('review_detail.html') 
 
 
 if __name__ == "__main__":

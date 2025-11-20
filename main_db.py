@@ -59,9 +59,13 @@ class DBhandler:
             "rating": data['rating'],
             "img_path": img_path
         }
-        self.db.child("reviews").child(item['name']).set(review)
+        self.db.child("reviews").child(item['name']).set(review) #set -> 물건당 리뷰한개 
         return True    
     
     def get_all_reviews(self):
         reviews = self.db.child("reviews").get().val()
         return reviews
+    
+    def get_review(self, review_id):
+        # review_id = insert_review에서 사용한 item['name'] = 상품이름
+        return self.db.child("reviews").child(review_id).get().val()

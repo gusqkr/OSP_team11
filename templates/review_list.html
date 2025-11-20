@@ -10,7 +10,7 @@
         {% if reviews %}
             {% for key, review in reviews.items() %}
                 <div class="review-item">
-                    <a href="{{ url_for('view_review_detail', review_id=key) }}">
+                    <a href="{{ url_for('view_review_detail', review_id=key) }}"> {#상품 이름#}
                         <h2 class="review-title">{{ review.title }}</h2>
 
                         <div class="review-id">작성자: {{ review.user_id }}</div>
