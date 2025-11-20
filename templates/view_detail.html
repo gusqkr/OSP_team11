@@ -60,6 +60,7 @@
     <div class="top-column">
         <p class="product-name">{{ item.name }}</p>
         <p class="price">{{ item.price }}원</p>
+        <span id="heart" onclick="like()">♡</span>
         <hr>
 
         <div class="info">
@@ -88,7 +89,6 @@
         </div>
 
         <div class="buttons">
-            <i class="fa fa-heart" id="heart" style="cursor: pointer; font-size: 24px;"></i>
             <button class="buy">구매하기</button>
         </div>
     </div>
