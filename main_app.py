@@ -100,6 +100,13 @@ def view_product():
         end_index = start_index + per_page
 
         current_items = item_list[start_index:end_index]
+
+        for item in current_items:
+            name = item[0]
+            data = item[1]
+            heart_count = DB.get_heart_count(name)
+            data['heart_count'] = heart_count
+            
     else:
         current_items = []
         total_pages = 1
@@ -196,11 +203,24 @@ def view_qna():
 def view_product_detail(name):
     data = DB.get_item_detail(str(name))
     qna_data = DB.get_questions(str(name))
-    return render_template('product_detail.html', name=name, data=data, qna=qna_data) 
+    count = DB.get_heart_count(str(name))
+    return render_template('product_detail.html', name=name, data=data, qna=qna_data, count=count) 
 
 @application.route('/review_detail')
 def view_reiview_detail():
     return render_template('review_detail.html') 
+
+@application.route('/show_heart/<name>', methods=['GET'])
+def show_heart(name):
+    if "id" not in session:
+        return jsonify({'result': 'login_required'})
+    
+    user_id = session["id"]
+    DB.toggle_heart(user_id, name)
+    count = DB.get_heart_count(name)
+    return jsonify({"result": "success", "count": count})
+
+
 
 
 if __name__ == "__main__":

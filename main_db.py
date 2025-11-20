@@ -59,6 +59,35 @@ class DBhandler:
         item = self.db.child("items").child(name).get().val()
         return item
     
+    def get_heart_count(self, product_name):
+        users = self.db.child("user").get().val()
+        count = 0
+        if users:
+            for user_id, user_data in users.items():
+                hearts = user_data.get("hearts", [])
+                if 'heart' in user_data and product_name in user_data['heart']:
+                    count += 1
+        return count
+    
+    def toggle_heart(self, user_id, product_name):
+        heart_item = self.db.child("user").child(user_id).child("heart").child(product_name).get().val()
+
+        if heart_item:
+            self.db.child("user").child(user_id).child("heart").child(product_name).remove()
+            return False
+        else:
+            item_info = self.db.child("items").child(product_name).get().val()
+
+            heart_data = {
+                "img_path": item_info['img_path'],
+                "name": item_info['name'],
+                "price": item_info['price'],
+                "seller": item_info['seller']
+            }
+            self.db.child("user").child(user_id).child("heart").child(product_name).set(heart_data)
+            return True
+        
+    
     def write_question(self, product_name, data):
         self.db.child("questions").child(product_name).push(data)
         return True
