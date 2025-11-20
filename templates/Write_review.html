@@ -11,12 +11,17 @@
         <form id="reviewForm">
             <div class="form-row">
                 <label>작성자</label>
-                <input type="text" id="author" placeholder="작성자 이름을 입력하세요" />
+                <input type="text" id="author" value="{{author}}" readonly />
             </div>
-
+            
             <div class="form-row">
                 <label>상품명</label>
-                <input type="text" id="product" placeholder="상품명을 입력하세요" />
+                <select id="product">
+                    <option value="" disabled selected>상품을 선택하세요</option>
+                    <option value="item1">상품 1</option>
+                    <option value="item2">상품 2</option>
+                    <option value="item3">상품 3</option>
+                </select>
             </div>
 
             <div class="form-row">

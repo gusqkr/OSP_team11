@@ -91,7 +91,12 @@ def view_review():
 
 @application.route('/write_review')
 def write_review():
-    return render_template('Write_review.html')
+    if "id" not in session:
+        return redirect(url_for("login", next="write_review", need_login=1))
+    author = session.get("id") #사용자 id
+    return render_template('Write_review.html', author=author)
+
+@application.route('/write_review/<item_id>')
 
 @application.route('/register_product')
 def register_product():
