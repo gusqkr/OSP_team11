@@ -17,7 +17,14 @@
             </div>
             <div class="info">
                 <p class="label">상품상태</p>
-                <p class="value">{{ data.status }}</p>
+                <p class="value">
+                    {% if data.status == 'new' %} 새상품
+                    {% elif data.status == 'lnew' %} 거의 새상품
+                    {% elif data.status == 'used' %} 중고
+                    {% else %}
+                     {{ data.status}}
+                    {% endif %}
+                </p>
             </div>
             <div class="info">
                 <p class="label">주소</p>
@@ -26,7 +33,7 @@
             <div class="buttons">
                 <button class="like">
                     <span class="heart-symbol">♡</span>
-                    <span class="like-count">4</span> #개수 수정 필요#
+                    <span class="like-count">4</span> 
                 </button>
                 <button class="buy">구매하기</button>
             </div>
