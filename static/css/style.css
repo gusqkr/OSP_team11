@@ -115,7 +115,8 @@ a {
 
 #heart {
     color: grey;
-    font-size: 50px;
+    font-size: 32px;
+    cursor: pointer;
 }
 
 #heart.red {
