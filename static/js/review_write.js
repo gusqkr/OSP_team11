@@ -3,6 +3,10 @@ const submitBtn = document.getElementById('submitBtn');
 const fileInput = document.getElementById('fileInput');
 const fileName = document.getElementById('fileName');
 const inputs = document.querySelectorAll('#author, #product, #title, #content');
+const form = document.getElementById('reviewForm');
+const ratingInput = document.getElementById('rating');   
+const productSelect = document.getElementById('product'); 
+
 
 let starRating = 0;
 
@@ -11,6 +15,7 @@ stars.forEach((star, i) => {
     star.addEventListener('click', () => {
         starRating = i + 1;
         stars.forEach((s, idx) => s.classList.toggle('active', idx < starRating));
+        ratingInput.value = starRating;
         checkFormFilled();
     });
 });
@@ -40,3 +45,17 @@ function checkFormFilled() {
         submitBtn.disabled = true;
     }
 }
+
+
+// 폼 제출 시 선택한 item_id로 action 설정
+form.addEventListener('submit', (e) => {
+    const itemId = productSelect.value;
+
+    if (!itemId) {
+        alert('상품을 선택하세요.');
+        e.preventDefault();
+        return;
+    }
+
+    form.action = '/write_review/' + encodeURIComponent(itemId);
+});

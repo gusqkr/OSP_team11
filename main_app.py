@@ -26,6 +26,7 @@ def view_mypage():
         return redirect(url_for("login", next="view_mypage", need_login=1)) #로그인 후 mypage로 redirect
     return render_template('mypage.html') 
 
+#로그인/로그아웃/회원가입
 @application.route('/login')
 def login():
     next_page = request.args.get("next")
@@ -94,9 +95,18 @@ def write_review():
     if "id" not in session:
         return redirect(url_for("login", next="write_review", need_login=1))
     author = session.get("id") #사용자 id
-    return render_template('Write_review.html', author=author)
+    items = DB.get_all_items() #이후 수정
+    return render_template('Write_review.html', author=author,items=items)
 
-@application.route('/write_review/<item_id>')
+@application.route('/write_review/<item_id>', methods=['POST'])
+def wirte_review_init(item_id):
+    user_id=session["id"]
+    data = request.form
+    image_file=request.files["image"]
+    image_file.save("static/images/{}".format(image_file.filename))
+    DB.insert_review(data,image_file.filename)
+    return redirect(url_for('view_review'))
+    
 
 @application.route('/register_product')
 def register_product():
