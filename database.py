@@ -73,3 +73,11 @@ class DBhandler:
                 return True
         
         return False
+    def update_heart(self, user_id, isHeart, item_key):
+        heart_info = {
+            "interested": isHeart
+        }
+
+        # heart/user_id/item_key/interested → "Y" 또는 "N"
+        self.db.child("heart").child(user_id).child(item_key).set(heart_info)
+        return True
