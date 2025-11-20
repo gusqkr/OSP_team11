@@ -7,64 +7,46 @@
 
     <h2 id="page-title">전체 상품 리뷰</h4>
     <div class="review-list-container">
-        <div class="review-item">
-            <a href="/review_detail">
-                <h2 class="review-title">최고예요!!</h2>
-                <div class="review-id">작성자: freshair</div>
-                <span class="review-product">공기청정기 구매</span>
-                <div class="image-wrapper"><img class="review-image" src="../static/images/air-cleaner.jpeg" alt="공기청정기"></div>
-            </a>
-        </div>
-        <div class="review-item">
-            <h2 class="review-title">새상품 같아요</h2>
-                <div class="review-id">작성자: lovenew</div>
-                <span class="review-product">정장 세트 구매</span>
-                <div class="image-wrapper"><img class="review-image" src="../static/images/정장.jpg" alt="정장 세트"></div>
-        </div>
-        <div class="review-item">
-            <h2 class="review-title">올해 산 것 중에 ..</h2>
-                <div class="review-id">작성자: happyday</div>
-                <span class="review-product">베이프 후드티 S 구매</span>
-                <div class="image-wrapper"><img class="review-image" src="../static/images/bape.jpg" alt="베이프 후드티 S"></div>
-        </div>
-        <div class="review-item">
-            <h2 class="review-title">마음에 들어요~</h2>
-                <div class="review-id">작성자: comcomlove</div>
-                <span class="review-product">로지텍 무선 마우스 구매</span>
-                <div class="image-wrapper"><img class="review-image" src="../static/images/mouse.jpg" alt="로지텍 무선 마우스"></div>
-        </div>
-        <div class="review-item">
-            <h2 class="review-title">상품이 사진이랑 좀..</h2>
-                <div class="review-id">작성자: armyking</div>
-                <span class="review-product">BT21 대형 인형 슈키 구매</span>
-                <div class="image-wrapper"><img class="review-image" src="../static/images/suki.jpg" alt="BT21 대형 인형 슈키"></div>
-        </div>
-        <div class="review-item">
-            <h2 class="review-title">싸게 잘 샀어용</h2>
-                <div class="review-id">작성자: originqueen</div>
-                <span class="review-product">커피 캡슐 구매</span>
-                <div class="image-wrapper"><img class="review-image" src="../static/images/coffee capsule.jpg" alt="커피 캡슐"></div>
-        </div>
-        <div class="review-item">
-            <h2 class="review-title">짱!!</h2>
-                <div class="review-id">작성자: parrotking</div>
-                <span class="review-product">에어팟 3세대 구매</span>
-                <div class="image-wrapper"><img class="review-image" src="../static/images/airpods.jpg" alt="에어팟 3세대"></div>
-        </div>
-        <div class="review-item">
-            <h2 class="review-title">사진이랑 똑같음</h2>
-                <div class="review-id">작성자: jewjew</div>
-                <span class="review-product">반지 구매</span>
-                <div class="image-wrapper"><img class="review-image" src="../static/images/ring.jpg" alt="반지"></div>
-        </div>
+        {% if reviews %}
+            {% for key, review in reviews.items() %}
+                <div class="review-item">
+                    <a href="{{ url_for('view_review_detail', review_id=key) }}">
+                        <h2 class="review-title">{{ review.title }}</h2>
+
+                        <div class="review-id">작성자: {{ review.user_id }}</div>
+
+                        <span class="review-product">{{ review.item_name }} 구매</span>
+
+                        {% if review.img_path %}
+                            <div class="image-wrapper">
+                                <img class="review-image"
+                                     src="{{ url_for('static', filename='images/' ~ review.img_path) }}"
+                                     alt="{{ review.item_name }}">
+                            </div>
+                        {% endif %}
+                    </a>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>등록된 리뷰가 없습니다.</p>
+        {% endif %}
     </div>
     <div class="pagination">
-        <button class="active">1</button>
-        <button>2</button>
-        <button>3</button>
-        <button>4</button>
-        <button>5</button>
-        <button>&gt;</button>
+        {% if total_pages > 0 %}
+            {% for i in range(total_pages) %}
+                {% set page_num = i + 1 %}
+
+                {% if page_num == page %}
+                <button class="active">{{ page_num }}</button>
+                {% else %}
+                <button type="button"
+                    onclick='location.href="{{ url_for("view_review", page=page_num) }}"'>
+                    {{ page_num }}
+                </button>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
     </div>
+
 {% endblock section %}
 

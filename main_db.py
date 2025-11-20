@@ -60,4 +60,8 @@ class DBhandler:
             "img_path": img_path
         }
         self.db.child("reviews").child(item['name']).set(review)
-        return True       
+        return True    
+    
+    def get_all_reviews(self):
+        reviews = self.db.child("reviews").get().val()
+        return reviews

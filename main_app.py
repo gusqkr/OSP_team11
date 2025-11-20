@@ -3,6 +3,7 @@ from main_db import DBhandler
 import hashlib
 import sys
 from datetime import timedelta
+import math
 
 application = Flask(__name__)
 application.secret_key = "SUPERSECRET"
@@ -86,9 +87,35 @@ def check_id():
 def view_proudct():
     return render_template('All_product.html')
 
+#리뷰
 @application.route('/review')
 def view_review():
-    return render_template('review_list.html')
+    per_page = 8   # 4 x 2
+    page = request.args.get('page', 1, type=int)
+    reviews = DB.get_all_reviews() 
+    
+    if reviews:
+        review_list = list(reviews.items())   # [(key, value), ...]
+        total_reviews = len(review_list)
+
+        total_pages = math.ceil(total_reviews / per_page)
+
+        start_index = (page - 1) * per_page
+        end_index = start_index + per_page
+
+        current_reviews = review_list[start_index:end_index]
+    else:
+        current_reviews = []
+        total_pages = 1
+        total_reviews = 0
+
+    return render_template(
+        'review_list.html',
+        reviews=dict(current_reviews),  # {key: value, ...}
+        page=page,
+        total_pages=total_pages,
+        total_reviews=total_reviews
+    )
 
 @application.route('/write_review')
 def write_review():
@@ -121,7 +148,7 @@ def view_product_detail():
     return render_template('product_detail.html') 
 
 @application.route('/review_detail')
-def view_reiview_detail():
+def view_review_detail():
     return render_template('review_detail.html') 
 
 
