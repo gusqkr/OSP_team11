@@ -1,0 +1,35 @@
+{% extends "index.html" %}
+
+{% block section %}
+<!-- review_detail.html -->
+
+<div class="top-section">
+
+    <img src="{{ url_for('static', filename='images/' ~ review.img_path) }}"
+         alt="{{ item_name }}" class="product">
+
+    <div class="top-column">
+        <p class="product-name">{{ item_name }}</p> 
+        <p class="small-heading">후기 제목</p>
+        <p class="value">{{ review.title }}</p>
+        <hr>
+
+        <div class="info">
+            <p class="label">평점</p>
+            <p class="value">★ {{ review.rate }} / 5</p>
+        </div>
+    </div>
+</div>
+
+<div class="bottom-section">
+    <div class="left-column">
+        <p class="small-heading">후기 내용</p>
+        <hr>
+        <div class="description">
+            <p>{{ review.review }}</p>
+        </div>
+    </div>
+</div>
+
+
+{% endblock section %}

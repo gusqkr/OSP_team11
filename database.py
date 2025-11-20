@@ -99,3 +99,11 @@ class DBhandler:
 
         self.db.child("heart").child(user_id).child(item_key).set(heart_info)
         return True
+
+    def get_reviews(self):
+        reviews = self.db.child("review").get().val()
+        return reviews
+    
+    def get_review_byname(self, item_name):
+        review = self.db.child("review").child(item_name).get().val()
+        return review
