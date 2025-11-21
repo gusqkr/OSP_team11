@@ -90,12 +90,12 @@ def view_proudct():
 #리뷰
 @application.route('/review')
 def view_review():
-    per_page = 8   # 4 x 2
+    per_page = 8   
     page = request.args.get('page', 1, type=int)
     reviews = DB.get_all_reviews() 
     
     if reviews:
-        review_list = list(reviews.items())   # [(key, value), ...]
+        review_list = list(reviews.items())   
         total_reviews = len(review_list)
 
         total_pages = math.ceil(total_reviews / per_page)
@@ -111,7 +111,7 @@ def view_review():
 
     return render_template(
         'review_list.html',
-        reviews=dict(current_reviews),  # {key: value, ...}
+        reviews=dict(current_reviews),  
         page=page,
         total_pages=total_pages,
         total_reviews=total_reviews
@@ -122,7 +122,7 @@ def write_review():
     if "id" not in session:
         return redirect(url_for("login", next="write_review", need_login=1))
     author = session.get("id") #사용자 id
-    items = DB.get_all_items() #이후 수정
+    items = DB.get_all_items() #이후 수정(구매 목록으로만)
     return render_template('Write_review.html', author=author,items=items)
 
 @application.route('/write_review/<item_id>', methods=['POST'])
