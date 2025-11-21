@@ -98,6 +98,9 @@
     color: #00844b;
 }
 
+.pagination a{
+    text-decoration: none;
+}
 .pagination .active {
     color: #00844b;
     font-weight: 700;

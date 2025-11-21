@@ -32,20 +32,13 @@
         {% endif %}
     </div>
     <div class="pagination">
-        {% if total_pages > 0 %}
             {% for i in range(total_pages) %}
                 {% set page_num = i + 1 %}
-
-                {% if page_num == page %}
-                <button class="active">{{ page_num }}</button>
-                {% else %}
-                <button type="button"
-                    onclick='location.href="{{ url_for("view_review", page=page_num) }}"'>
+                <a href="{{ url_for('view_review', page=page_num) }}"
+                class="page-btn {% if page_num == page %}active{% endif %}">
                     {{ page_num }}
-                </button>
-                {% endif %}
+                </a>        
             {% endfor %}
-        {% endif %}
     </div>
 
 {% endblock section %}
