@@ -27,12 +27,15 @@
             <div class="review-product">{{ review.item_name }} 구매</div>
         </div>
     </div>
-    <div class="review-content">
-        <p>{{ review.content }}</p>
-    </div>
-    <div class="review-image-wrapper">
-        <img class="review-image" src="{{ url_for('static', filename='images/' ~ review.img_path) }}"
+    <div class="review-main-content">
+        <div class="review-image-wrapper">
+            <img class="review-image" src="{{ url_for('static', filename='images/' ~ review.img_path) }}"
                  alt="{{ review.item_name }}">
+        </div>
+        <div class="review-content">
+            <p>{{ review.content }}</p>
+        </div>
+        
     </div>
     </div>
 {% endblock section %}
