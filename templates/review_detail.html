@@ -7,8 +7,9 @@
     <h2 id="page-title">상품 상세 리뷰</h4>
     <div class="review-wrapper">
     <div class="review-detail-section">
-        <div class="review-header-group">
-        <h1>{{ review.title }}</h1>
+        <div class="review-header">
+            <h1>{{ review.title }}</h1>
+        </div>
         <div class="review-rate">
                     {% set rating = review.rating|int %}
                     {% for _ in range(rating) %}
@@ -18,7 +19,6 @@
                         &#9734;
                     {% endfor %}
         </div>
-        </div>
         <div class="review-info">
             <div class="review-id">작성자 : {{ review.user_id }}</div>
             {#<div class="review-date">| 2025.9.19.</div>#}       
@@ -26,13 +26,14 @@
         <div class="review-summary">
             <div class="review-product">{{ review.item_name }} 구매</div>
         </div>
-        <div class="review-content">
-            <p>{{ review.content }}</p>
-        </div>
+    </div>
+    <div class="review-content">
+        <p>{{ review.content }}</p>
     </div>
     <div class="review-image-wrapper">
         <img class="review-image" src="{{ url_for('static', filename='images/' ~ review.img_path) }}"
                  alt="{{ review.item_name }}">
+    </div>
     </div>
 {% endblock section %}
     
