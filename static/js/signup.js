@@ -4,6 +4,17 @@ document.addEventListener("DOMContentLoaded", () => {
   const idInput = document.querySelector('.input-with-btn input[type="text"]');
   const idGuide = document.querySelector(".input-with-btn").nextElementSibling;
 
+    idInput.addEventListener("input", () => {
+      const value = idInput.value.trim();
+      const idPattern = /^[A-Za-z0-9]{8,}$/;
+
+      if (idPattern.test(value)) {
+        checkBtn.style.backgroundColor = "rgb(0,72,40)";
+      } else {
+        checkBtn.style.backgroundColor = "#678b76";
+      }
+    });
+    
   checkBtn.addEventListener("click", async () => {
     const enteredId = idInput.value.trim();
 
@@ -118,7 +129,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-
   pw2.addEventListener("input", () => {
     if (pw2.value && pw1.value !== pw2.value) {
       pwMatchError.textContent = "비밀번호가 일치하지 않습니다.";
@@ -147,7 +157,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   });
-  
+
   const telInput = document.querySelector('input[name="tel"]');
   const telGuide = document.createElement("p");
   telGuide.className = "error-text";
@@ -175,7 +185,6 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-
   //회원가입 버튼 활성화
   const signupBtn=document.querySelector(".signup-btn");
   const agreeCheckbox = document.querySelector('.agreement input[type="checkbox"]');
@@ -185,7 +194,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const emailValid = emailError.textContent === "";
   const pwLengthValid = pw1.value.length >= 8;
   const pwMatchValid = pw1.value === pw2.value && pw2.value !== "";
-  const agreeChecked = agreeCheckbox.checked;
+  const agreeChecked = agreeCheckbox.checked; 
   const tel = telInput.value.trim();
   const telValid = (tel === "" || /^010-\d{4}-\d{4}$/.test(tel));  
   signupBtn.disabled = !(idValid && emailValid && pwLengthValid && pwMatchValid && telValid && agreeChecked);
