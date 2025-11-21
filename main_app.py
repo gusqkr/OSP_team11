@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, flash, redirect, url_for, ses
 from main_db import DBhandler
 import hashlib
 import sys
+import math
 from datetime import timedelta
 
 application = Flask(__name__)
@@ -82,8 +83,39 @@ def check_id():
         return jsonify({"available": False, "message": "이미 사용 중인 아이디입니다."})
 
 @application.route('/product')
-def view_proudct():
-    return render_template('All_product.html')
+def view_product():
+
+    per_page = 15
+    page = request.args.get('page', 1, type=int)
+
+    items = DB.get_items()
+
+    if items:
+        item_list = list(items.items())
+
+        total_items = len(item_list)
+        total_pages = math.ceil(total_items / per_page)
+
+        start_index = (page - 1) * per_page
+        end_index = start_index + per_page
+
+        current_items = item_list[start_index:end_index]
+
+        for item in current_items:
+            name = item[0]
+            data = item[1]
+            heart_count = DB.get_heart_count(name)
+            data['heart_count'] = heart_count
+            
+    else:
+        current_items = []
+        total_pages = 1
+
+    return render_template('All_product.html', 
+                           items=dict(current_items),
+                           page=page, 
+                           total_pages=total_pages,
+                           total_items=len(items) if items else 0)
 
 @application.route('/review')
 def view_review():
@@ -93,21 +125,102 @@ def view_review():
 def write_review():
     return render_template('Write_review.html')
 
-@application.route('/register_product')
+@application.route('/register_product', methods=['GET', 'POST'])
+@application.route('/submit_item_post', methods=['POST'])
 def register_product():
-    return render_template('product_register.html')
+
+    if "id" not in session:
+        return redirect(url_for("login", next="register_product", need_login=1))
     
+    if request.method == 'POST':
+        image_file = request.files.get("file")
+        if image_file:
+            image_file.save("static/images/{}".format(image_file.filename))
+            img_path = "static/images/{}".format(image_file.filename)
+        else:
+            img_path = "static/images/default.png" #기본 이미지로 등록
+
+        data = request.form
+
+        product_name = data['name']
+        seller = data['seller']
+        addr = data['addr']
+        status = data['status']
+        price = data['price']
+        description = data['description']
+
+        item_data = {
+            'seller': seller,
+            'addr': addr,
+            'status': status,
+            'price': price,
+            'description': description,
+        }
+
+        DB.insert_item(product_name, item_data, img_path)
+
+        return redirect(url_for('view_product'))
+
+    return render_template('product_register.html')
+
+@application.route('/reg_question/<name>', methods=['POST'])
+def reg_question(name):
+    if "id" not in session:
+        return redirect(url_for("login", next="view_product_detail", need_login=1))
+    
+    current_item = DB.get_item_detail(str(name))
+    data = request.form.get('question')
+
+    qna_data = {
+        "writer": session["id"],
+        "question": data,
+        "answer": "",
+        "product_name": current_item['name'],
+        "img_path": current_item['img_path']
+    }
+
+    DB.write_question(name, qna_data)
+    return redirect(url_for('view_product_detail', name=name)) 
+
+@application.route('/reg_answer/<name>/<id>', methods=['POST'])   
+def reg_answer(name, id):
+    if "id" not in session:
+        return redirect(url_for("login", next="view_qna", need_login=1))
+    
+    answer = request.form.get('answer_text')
+
+    DB.write_answer(name, id, answer)
+
+    return redirect(url_for('view_qna'))
+
 @application.route('/qna_list')
 def view_qna():
-    return render_template('qna_list.html') 
+    all_qna = DB.get_all_questions()
 
-@application.route('/product_detail')
-def view_product_detail():
-    return render_template('product_detail.html') 
+    return render_template('qna_list.html', qna_list=all_qna) 
+
+@application.route('/product_detail/<name>')
+def view_product_detail(name):
+    data = DB.get_item_detail(str(name))
+    qna_data = DB.get_questions(str(name))
+    count = DB.get_heart_count(str(name))
+    return render_template('product_detail.html', name=name, data=data, qna=qna_data, count=count) 
 
 @application.route('/review_detail')
 def view_reiview_detail():
     return render_template('review_detail.html') 
+
+@application.route('/show_heart/<name>', methods=['GET'])
+def show_heart(name):
+    if "id" not in session:
+        return jsonify({'result': 'login_required'})
+    
+    user_id = session["id"]
+    DB.toggle_heart(user_id, name)
+    count = DB.get_heart_count(name)
+    return jsonify({"result": "success", "count": count})
+
+
 
 
 if __name__ == "__main__":

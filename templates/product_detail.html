@@ -1,31 +1,40 @@
 {% extends "base.html" %}
 {% block head %}
-    <link rel="stylesheet" href="../static/css/product_detail.css">  
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/product_detail.css') }}">  
   <script src="{{ url_for('static', filename='js/product_detail.js') }}" defer></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 {% endblock head %}
+
 {% block section %}
 <div class="top-section">
-        <img src="../static/images/product.png" alt="pic" class="product">
+        <img src="/{{ data.img_path }}" alt="pic" class="product">
         <div class="top-column">
-            <p class="product-name">카카오프렌즈 춘식이 잠옷 인형</p>
-            <p class="price">22,000원</p>
+            <p class="product-name">{{ data.name }}</p>
+            <p class="price">{{ data.price }}원</p>
             <hr>
             <div class="info">
                 <p class="label">판매자</p>
-                <p class="value">chunsikabba</p>
+                <p class="value">{{ data.seller }}</p>
             </div>
             <div class="info">
                 <p class="label">상품상태</p>
-                <p class="value">새상품</p>
+                <p class="value">
+                    {% if data.status == 'new' %} 새상품
+                    {% elif data.status == 'lnew' %} 거의 새상품
+                    {% elif data.status == 'used' %} 중고
+                    {% else %}
+                     {{ data.status}}
+                    {% endif %}
+                </p>
             </div>
             <div class="info">
                 <p class="label">주소</p>
-                <p class="value">서대문구 아현동</p>
+                <p class="value">{{ data.addr }}</p>
             </div>
             <div class="buttons">
-                <button class="like">
+                <button class="like" onclick="showHeart()">
                     <span class="heart-symbol">♡</span>
-                    <span class="like-count">4</span>
+                    <span class="like-count">{{ count }}</span> 
                 </button>
                 <button class="buy">구매하기</button>
             </div>
@@ -37,34 +46,70 @@
             <p class="small-heading">상품 설명</p>
             <hr>
             <div class="description">
-                <p>비닐을 뜯어 전시했어서 약간의 먼지 붙어있을 수 있습니다~ <br>참고 부탁드려용</p><br>
-                <p>네고 절대 XXX</p>
+                <p>{{ data.description }} </p>
             </div>
         </div>
         <div class="right-column">
             <p class="small-heading">Q&A</p>
             <div class="qa-box">
                 <div class="qa-content">
-                <div class="question-item">
-                    <div class="bubble">
-                        <strong>Q</strong>
-                        <p>비닐 안 뜯은 새상품 맞나요?</p>
-                    </div>
-                </div>
-                <div class="answer-item">
-                    <div class="bubble">
-                        <strong>A</strong>
-                        <p>상품 설명 읽어주세요 ^^;;</p>
-                    </div>
-                </div>
+
+                    {% if qna %}
+                        {% for key, val in qna.items() %}
+                            <div class="question-item">
+                                <div class="bubble">
+                                    <strong>Q</strong>
+                                    <p>{{ val.question }}</p>
+                                </div>
+                            </div>
+                            {% if val.answer %}
+                            <div class="answer-item">
+                                <div class="bubble">
+                                    <strong>A (판매자)</strong>
+                                    <p>{{ val.answer }}</p>
+                                </div>
+                            </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                      <div class="question-item">
+                        <p style="color: gray; text-align: center; width: 100%; margin: 10px 0;">등록된 Q&A가 없습니다.</p>
+                        </div>
+                    {% endif %}
+
                 <div class="question-input">
-                    <input type="text" id="inputBox" placeholder="판매자에게 질문하기.."/>
-                    <button>등록</button>
+                    <form action = "{{ url_for('reg_question', name=name) }}" method="post" style="display: flex; width: 100%">
+                      <input type="text" name="question" id="inputBox" placeholder="판매자에게 질문하기.."/>
+                      <button>등록</button>
+                    </form>
                 </div>
                 </div>
             </div>
         </div>
     </div>
+<script>
+    function showHeart() {
+        $.ajax({
+            type: 'GET', 
+            url: '/show_heart/{{ name }}',
+            data: {},
+            success: function(response) {
+                if (response['result'] == 'login_required') {
+                    alert('로그인이 필요합니다.');
+                    location.href = '/login';
+                    return;
+                } 
 
+                if (response['result'] == 'success') {
+                    $('.like-count').text(response['count']);
+                }
+            },
+            error: function(error){
+                console.log(error);
+                alert("오류가 발생했습니다. 다시 시도해주세요.");
+            }
+        });
+    }
+</script>
 {% endblock section %}
 

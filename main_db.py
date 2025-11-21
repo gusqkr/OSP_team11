@@ -37,3 +37,69 @@ class DBhandler:
         if user.get('id')==user_id and user.get('pw')==pw :
             return True
         else: return False
+
+    def insert_item(self, name, data, img_path):
+        item_info = {
+            "name": name,
+            "seller":data['seller'],
+            "addr": data['addr'],
+            "status": data['status'],
+            "price": data['price'],
+            "description": data['description'],
+            "img_path": img_path
+        }
+        self.db.child("items").push(item_info)
+        return True
+    
+    def get_items(self):
+        items = self.db.child("items").get().val()
+        return items
+    
+    def get_item_detail(self, name):
+        item = self.db.child("items").child(name).get().val()
+        return item
+    
+    def get_heart_count(self, product_name):
+        users = self.db.child("user").get().val()
+        count = 0
+        if users:
+            for user_id, user_data in users.items():
+                hearts = user_data.get("hearts", [])
+                if 'heart' in user_data and product_name in user_data['heart']:
+                    count += 1
+        return count
+    
+    def toggle_heart(self, user_id, product_name):
+        heart_item = self.db.child("user").child(user_id).child("heart").child(product_name).get().val()
+
+        if heart_item:
+            self.db.child("user").child(user_id).child("heart").child(product_name).remove()
+            return False
+        else:
+            item_info = self.db.child("items").child(product_name).get().val()
+
+            heart_data = {
+                "img_path": item_info['img_path'],
+                "name": item_info['name'],
+                "price": item_info['price'],
+                "seller": item_info['seller']
+            }
+            self.db.child("user").child(user_id).child("heart").child(product_name).set(heart_data)
+            return True
+        
+    
+    def write_question(self, product_name, data):
+        self.db.child("questions").child(product_name).push(data)
+        return True
+    
+    def get_all_questions(self):
+        questions = self.db.child("questions").get().val()
+        return questions
+    
+    def write_answer(self, product_name, question_id, answer):
+        self.db.child("questions").child(product_name).child(question_id).update({"answer": answer})
+        return True
+    
+    def get_questions(self, product_name):
+        questions = self.db.child("questions").child(product_name).get().val()
+        return questions
