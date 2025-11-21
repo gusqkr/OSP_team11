@@ -32,13 +32,28 @@
         {% endif %}
     </div>
     <div class="pagination">
-            {% for i in range(total_pages) %}
-                {% set page_num = i + 1 %}
-                <a href="{{ url_for('view_review', page=page_num) }}"
-                class="page-btn {% if page_num == page %}active{% endif %}">
-                    {{ page_num }}
+            {% set block_index = (page - 1) // 5 %}           {# 0,1,2,... #}
+            {% set start_page = block_index * 5 + 1 %}        {# 1,6,11,... #}
+            {% set end_page = start_page + 4 %}
+            {% if end_page > total_pages %}
+                {% set end_page = total_pages %}
+            {% endif %}
+
+            {% if start_page>1 %}
+                <a href="{{url_for('view_review', page=start_page -1)}}" class="page-btn">&lt;</a>
+            {% endif %}
+ 
+
+            {% for i in range(start_page, end_page +1) %}
+                <a href="{{ url_for('view_review', page=i) }}"
+                class="page-btn {% if i == page %}active{% endif %}">
+                    {{ i }}
                 </a>        
             {% endfor %}
+
+            {% if end_page < total_pages  %}
+                <a href="{{ url_for('view_review', page=end_page + 1) }}" class="page-btn">&gt;</a>
+            {% endif %}
     </div>
 
 {% endblock section %}
