@@ -1,162 +1,83 @@
 {% extends "base.html" %}
 {% block head %}
-  <link rel="stylesheet" href="../static/css/all_product.css">  
+  <link rel="stylesheet" href="{{ url_for('static', filename='/css/all_product.css') }}">  
   <script src="{{ url_for('static', filename='js/all_product.js') }}" defer></script>   
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 {% endblock head %}
 
 {% block section %}
 <div class="product-container">
+
     <div class="product-header">
-      <h2>전체 상품 (15개)</h2>
+      <h2>전체 상품 ({{ total_items }}개)</h2>
     </div>
 
     <div class="product-grid">
-      <div class="product-card">
-        <img src="../static/images/woman.jpg" alt="상품 이미지">
-        <div class="product-info">
-          <div class="product-name">여성 빅사이즈 카라 셔츠</div>
-          <div class="product-price">50,000원</div>
-        </div>
-        <div class="heart">♡</div>
-      </div>
+      {% if items %}
+       {% for key, value in items.items() %}
+       <div class="product-card">
+        <a href="{{ url_for('view_product_detail', name=key) }}" style="text-decoration: none; color: inherit; display: block;">
+        
+          <img src="{{ value.img_path }}" alt="상품 이미지">
 
-      <div class="product-card">
-        <a href="/product_detail">
-        <img src="../static/images/chunsik.jpg" alt="상품 이미지">
-        <div class="product-info">
-          <div class="product-name">카카오프렌즈 춘식이 장난감</div>
-          <div class="product-price">22,000원</div>
-        </div>
-        <div class="heart">♡</div>
+          <div class="product-info">
+           <div class="product-name">{{ value.name }}</div>
+           <div class="product-price">{{ value.price }}원</div>
+          </div>
         </a>
-      </div>
-
-      <div class="product-card">
-        <img src="../static/images/robot.jpg" alt="상품 이미지">
-        <div class="product-info">
-          <div class="product-name">로봇 청소기</div>
-          <div class="product-price">200,000원</div>
+        
+        <div class="heart">
+          <button type="button" onclick="showHeart('{{ key }}')" style="border: none; background-color: transparent; cursor: pointer; outline: none;">
+            ♡
+            <span id="count-{{ key }}">{{ value.heart_count }}</span>
+          </button>
         </div>
-        <div class="heart active">♥</div>
       </div>
+      {% endfor %}
+    {% else %}
+      <p>등록된 상품이 없습니다.</p>
+    {% endif %}
+  </div>
 
-      <div class="product-card">
-        <img src="../static/images/coffee.jpg" alt="상품 이미지">
-        <div class="product-info">
-          <div class="product-name">캡슐 커피 머신</div>
-          <div class="product-price">80,000원</div>
-        </div>
-        <div class="heart active">♥</div>
-      </div>
+  <div class="pagination">
+    {% if total_pages > 0 %}
+      {% for i in range(total_pages) %}
+        {% set page_num = i + 1 %}
 
-      <div class="product-card">
-        <img src="../static/images/case.jpg" alt="상품 이미지">
-        <div class="product-info">
-          <div class="product-name">아이폰 15 케이스</div>
-          <div class="product-price">20,000원</div>
-        </div>
-        <div class="heart">♡</div>
-      </div>
-
-      <div class="product-card">
-        <img src="../static/images/pajama.jpg" alt="상품 이미지">
-        <div class="product-info">
-          <div class="product-name">감귤 파자마</div>
-          <div class="product-price">10,000원</div>
-        </div>
-        <div class="heart">♡</div>
-      </div>
-
-      <div class="product-card">
-        <img src="../static/images/pen.jpg" alt="상품 이미지">
-        <div class="product-info">
-          <div class="product-name">애플펜슬 2세대 메탈 펜..</div>
-          <div class="product-price">5,000원</div>
-        </div>
-        <div class="heart">♡</div>
-      </div>
-
-      <div class="product-card">
-        <img src="../static/images/necklace.jpg" alt="상품 이미지">
-        <div class="product-info">
-          <div class="product-name">트리니티 3색 펜던트 목..</div>
-          <div class="product-price">50,000원</div>
-        </div>
-        <div class="heart">♡</div>
-      </div>
-
-      <div class="product-card">
-        <img src="../static/images/baemin.jpg" alt="상품 이미지">
-        <div class="product-info">
-          <div class="product-name">배민 상품권 3만원권</div>
-          <div class="product-price">20,000원</div>
-        </div>
-        <div class="heart">♡</div>
-      </div>
-
-      <div class="product-card">
-        <img src="../static/images/teaset.jpg" alt="상품 이미지">
-        <div class="product-info">
-          <div class="product-name">빈티지 티세트-3p</div>
-          <div class="product-price">10,000원</div>
-        </div>
-        <div class="heart">♡</div>
-      </div>
-
-      <div class="product-card">
-        <img src="../static/images/hakjam.jpg" alt="상품 이미지">
-        <div class="product-info">
-          <div class="product-name">학잠 s사이즈(상태 A급)</div>
-          <div class="product-price">30,000원</div>
-        </div>
-        <div class="heart">♡</div>
-      </div>
-
-      <div class="product-card">
-        <img src="../static/images/glow.jpg" alt="상품 이미지">
-        <div class="product-info">
-          <div class="product-name">디올 어딕트 립글로우 컬..</div>
-          <div class="product-price">20,000원</div>
-        </div>
-        <div class="heart">♡</div>
-      </div>
-
-      <div class="product-card">
-        <img src="../static/images/adidas.jpg" alt="상품 이미지">
-        <div class="product-info">
-          <div class="product-name">아디다스 트랙탑 저지 자..</div>
-          <div class="product-price">50,000원</div>
-        </div>
-        <div class="heart">♡</div>
-      </div>
-
-      <div class="product-card">
-        <img src="../static/images/cK.jpg" alt="상품 이미지">
-        <div class="product-info">
-          <div class="product-name">cK 남녀공용 말모 스니커..</div>
-          <div class="product-price">40,000원</div>
-        </div>
-        <div class="heart">♡</div>
-      </div>
-
-      <div class="product-card">
-        <img src="../static/images/cup.jpg" alt="상품 이미지">
-        <div class="product-info">
-          <div class="product-name">냥냥 맹구 머그컵</div>
-          <div class="product-price">5,000원</div>
-        </div>
-        <div class="heart">♡</div>
-      </div>
-    </div>
-
-    <div class="pagination">
-      <button class="active">1</button>
-      <button>2</button>
-      <button>3</button>
-      <button>4</button>
-      <button>5</button>
-      <button>&gt;</button>
-    </div>
+        {% if page_num == page %}
+          <button class="active">{{ page_num }}</button>
+        {% else %}
+          <button onclick="location.href='{{ url_for('view_product', page=page_num) }}'">{{ page_num }}</button>
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+  </div>
 </div>
+
+<script>
+  function showHeart(name) {
+    $.ajax({
+      type: 'GET',
+      url: '/show_heart/' + name,
+      data: {},
+      success: function(response) {
+        if (response['result'] == 'login_required') {
+          alert('로그인이 필요합니다.');
+          location.href = '/login';
+          return;
+        } 
+
+        if (response['result'] == 'success') {
+          let id_selector = '#count-' + name;
+          $(id_selector).text(response['count']);
+        }
+      },
+      error: function(error){
+        console.log(error);
+        alert("오류가 발생했습니다. 다시 시도해주세요.");
+      }
+    });
+  }
+</script>
 {% endblock section %}
 
