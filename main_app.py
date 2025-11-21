@@ -4,6 +4,7 @@ import hashlib
 import sys
 import math
 from datetime import timedelta
+import math
 
 application = Flask(__name__)
 application.secret_key = "SUPERSECRET"
@@ -27,6 +28,7 @@ def view_mypage():
         return redirect(url_for("login", next="view_mypage", need_login=1)) #로그인 후 mypage로 redirect
     return render_template('mypage.html') 
 
+#로그인/로그아웃/회원가입
 @application.route('/login')
 def login():
     next_page = request.args.get("next")
@@ -117,13 +119,58 @@ def view_product():
                            total_pages=total_pages,
                            total_items=len(items) if items else 0)
 
+#리뷰
 @application.route('/review')
 def view_review():
-    return render_template('review_list.html')
+    per_page = 8   
+    page = request.args.get('page', 1, type=int)
+    reviews = DB.get_all_reviews() 
+    
+    if reviews:
+        review_list = list(reviews.items())   
+        total_reviews = len(review_list)
+
+        total_pages = math.ceil(total_reviews / per_page)
+
+        start_index = (page - 1) * per_page
+        end_index = start_index + per_page
+
+        current_reviews = review_list[start_index:end_index]
+    else:
+        current_reviews = []
+        total_pages = 1
+        total_reviews = 0
+
+    return render_template(
+        'review_list.html',
+        reviews=dict(current_reviews),  
+        page=page,
+        total_pages=total_pages,
+        total_reviews=total_reviews
+    )
 
 @application.route('/write_review')
 def write_review():
-    return render_template('Write_review.html')
+    if "id" not in session:
+        return redirect(url_for("login", next="write_review", need_login=1))
+    author = session.get("id") #사용자 id
+    items = DB.get_all_items() #이후 수정(구매 목록으로만)
+    return render_template('Write_review.html', author=author,items=items)
+
+@application.route('/write_review/<item_id>', methods=['POST'])
+def wirte_review_init(item_id):
+    user_id=session["id"]
+    data = request.form
+    image_file=request.files["image"]
+    image_file.save("static/images/{}".format(image_file.filename))
+    DB.insert_review(data,image_file.filename)
+    return redirect(url_for('view_review'))
+
+@application.route('/review_detail/<review_id>')
+def view_review_detail(review_id):
+    review = DB.get_review(review_id)
+
+    return render_template('review_detail.html', review=review)   
 
 @application.route('/register_product', methods=['GET', 'POST'])
 @application.route('/submit_item_post', methods=['POST'])
@@ -206,9 +253,6 @@ def view_product_detail(name):
     count = DB.get_heart_count(str(name))
     return render_template('product_detail.html', name=name, data=data, qna=qna_data, count=count) 
 
-@application.route('/review_detail')
-def view_reiview_detail():
-    return render_template('review_detail.html') 
 
 @application.route('/show_heart/<name>', methods=['GET'])
 def show_heart(name):

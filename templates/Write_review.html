@@ -8,20 +8,25 @@
     <h2 class="review-title">리뷰 작성하기</h2>
 
     <div class="review-container">
-        <form id="reviewForm">
+        <form id="reviewForm" method="POST" enctype="multipart/form-data">
             <div class="form-row">
                 <label>작성자</label>
-                <input type="text" id="author" placeholder="작성자 이름을 입력하세요" />
+                <input type="text" id="author"  name="user_id" value="{{author}}" readonly />
             </div>
 
             <div class="form-row">
                 <label>상품명</label>
-                <input type="text" id="product" placeholder="상품명을 입력하세요" />
+                <select id="product" name="item_id">
+                    <option value="" disabled selected>상품을 선택하세요</option>
+                    {% for item in items %}
+                        <option value="{{ item.id }}">{{ item.name }}</option>
+                    {% endfor %}
+                </select>
             </div>
 
             <div class="form-row">
                 <label>제목</label>
-                <input type="text" id="title" placeholder="리뷰 제목을 입력하세요" />
+                <input type="text" id="title" name="title" placeholder="리뷰 제목을 입력하세요" />
             </div>
 
             <div class="form-row">
@@ -29,17 +34,18 @@
                 <div class="stars" id="stars">
                     <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
                 </div>
+                <input type="hidden" id="rating" name="rating" value="0">
             </div>
 
             <div>
-                <textarea class="review-content" id="content" placeholder="리뷰 내용을 작성해주세요."></textarea>
+                <textarea class="review-content" id="content" name="content" placeholder="리뷰 내용을 작성해주세요."></textarea>
             </div>
 
             <div class="form-row">
                 <label>리뷰 사진</label>
                 <div class="file-box">
                     <label for="fileInput" class="custom-file-label">Choose File</label>
-                    <input type="file" id="fileInput" />
+                    <input type="file" id="fileInput" name="image"/>
                     <span class="file-name" id="fileName">No file chosen</span>
                 </div>
             </div>

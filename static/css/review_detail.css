@@ -4,6 +4,7 @@
 }
 .review-wrapper {
     display: flex;
+    
     margin: 20px 160px;
     border: 2px solid rgb(189, 189, 189);
     border-radius: 8px;

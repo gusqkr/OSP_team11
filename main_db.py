@@ -37,6 +37,38 @@ class DBhandler:
         if user.get('id')==user_id and user.get('pw')==pw :
             return True
         else: return False
+        
+    def get_all_items(self): #이후에 구매한 item목록가져오는 걸로 수정(write_review)
+        items = self.db.child("items").get().val() 
+        if not items:
+            return []
+        result = []
+        for item_id, data in items.items():
+            data["id"] = item_id         
+            result.append(data)
+        return result
+    
+    def insert_review(self, data, img_path):
+        item = self.db.child("items").child(data['item_id']).get().val()
+        review = {
+            "user_id": data['user_id'],
+            "item_id": data['item_id'],
+            "item_name": item['name'],
+            "title": data['title'],
+            "content": data['content'],
+            "rating": data['rating'],
+            "img_path": img_path
+        }
+        self.db.child("reviews").child(item['name']).set(review) #set -> 물건당 리뷰한개 
+        return True    
+    
+    def get_all_reviews(self):
+        reviews = self.db.child("reviews").get().val()
+        return reviews
+    
+    def get_review(self, review_id):
+        # review_id = insert_review에서 사용한 item['name'] = 상품이름
+        return self.db.child("reviews").child(review_id).get().val()
 
     def insert_item(self, name, data, img_path):
         item_info = {

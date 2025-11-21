@@ -22,6 +22,13 @@
 
 .review-title {
     margin: 10px;
+    /*  너무 긴 제목 처리 */
+    display: -webkit-box;        
+    -webkit-line-clamp: 1;       
+    -webkit-box-orient: vertical;
+    overflow: hidden;            
+    text-overflow: ellipsis;    
+    word-break: break-word;      
 }
 
 .review-id {
@@ -30,12 +37,19 @@
 
 .review-product{
     text-align: center;
-    padding: 2px 10px;
+    padding: 4px 10px;
     border-radius: 10px;
     background-color: rgb(235, 234, 234);
+
+    display: inline-block;        
+    max-width: 100%;   
+    white-space: normal;        
+    word-break: keep-all;  
+
+    
 }
 .review-id, .review-product {
-    font-size: 17px;
+    font-size: 15px;
     margin: 10px;
 }
 .image-wrapper {
@@ -70,7 +84,9 @@
     font-size: 16px;
 }
 
-.pagination button {
+.pagination a{
+    text-decoration: none;
+    color: #555;
     background: none;
     border: none;
     cursor: pointer;
@@ -80,7 +96,7 @@
     transition: 0.2s;
 }
 
-.pagination button:hover {
+.pagination a:hover {
     color: #00844b;
 }
 
