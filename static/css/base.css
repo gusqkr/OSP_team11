@@ -95,6 +95,10 @@ body{
 }
 
 .footer {
+    position: sticky;
+    bottom: 0;
+    width: 100%;
+    
     margin-top: 30px;
     background-color: rgb(185, 185, 185);
 
@@ -104,11 +108,11 @@ body{
     padding: 20px;
 }
 
-.image-wrapper{
+.github-logo-wrapper{
     display: flex;
 }
 
-.image-wrapper img{
+.github-logo-wrapper img{
     width: 50px;
     height: auto;
 
