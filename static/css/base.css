@@ -93,3 +93,29 @@ body{
     background-color:rgb(0,70,42);
     border-radius:9px;
 }
+
+.footer {
+    position: sticky;
+    bottom: 0;
+    width: 100%;
+    
+    margin-top: 30px;
+    background-color: rgb(185, 185, 185);
+
+    display: flex;
+    justify-content: space-between;
+
+    padding: 20px;
+}
+
+.github-logo-wrapper{
+    display: flex;
+}
+
+.github-logo-wrapper img{
+    width: 50px;
+    height: auto;
+
+    margin-left: auto;
+    margin-bottom: 10px;
+}
