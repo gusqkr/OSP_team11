@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block head %}
     <link rel="stylesheet" href="../static/css/product_register.css">
+    <script src="{{ url_for('static', filename='js/product_register.js') }}" defer></script>
 {% endblock head %}
 
 {% block section %}
@@ -10,7 +11,7 @@
     <div class="form-group">
         <div class="photo-input-wrapper">
         <label for="img">상품 사진 </label>
-        <input type="file" name="file" id="img" style="display: none;" />
+        <input type="file" name="file" id="img" style="display: none;"/>
         <label for="img" class="photo-placeholder" style="vertical-align: middle;">
             <i class="camera-icon"></i>
         </label>

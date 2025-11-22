@@ -184,8 +184,6 @@ def register_product():
         if image_file:
             image_file.save("static/images/{}".format(image_file.filename))
             img_path = "static/images/{}".format(image_file.filename)
-        else:
-            img_path = "static/images/default.png" #기본 이미지로 등록
 
         data = request.form
 
