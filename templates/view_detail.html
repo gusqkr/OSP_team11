@@ -101,38 +101,10 @@
         <div class="description">
             <p>{{ item.description | safe }}</p>
         </div>
-    </div>
-
-    <div class="right-column">
-        <p class="small-heading">Q&A</p>
-
-        <div class="qa-box">
-            <div class="qa-content">
-                
-                <div class="question-item">
-                    <div class="bubble">
-                        <strong>Q</strong>
-                        <p>비닐 안 뜯은 새상품 맞나요?</p>
-                    </div>
-                </div>
-
-                <div class="answer-item">
-                    <div class="bubble">
-                        <strong>A</strong>
-                        <p>상품 설명 읽어주세요 ^^;;</p>
-                    </div>
-                </div>
-
-                <div class="question-input">
-                    <input type="text" id="inputBox" placeholder="판매자에게 질문하기.."/>
-                    <button onclick="location.href='/reg_review_init/{{ item.name }}';">
-                        리뷰등록
-                    </button>
-                </div>
-
-            </div>
-        </div>
-    </div>
+    </div>      
 </div>
+<button onclick="location.href='/reg_review_init/{{ item.name }}';">
+    리뷰등록
+</button>
 
 {% endblock section %}
