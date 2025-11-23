@@ -1,5 +1,45 @@
 {% extends "index.html" %}
 
 {% block section %}
-    작성된 리뷰 전체 조회 화면 입니다.
+<style>
+  .page-btn {
+    border: 1px solid black;
+    padding: 5px 10px;
+    margin: 0 4px;
+    text-decoration: none;
+    color: black;
+    display: inline-block;
+  }
+  .page-btn.active {
+    background-color: black;
+    color: white;
+  }
+  .review-list { 
+    display: grid; 
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 20px; }
+</style>
+{% if total > 0 %}
+  <p> 현재까지 {{ total }} 개 리뷰 등록됨</p>
+
+    <div class="review-list">
+        {% for key, item in reviews.items() %}
+            <div onclick="location.href='/view_review_detail/{{ key }}'">
+                제목: {{item.title}} <br>
+                <img src="{{ url_for('static', filename='images/' ~ item.img_path) }}" alt="{{ item.title }}">
+            </div>
+        {% endfor %}
+    </div>
+
+  <div class="pagination">
+    {% for i in range(0, last_page_num + 1) %}
+      <a href="{{ url_for('view_reviews', page=i) }}"class="page-btn{% if i == page %} active{% endif %}">
+        {{ i }}
+      </a>
+    {% endfor %}
+  </div>
+{% else %}
+  <p> 등록된 리뷰가 없습니다. </p>
+{% endif %}
+
 {% endblock section %}

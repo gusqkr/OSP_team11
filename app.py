@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, flash, redirect, url_for, session
+from flask import Flask, render_template, request, flash, redirect, url_for, session, jsonify
 from database import DBhandler
 import hashlib
 import sys
@@ -12,7 +12,7 @@ DB = DBhandler()
 
 @application.route('/')
 def home():
-    return render_template('index.html')
+    return redirect(url_for('view_list'))
 
 @application.route('/list')
 def view_list():
@@ -37,8 +37,32 @@ def view_list():
 
 
 @application.route('/review')
-def view_review():
-    return render_template('review.html')
+def view_reviews():
+    page = request.args.get("page", 0, type=int)
+    per_page=6 
+    reviews = DB.get_reviews() 
+    if reviews:
+            review_keys = list(reviews.keys())       
+            total_count = len(review_keys)          
+            last_page_num = (total_count + per_page - 1) // per_page-1  
+            
+            start_idx = page * per_page
+            end_idx = (page + 1) * per_page 
+            
+            page_review_keys = review_keys[start_idx:end_idx]
+            page_reviews = {key: reviews[key] for key in page_review_keys}
+
+    else:
+        page_reviews = {}
+        total_count = 0
+        last_page_num = 1
+    
+    return render_template('review.html', 
+                           reviews=page_reviews, 
+                           total=total_count,
+                           page=page, 
+                           last_page_num=last_page_num,)
+
 
 @application.route('/reg_items')
 def reg_item():
@@ -121,6 +145,54 @@ def view_item_detail(item_key):
         flash("해당 상품을 찾을 수 없습니다.")
         return redirect(url_for('view_list'))
     
+@application.route("/view_review_detail/<item_name>")
+def view_review_detail(item_name):
+    review = DB.get_review_byname(item_name)
+
+    if review:
+        return render_template(
+            "view_detail_review.html", 
+            review=review,
+            item_name=item_name
+        )
+    else:
+        flash("해당 상품의 후기를 찾을 수 없습니다.")
+        return redirect(url_for("view_reviews")) 
+
+    
+    
+@application.route('/show_heart/<name>/', methods=['GET'])
+def show_heart(name):
+    # 로그인 안 했으면 'N' 반환
+    if 'id' not in session:
+        return jsonify({'my_heart': {'interested': 'N'}})
+
+    my_heart = DB.get_heart_byname(session['id'], name)
+    
+    # 아무 기록 없으면 디폴트 N
+    if not my_heart:
+        my_heart = {'interested': 'N'}
+
+    return jsonify({'my_heart': my_heart})
+
+
+@application.route('/like/<name>/', methods=['POST'])
+def like(name):
+    if 'id' not in session:
+        return jsonify({'msg': '로그인 후 이용 가능합니다.'})
+
+    DB.update_heart(session['id'], 'Y', name)
+    return jsonify({'msg': '좋아요 완료!'})
+
+
+@application.route('/unlike/<name>/', methods=['POST'])
+def unlike(name):
+    if 'id' not in session:
+        return jsonify({'msg': '로그인 후 이용 가능합니다.'})
+
+    DB.update_heart(session['id'], 'N', name)
+    return jsonify({'msg': '안좋아요 완료!'})
+   
  
 @application.route("/login")
 def login():
@@ -157,6 +229,18 @@ def register_user():
     else:
         flash("user id already exist!")
         return render_template("user_signup.html")
+    
+@application.route("/reg_review_init/<name>/")
+def reg_review_init(name):
+    return render_template("reg_reviews.html", name=name)
+
+@application.route("/reg_review", methods=['POST'])
+def register_review():
+    data=request.form
+    image_file=request.files["file"]
+    image_file.save("static/images/{}".format(image_file.filename))
+    DB.reg_review(data, image_file.filename)
+    return redirect(url_for('view_reviews'))
 
 if __name__ == "__main__":
     application.run(debug=True, host='0.0.0.0')
