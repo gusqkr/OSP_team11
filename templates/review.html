@@ -2,60 +2,44 @@
 
 {% block section %}
 <style>
-  .pagination {
-    text-align: center;
-    margin-top: 20px;
-}
-
-.page-btn {
+  .page-btn {
     border: 1px solid black;
     padding: 5px 10px;
     margin: 0 4px;
     text-decoration: none;
     color: black;
     display: inline-block;
-}
-.page-btn.active {
+  }
+  .page-btn.active {
     background-color: black;
     color: white;
-}
+  }
+  .review-list { 
+    display: grid; 
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 20px; }
 </style>
 {% if total > 0 %}
-<p> 현재까지 {{total}} 개 리뷰 등록됨</p>
-<table>
-  <tr>
-    {%  for key,value in row1  %}
-    <td>제목: {{value.title}}</td>
-     {% endfor %}
-  </tr>
-  <tr>
-    {%  for key,value in row1  %}
-     <td onclick="location.href='/view_review_detail/{{key}}'" style="cursor:pointer;">
-      <img src="static/images/{{value.img_path}}", width=240, height=200></td>
-     {% endfor %}
-  </tr>
-  <tr>
-    {%  for key,value in row2  %}
-    <td>제목: {{value.title}}</td>
-     {% endfor %}
-  </tr>
-  <tr>
-    {%  for key,value in row2  %}
-     <td onclick="location.href='/view_review_detail/{{key}}'" style="cursor:pointer;">
-      <img src="static/images/{{value.img_path}}", width=240, height=200></td>
-     {% endfor %}
-  </tr>
-</table>
-  <div class="pagenation" style="margin-top:20px">
-        {% for i in range(page_count)%}
-          <a href="{{ url_for('view_reviews', page=i) }}" class="page-btn {% if i == page %} active {% endif %}">
-            {{ i }}
-          </a>
+  <p> 현재까지 {{ total }} 개 리뷰 등록됨</p>
+
+    <div class="review-list">
+        {% for key, item in reviews.items() %}
+            <div onclick="location.href='/view_review_detail/{{ key }}'">
+                제목: {{item.title}} <br>
+                <img src="{{ url_for('static', filename='images/' ~ item.img_path) }}" alt="{{ item.title }}">
+            </div>
         {% endfor %}
+    </div>
+
+  <div class="pagination">
+    {% for i in range(0, last_page_num + 1) %}
+      <a href="{{ url_for('view_reviews', page=i) }}"class="page-btn{% if i == page %} active{% endif %}">
+        {{ i }}
+      </a>
+    {% endfor %}
   </div>
 {% else %}
- <p> 등록된리뷰가없습니다. </p>
+  <p> 등록된 리뷰가 없습니다. </p>
 {% endif %}
-
 
 {% endblock section %}

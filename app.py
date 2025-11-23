@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, flash, redirect, url_for, session
+from flask import Flask, render_template, request, flash, redirect, url_for, session, jsonify
 from database import DBhandler
 import hashlib
 import sys
@@ -39,46 +39,29 @@ def view_list():
 @application.route('/review')
 def view_reviews():
     page = request.args.get("page", 0, type=int)
-    per_page=6 # item count to display per page
-    per_row=3# item count to display per row
-    row_count=int(per_page/per_row)
-    start_idx=per_page*page
-    end_idx=per_page*(page+1)
-    data = DB.get_reviews() #read the table
-    item_counts = len(data)
-    data = dict(list(data.items())[start_idx:end_idx])
-    tot_count = len(data)
-    for i in range(row_count):#last row
-        if (i == row_count-1) and (tot_count%per_row != 0):
-            locals()['data_{}'.format(i)] = dict(list(data.items())[i*per_row:])
-        else: 
-            locals()['data_{}'.format(i)] = dict(list(data.items())[i*per_row:(i+1)*per_row])
-    return render_template("review.html",
-        datas=data.items(),
-        row1=locals()['data_0'].items(),
-        row2=locals()['data_1'].items(),
-        limit=per_page,
-        page=page,
-        page_count=int((item_counts/per_page)+1),
-        total=item_counts)
-'''
+    per_page=6 
+    reviews = DB.get_reviews() 
     if reviews:
-        review_keys = list(reviews.keys())       
-        total_count = len(review_keys)          
-
-        last_page_num = (total_count - 1) // per_page + 1
-        start_idx = (page - 1) * per_page
-        end_idx = page * per_page
-        page_review_keys = review_keys[start_idx:end_idx]
-        page_reviews = {key: reviews[key] for key in page_review_keys}
+            review_keys = list(reviews.keys())       
+            total_count = len(review_keys)          
+            last_page_num = (total_count + per_page - 1) // per_page-1  
+            
+            start_idx = page * per_page
+            end_idx = (page + 1) * per_page 
+            
+            page_review_keys = review_keys[start_idx:end_idx]
+            page_reviews = {key: reviews[key] for key in page_review_keys}
 
     else:
         page_reviews = {}
+        total_count = 0
         last_page_num = 1
-
-    return render_template('review.html', reviews=page_reviews, page=page, last_page_num=last_page_num)
-        
-'''            
+    
+    return render_template('review.html', 
+                           reviews=page_reviews, 
+                           total=total_count,
+                           page=page, 
+                           last_page_num=last_page_num,)
 
 
 @application.route('/reg_items')
