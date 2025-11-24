@@ -26,10 +26,9 @@
           </div>
         </a>
         
-        <div class="heart">
-          <button type="button" onclick="showHeart('{{ key }}')" style="border: none; background-color: transparent; cursor: pointer; outline: none;">
+        <div class="heart {% if value.is_hearted %}active{% endif %}" onclick="showHeart('{{ key }}', this)">
+          
             ♡
-            <span id="count-{{ key }}">{{ value.heart_count }}</span>
           </button>
         </div>
       </div>
@@ -55,7 +54,7 @@
 </div>
 
 <script>
-  function showHeart(name) {
+  function showHeart(name, heart) {
     $.ajax({
       type: 'GET',
       url: '/show_heart/' + name,
@@ -70,6 +69,12 @@
         if (response['result'] == 'success') {
           let id_selector = '#count-' + name;
           $(id_selector).text(response['count']);
+
+          if (response['status'] == 'like') {
+            $ (heart).addClass('active');
+          } else {
+            $(heart).removeClass('active');
+          }
         }
       },
       error: function(error){

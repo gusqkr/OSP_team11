@@ -32,7 +32,8 @@
                 <p class="value">{{ data.addr }}</p>
             </div>
             <div class="buttons">
-                <button class="like" onclick="showHeart()">
+                <button class="like {% if my_heart %}active{% endif %}" id="target-heart" onclick="showHeart()">
+                    
                     <span class="heart-symbol">♡</span>
                     <span class="like-count">{{ count }}</span> 
                 </button>
@@ -101,9 +102,15 @@
                 } 
 
                 if (response['result'] == 'success') {
-                    $('.like-count').text(response['count']);
+                    $('#like-count').text(response['count']);
+
+                    if (response['status'] == 'like') {
+                        $('#target-heart').addClass('active');
+                    } else {
+                        $('#target-heart').removeClass('active');
                 }
-            },
+            }
+        },
             error: function(error){
                 console.log(error);
                 alert("오류가 발생했습니다. 다시 시도해주세요.");

@@ -119,6 +119,9 @@ class DBhandler:
             self.db.child("user").child(user_id).child("heart").child(product_name).set(heart_data)
             return True
         
+    def is_hearted(self, user_id, product_name):
+        heart_item = self.db.child("user").child(user_id).child("heart").child(product_name).get().val()
+        return True if heart_item else False
     
     def write_question(self, product_name, data):
         self.db.child("questions").child(product_name).push(data)

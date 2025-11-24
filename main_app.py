@@ -91,6 +91,7 @@ def view_product():
     page = request.args.get('page', 1, type=int)
 
     items = DB.get_items()
+    user_id = session.get("id")
 
     if items:
         item_list = list(items.items())
@@ -103,11 +104,14 @@ def view_product():
 
         current_items = item_list[start_index:end_index]
 
-        for item in current_items:
-            name = item[0]
-            data = item[1]
-            heart_count = DB.get_heart_count(name)
-            data['heart_count'] = heart_count
+        for i, (key, value) in enumerate(current_items):
+
+            value['heart_count'] = DB.get_heart_count(key)
+
+            if user_id:
+                value['is_hearted'] = DB.is_hearted(user_id, key)
+            else:
+                value['is_hearted'] = False
             
     else:
         current_items = []
@@ -251,7 +255,12 @@ def view_product_detail(name):
     data = DB.get_item_detail(str(name))
     qna_data = DB.get_questions(str(name))
     count = DB.get_heart_count(str(name))
-    return render_template('product_detail.html', name=name, data=data, qna=qna_data, count=count) 
+
+    my_heart = False
+    if "id" in session:
+        my_heart = DB.is_hearted(session['id'], str(name))
+
+    return render_template('product_detail.html', name=name, data=data, qna=qna_data, count=count, my_heart=my_heart) 
 
 
 @application.route('/show_heart/<name>', methods=['GET'])
@@ -260,9 +269,9 @@ def show_heart(name):
         return jsonify({'result': 'login_required'})
     
     user_id = session["id"]
-    DB.toggle_heart(user_id, name)
+    result = DB.toggle_heart(user_id, name)
     count = DB.get_heart_count(name)
-    return jsonify({"result": "success", "count": count})
+    return jsonify({"result": "success", "count": count, "status": "like" if result else "unlike"})
 
 
 
