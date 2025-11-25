@@ -269,6 +269,8 @@ def show_heart(name):
         return jsonify({'result': 'login_required'})
     
     user_id = session["id"]
+
+    name = str(name)
     result = DB.toggle_heart(user_id, name)
     count = DB.get_heart_count(name)
     return jsonify({"result": "success", "count": count, "status": "like" if result else "unlike"})
