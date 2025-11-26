@@ -14,7 +14,7 @@ DB = DBhandler()
 
 @application.route('/')
 def home():
-    return render_template('base.html') #수정
+    return redirect(url_for('view_product'))
 
 @application.route('/myheart')
 def view_heart():
@@ -54,8 +54,6 @@ def login_confirm():
         
     next_page = request.form.get("next")
     return redirect(url_for(next_page)) if next_page else redirect(url_for("home"))
-    #return redirect(url_for("home")) #이후 수정 필요
-
 @application.route('/logout')
 def logout():
     session.clear()
