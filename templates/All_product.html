@@ -26,10 +26,9 @@
           </div>
         </a>
         
-        <div class="heart {% if value.is_hearted %}active{% endif %}" onclick="showHeart('{{ key }}', this)">
-          
-            ♡
-          </button>
+        {% set is_active = key in hearted_items %}
+        <div class="heart {% if is_active %}active{% endif %}" data-product-id="{{ key }}"> 
+            {% if is_active %}♥{% else %}♡{% endif %} 
         </div>
       </div>
       {% endfor %}
@@ -53,36 +52,5 @@
   </div>
 </div>
 
-<script>
-  function showHeart(name, heart) {
-    $.ajax({
-      type: 'GET',
-      url: '/show_heart/' + name,
-      data: {},
-      success: function(response) {
-        if (response['result'] == 'login_required') {
-          alert('로그인이 필요합니다.');
-          location.href = '/login';
-          return;
-        } 
-
-        if (response['result'] == 'success') {
-          let id_selector = '#count-' + name;
-          $(id_selector).text(response['count']);
-
-          if (response['status'] == 'like') {
-            $ (heart).addClass('active');
-          } else {
-            $(heart).removeClass('active');
-          }
-        }
-      },
-      error: function(error){
-        console.log(error);
-        alert("오류가 발생했습니다. 다시 시도해주세요.");
-      }
-    });
-  }
-</script>
 {% endblock section %}
 

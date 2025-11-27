@@ -32,12 +32,18 @@
                 <p class="value">{{ data.addr }}</p>
             </div>
             <div class="buttons">
-                <button class="like {% if my_heart %}active{% endif %}" id="target-heart" onclick="showHeart()">
-                    
-                    <span class="heart-symbol">♡</span>
+                <button class="like {% if my_heart %}active{% endif %}" 
+                        id="target-heart" 
+                        data-product-id="{{ name }}" 
+                        data-is-liked="{{ my_heart | lower }}">
+                    <span class="heart-symbol">{% if my_heart %}♥{% else %}♡{% endif %}</span>
                     <span class="like-count">{{ count }}</span> 
                 </button>
-                <button class="buy">구매하기</button>
+                <!-- 구매하기 팝업 임시 생성 -->
+                <form method="POST" action="{{ url_for('purchase', name=name) }}"
+                    onsubmit="return confirm('이 상품을 구매하시겠습니까?');">
+                    <button type="submit" class="buy">구매하기</button>
+                </form>
             </div>
         </div>
     </div>
@@ -88,35 +94,6 @@
             </div>
         </div>
     </div>
-<script>
-    function showHeart() {
-        $.ajax({
-            type: 'GET', 
-            url: '/show_heart/{{ name }}',
-            data: {},
-            success: function(response) {
-                if (response['result'] == 'login_required') {
-                    alert('로그인이 필요합니다.');
-                    location.href = '/login';
-                    return;
-                } 
 
-                if (response['result'] == 'success') {
-                    $('#like-count').text(response['count']);
-
-                    if (response['status'] == 'like') {
-                        $('#target-heart').addClass('active');
-                    } else {
-                        $('#target-heart').removeClass('active');
-                }
-            }
-        },
-            error: function(error){
-                console.log(error);
-                alert("오류가 발생했습니다. 다시 시도해주세요.");
-            }
-        });
-    }
-</script>
 {% endblock section %}
 

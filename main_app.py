@@ -84,13 +84,18 @@ def check_id():
 
 @application.route('/product')
 def view_product():
-
     per_page = 15
     page = request.args.get('page', 1, type=int)
 
-    items = DB.get_items()
+    items = DB.get_items_selling()
     user_id = session.get("id")
 
+    hearted_items = {}
+    if user_id:
+        hearted_data = DB.get_user_hearted_items(user_id) #찜한 상품 id만 가져옴
+        if hearted_data:
+            hearted_items = set(hearted_data.keys())
+            
     if items:
         item_list = list(items.items())
 
@@ -101,15 +106,6 @@ def view_product():
         end_index = start_index + per_page
 
         current_items = item_list[start_index:end_index]
-
-        for i, (key, value) in enumerate(current_items):
-
-            value['heart_count'] = DB.get_heart_count(key)
-
-            if user_id:
-                value['is_hearted'] = DB.is_hearted(user_id, key)
-            else:
-                value['is_hearted'] = False
             
     else:
         current_items = []
@@ -119,7 +115,25 @@ def view_product():
                            items=dict(current_items),
                            page=page, 
                            total_pages=total_pages,
-                           total_items=len(items) if items else 0)
+                           total_items=len(items) if items else 0, 
+                           hearted_items=hearted_items)
+
+@application.route('/toggle_heart/<product_id>', methods=['POST'])
+def toggle_heart(product_id):
+    if "id" not in session:
+        return jsonify({"success": False, "message": "로그인이 필요합니다.", "login_required": True}), 401
+    
+    user_id = session["id"]
+    action = request.json.get("action") # 'add' 또는 'remove'
+
+    if action == 'add':
+        DB.add_heart(user_id, product_id)
+        return jsonify({"success": True, "message": "찜 목록에 추가되었습니다.", "new_status": True})
+    elif action == 'remove':
+        DB.remove_heart(user_id, product_id)
+        return jsonify({"success": True, "message": "찜 목록에서 삭제되었습니다.", "new_status": False})
+    else:
+        return jsonify({"success": False, "message": "잘못된 요청입니다."}), 400
 
 #리뷰
 @application.route('/review')
@@ -156,7 +170,7 @@ def write_review():
     if "id" not in session:
         return redirect(url_for("login", next="write_review", need_login=1))
     author = session.get("id") #사용자 id
-    items = DB.get_all_items() #이후 수정(구매 목록으로만)
+    items = DB.get_user_purchases(author) #구매목록으로 수정완료
     return render_template('Write_review.html', author=author,items=items)
 
 @application.route('/write_review/<item_id>', methods=['POST'])
@@ -165,7 +179,7 @@ def wirte_review_init(item_id):
     data = request.form
     image_file=request.files["image"]
     image_file.save("static/images/{}".format(image_file.filename))
-    DB.insert_review(data,image_file.filename)
+    DB.insert_review(item_id, data,image_file.filename)
     return redirect(url_for('view_review'))
 
 @application.route('/review_detail/<review_id>')
@@ -180,6 +194,7 @@ def register_product():
 
     if "id" not in session:
         return redirect(url_for("login", next="register_product", need_login=1))
+    author = session.get("id") 
     
     if request.method == 'POST':
         image_file = request.files.get("file")
@@ -210,7 +225,7 @@ def register_product():
 
         return redirect(url_for('view_product'))
 
-    return render_template('product_register.html')
+    return render_template('product_register.html', author=author)
 
 @application.route('/reg_question/<name>', methods=['POST'])
 def reg_question(name):
@@ -256,24 +271,26 @@ def view_product_detail(name):
 
     my_heart = False
     if "id" in session:
-        my_heart = DB.is_hearted(session['id'], str(name))
+        my_heart = DB.is_hearted(session['id'], str(name)) 
 
     return render_template('product_detail.html', name=name, data=data, qna=qna_data, count=count, my_heart=my_heart) 
 
 
-@application.route('/show_heart/<name>', methods=['GET'])
-def show_heart(name):
+
+@application.route('/purchase/<name>', methods=['POST'])
+def purchase(name):
     if "id" not in session:
-        return jsonify({'result': 'login_required'})
-    
-    user_id = session["id"]
+        return redirect(url_for("login", next="view_product_detail", need_login=1))
 
-    name = str(name)
-    result = DB.toggle_heart(user_id, name)
-    count = DB.get_heart_count(name)
-    return jsonify({"result": "success", "count": count, "status": "like" if result else "unlike"})
+    buyer_id = session["id"]
+    success = DB.purchase_product(buyer_id, name) 
 
+    if not success: # 이미 팔렸거나 없는 상품인 경우
+        flash("이미 판매되었거나 존재하지 않는 상품입니다.")
+        return redirect(url_for('view_product_detail', name=name))
 
+    return redirect(url_for('view_product', name=name))
+    # return redirect(url_for('view_product')) # 나중에 마이페이지로 이동?? 
 
 
 if __name__ == "__main__":
