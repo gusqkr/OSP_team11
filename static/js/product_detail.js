@@ -84,3 +84,23 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
+const purchaseForm = document.getElementById('purchaseForm');
+const buyButton = document.getElementById('buy-button');
+const buyModal = document.getElementById('buyModal');
+const confirmPurchase = document.getElementById('confirmPurchase');
+const cancelPurchase = document.getElementById('cancelPurchase');
+
+buyButton.addEventListener('click', ()=>{
+    buyModal.classList.add('active');
+});
+
+function closeModal() {
+    buyModal.classList.remove('active');
+}
+cancelPurchase.addEventListener('click',closeModal);
+
+confirmPurchase.addEventListener('click', ()=>{
+    closeModal();
+    purchaseForm.submit();
+})
