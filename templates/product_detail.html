@@ -47,11 +47,18 @@
                     <div class="modal-backdrop"></div>
 
                     <div class="modal-content">
-                        <h3>구매 확인</h3>
-                        <p>선택하신 상품을 구매하시겠습니까?</p>
+                        <h2>구매 확인</h2>
+                        <hr>
+                        <div class="modal-body">
+                            <p><div style="color:gray">상품</div> {{ data.name }}</p>
+                            <p><div style="color:gray">가격</div> {{ data.price }}원</p>
+                        </div>
+                        <p id="check">해당 상품을 정말 구매하시겠습니까?</p>
 
-                        <button id="confirmPurchase">네, 구매하겠습니다</button>
-                        <button id="cancelPurchase">취소</button>
+                        <div class="purchase-button">
+                            <button id="cancelPurchase">취소</button>
+                            <button id="confirmPurchase">예</button>
+                        </div>
                     </div>
                 </div>
             </div>
