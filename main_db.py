@@ -1,5 +1,6 @@
 import pyrebase
 import json
+from datetime import datetime
 
 class DBhandler:
     def __init__(self):
@@ -43,6 +44,8 @@ class DBhandler:
         if not item:
             print(f"ERROR: Item with ID {item_id} not found for review.")
             return False
+        
+        current_date = datetime.now().strftime("%Y.%m.%d")
         review = {
             "user_id": data['user_id'],
             "item_id": item_id,
@@ -50,7 +53,8 @@ class DBhandler:
             "title": data['title'],
             "content": data['content'],
             "rating": data['rating'],
-            "img_path": img_path
+            "img_path": img_path,
+            "date": current_date
         }
         self.db.child("reviews").child(item_id).set(review) #set -> 물건당 리뷰한개 
         return True    
@@ -127,6 +131,20 @@ class DBhandler:
     
     def get_user_hearted_items(self, user_id): #사용자가 찜한 모든 상품 id
         return self.db.child("user").child(user_id).child("heart").get().val()
+    
+    def get_hearted_items_details(self, user_id): #사용자가 찜한 상품의 상세정보
+        hearted_items = self.db.child("user").child(user_id).child("heart").get().val()
+        if not hearted_items:
+            return {}
+        
+        items_detail = {}
+        for item_id in hearted_items.keys():
+            item = self.db.child("items").child(item_id).get().val()
+            if item: 
+                items_detail[item_id] = item
+        
+        return items_detail
+    
     def write_question(self, product_name, data):
         self.db.child("questions").child(product_name).push(data)
         return True
@@ -183,3 +201,39 @@ class DBhandler:
                 return True
 
         return False
+    
+    # 마이페이지에 필요한 정보
+    def get_my_selling_items(self, user_id): #내가 올린 물건
+        items = self.db.child("items").get().val()
+        if not items:
+            return {}
+        
+        my_items = {}
+        for item_id, data in items.items():
+            if data.get("seller") == user_id:
+                my_items[item_id] = data
+        return my_items
+
+    def get_my_purchased_items_details(self, user_id): #내가 구매한 상품 정보
+        purchases = self.db.child("user").child(user_id).child("purchases").get().val()
+        if not purchases:
+            return {}
+        
+        purchased_items = {}
+        for item_id in purchases.keys():
+            item_detail = self.db.child("items").child(item_id).get().val()
+            if item_detail:
+                purchased_items[item_id] = item_detail
+                
+        return purchased_items
+
+    def get_my_reviews(self, user_id): #내가 쓴 리뷰 정보
+        all_reviews = self.db.child("reviews").get().val()
+        if not all_reviews:
+            return {}
+            
+        my_reviews = {}
+        for review_id, data in all_reviews.items():
+            if data.get("user_id") == user_id:
+                my_reviews[review_id] = data
+        return my_reviews

@@ -20,13 +20,50 @@ def home():
 def view_heart():
     if "id" not in session:
         return redirect(url_for("login", next="view_heart", need_login=1))
-    return render_template('myheart.html') 
+    
+    user_id = session['id']
+    items = DB.get_hearted_items_details(user_id)
+    
+    per_page = 8 
+    page = request.args.get('page', 1, type=int)
+    
+    if items:
+        item_list = list(items.items())
+        total_items = len(item_list)
+        total_pages = math.ceil(total_items / per_page)
+        
+        start_index = (page - 1) * per_page
+        end_index = start_index + per_page
+        
+        current_items = dict(item_list[start_index:end_index])
+    else:
+        current_items = {}
+        total_pages = 1
+        total_items = 0
+        
+    return render_template('myheart.html', 
+                           items=current_items,
+                           page=page, 
+                           total_pages=total_pages,
+                           total_items=total_items)
 
 @application.route('/mypage')
 def view_mypage():
     if "id" not in session:
         return redirect(url_for("login", next="view_mypage", need_login=1)) #로그인 후 mypage로 redirect
-    return render_template('mypage.html') 
+    
+    user_id = session['id']
+    user_info = DB.get_user(user_id)
+    
+    my_selling = DB.get_my_selling_items(user_id)             # 내가 올린 상품
+    my_purchases = DB.get_my_purchased_items_details(user_id) # 내가 구매한 상품
+    my_reviews = DB.get_my_reviews(user_id)                   # 내가 쓴 리뷰
+
+    return render_template('mypage.html', 
+                           user_info=user_info,
+                           my_selling=my_selling,
+                           my_purchases=my_purchases,
+                           my_reviews=my_reviews) 
 
 #로그인/로그아웃/회원가입
 @application.route('/login')
