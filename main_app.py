@@ -110,6 +110,25 @@ def signup_confirm():
     else: 
         flash("insert_data 실패")
         return render_template("signup.html")
+@application.route('/update_user', methods=['POST'])
+def update_user():
+    if "id" not in session:
+        return redirect(url_for("login"))
+    
+    user_id = session['id']
+    new_pw = request.form.get("new_pw")
+    pw_hash = hashlib.sha256(new_pw.encode('utf-8')).hexdigest()
+    
+    current_user = DB.get_user(user_id)
+    
+    if current_user and current_user['pw'] == pw_hash:
+        flash("기존 비밀번호와 동일합니다. 다른 비밀번호를 입력해주세요.")
+        return redirect(url_for('view_mypage'))
+
+    DB.update_password(user_id, pw_hash)
+
+    flash("비밀번호가 성공적으로 변경되었습니다.") # 필요시 flash 메시지 사용
+    return redirect(url_for('view_mypage'))
     
 @application.route("/check_id", methods=["POST"])
 def check_id():

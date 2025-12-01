@@ -37,6 +37,9 @@ class DBhandler:
         if user.get('id')==user_id and user.get('pw')==pw :
             return True
         else: return False
+    def update_password(self, user_id, new_pw):
+        self.db.child("user").child(user_id).update({"pw":new_pw})
+        return True
     
     def insert_review(self, item_id, data, img_path):
         item = self.db.child("items").child(item_id).get().val()
