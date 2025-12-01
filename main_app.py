@@ -20,7 +20,32 @@ def home():
 def view_heart():
     if "id" not in session:
         return redirect(url_for("login", next="view_heart", need_login=1))
-    return render_template('myheart.html') 
+    
+    user_id = session['id']
+    items = DB.get_hearted_items_details(user_id)
+    
+    per_page = 8 
+    page = request.args.get('page', 1, type=int)
+    
+    if items:
+        item_list = list(items.items())
+        total_items = len(item_list)
+        total_pages = math.ceil(total_items / per_page)
+        
+        start_index = (page - 1) * per_page
+        end_index = start_index + per_page
+        
+        current_items = dict(item_list[start_index:end_index])
+    else:
+        current_items = {}
+        total_pages = 1
+        total_items = 0
+        
+    return render_template('myheart.html', 
+                           items=current_items,
+                           page=page, 
+                           total_pages=total_pages,
+                           total_items=total_items)
 
 @application.route('/mypage')
 def view_mypage():

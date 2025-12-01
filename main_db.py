@@ -127,6 +127,20 @@ class DBhandler:
     
     def get_user_hearted_items(self, user_id): #사용자가 찜한 모든 상품 id
         return self.db.child("user").child(user_id).child("heart").get().val()
+    
+    def get_hearted_items_details(self, user_id): #사용자가 찜한 상품의 상세정보
+        hearted_items = self.db.child("user").child(user_id).child("heart").get().val()
+        if not hearted_items:
+            return {}
+        
+        items_detail = {}
+        for item_id in hearted_items.keys():
+            item = self.db.child("items").child(item_id).get().val()
+            if item: # 상품이 삭제되지 않았을 경우에만 추가
+                items_detail[item_id] = item
+        
+        return items_detail
+    
     def write_question(self, product_name, data):
         self.db.child("questions").child(product_name).push(data)
         return True
