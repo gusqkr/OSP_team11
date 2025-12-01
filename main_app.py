@@ -257,9 +257,36 @@ def reg_answer(name, id):
 
 @application.route('/qna_list')
 def view_qna():
+    page = request.args.get('page', 1, type=int)
+    per_page = 5
+
     all_qna = DB.get_all_questions()
 
-    return render_template('qna_list.html', qna_list=all_qna) 
+    result_list = []
+
+    if all_qna:
+        for product_key, questions in all_qna.items():
+            for key, val in questions.items():
+                qna_entry = {
+                    "product_key": product_key,
+                    "product_name": val.get("product_name", product_key),
+                    "writer": val.get("writer"),
+                    "question": val.get("question"),
+                    "answer": val.get("answer", ""),
+                    "key": key,
+                    "img_path": val.get("img_path")
+                }
+                result_list.append(qna_entry)
+
+    total_items = len(result_list)
+    total_pages = math.ceil(total_items / per_page)
+
+    start_index = (page - 1) * per_page
+    end_index = start_index + per_page
+    current_items = result_list[start_index:end_index]
+
+
+    return render_template('qna_list.html', qna_list=current_items, page=page, total_pages=total_pages) 
 
 @application.route('/product_detail/<name>')
 def view_product_detail(name):
