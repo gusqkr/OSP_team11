@@ -96,9 +96,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const pw2 = pwInputs[1];
   const pwGuide = pw1.closest(".form-group").querySelector(".guide-text");
 
-  const pwMatchError = document.createElement("p");
-  pwMatchError.className = "error-text";
-  pw2.parentElement.appendChild(pwMatchError);
+  const pwMatchError = document.getElementById("pw-match-error");
 
   pw1.addEventListener("input", () => {
     const value = pw1.value;
@@ -127,19 +125,28 @@ document.addEventListener("DOMContentLoaded", () => {
       pwGuide.textContent = "영문, 숫자 포함 8자 이상 작성해주세요.";
       pwGuide.style.color = "#777";
     }
+    checkPasswordMatch(); 
+    updateSignupButtonState();
   });
 
   pw2.addEventListener("input", () => {
-    if (pw2.value && pw1.value !== pw2.value) {
-      pwMatchError.textContent = "비밀번호가 일치하지 않습니다.";
-      pwMatchError.style.color = "red";
-      pwMatchError.style.fontSize = "13px";
-      pwMatchError.style.marginTop = "6px";
-    } else {
-      pwMatchError.textContent = "";
-    }
+    checkPasswordMatch();
+    updateSignupButtonState();
   });
 
+  function checkPasswordMatch() {
+    if (pw2.value) {
+      if (pw2.value && pw1.value !== pw2.value) {
+        pwMatchError.textContent = "비밀번호가 일치하지 않습니다.";
+        pwMatchError.style.color = "red";
+      } else {
+            pwMatchError.textContent = "비밀번호가 일치합니다."; 
+            pwMatchError.style.color = "green"; 
+      }
+    }else{
+      pwMatchError.textContent = ""; 
+    }
+  }
     //비밀번호 토글 기능
   document.querySelectorAll('.toggle-password').forEach(button => {
     button.addEventListener('click', () => {
