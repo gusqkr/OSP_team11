@@ -1,5 +1,6 @@
 import pyrebase
 import json
+from datetime import datetime
 
 class DBhandler:
     def __init__(self):
@@ -43,6 +44,8 @@ class DBhandler:
         if not item:
             print(f"ERROR: Item with ID {item_id} not found for review.")
             return False
+        
+        current_date = datetime.now().strftime("%Y.%m.%d")
         review = {
             "user_id": data['user_id'],
             "item_id": item_id,
@@ -50,7 +53,8 @@ class DBhandler:
             "title": data['title'],
             "content": data['content'],
             "rating": data['rating'],
-            "img_path": img_path
+            "img_path": img_path,
+            "date": current_date
         }
         self.db.child("reviews").child(item_id).set(review) #set -> 물건당 리뷰한개 
         return True    
