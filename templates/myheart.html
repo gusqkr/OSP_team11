@@ -1,118 +1,57 @@
 {% extends "base.html" %}
 {% block head %}
     <link rel="stylesheet" href="../static/css/myheart.css">     
-  <script src="{{ url_for('static', filename='js/myheart.js') }}" defer></script>   
+    <script src="{{ url_for('static', filename='js/myheart.js') }}" defer></script>   
 {% endblock head %}
 
 {% block section %}
     <div class="product-container">
         <div class="product-header">
-            <h2>찜 목록</h2>
+            <h2>찜 목록 ({{ total_items }}개)</h2>
         </div>
 
         <div class="product-grid">
-            <div class="product-card">
-                <img src="../static/images/griptok.jpg" alt="상품 이미지">
-                <div class="product-info">
-                    <div class="product-name">붕어빵 그립톡</div>
-                    <div class="product-price">5,000원</div>
+            {% if items %}
+                {% for key, value in items.items() %}
+                <div class="product-card">
+                    <a href="{{ url_for('view_product_detail', name=key) }}" style="text-decoration: none; color: inherit; display: block;">
+                        <img src="{{ value.img_path }}" alt="상품 이미지">
+                        <div class="product-info">
+                            <div class="product-name">{{ value.name }}</div>
+                            <div class="product-price">{{ value.price }}원</div>
+                        </div>
+                    </a>
+                    {# 찜 목록 페이지이므로 하트는 항상 active 상태 #}
+                    <div class="heart active" data-product-id="{{ key }}">♥</div>
                 </div>
-                <div class="heart active">♥</div>
-            </div>
-
-            <div class="product-card">
-                <a href="/product_detail">
-                    <img src="../static/images/charger.jpg" alt="상품 이미지">
-                    <div class="product-info">
-                        <div class="product-name">민트색 충전기(c type)</div>
-                        <div class="product-price">8,000원</div>
-                    </div>
-                    <div class="heart active">♥</div>
-                </a>
-            </div>
-
-            <div class="product-card">
-                <img src="../static/images/robot.jpg" alt="상품 이미지">
-                <div class="product-info">
-                    <div class="product-name">로봇 청소기</div>
-                    <div class="product-price">200,000원</div>
-                </div>
-                <div class="heart active">♥</div>
-            </div>
-
-            <div class="product-card">
-                <img src="../static/images/coffee.jpg" alt="상품 이미지">
-                <div class="product-info">
-                    <div class="product-name">캡슐 커피 머신</div>
-                    <div class="product-price">80,000원</div>
-                </div>
-                <div class="heart active">♥</div>
-            </div>
-
-            <div class="product-card">
-                <img src="../static/images/cattower.jpg" alt="상품 이미지">
-                <div class="product-info">
-                    <div class="product-name">원목 캣타워</div>
-                    <div class="product-price">20,000원</div>
-                </div>
-                <div class="heart active">♥</div>
-            </div>
-
-            <div class="product-card">
-                <img src="../static/images/catwheel.jpg" alt="상품 이미지">
-                <div class="product-info">
-                    <div class="product-name">캣휠(사용감 많음)</div>
-                    <div class="product-price">10,000원</div>
-                </div>
-                <div class="heart active">♥</div>
-            </div>
-
-            <div class="product-card">
-                <img src="../static/images/ipad11.jpg" alt="상품 이미지">
-                <div class="product-info">
-                    <div class="product-name">아이패드 11세대 미개봉</div>
-                    <div class="product-price">400,000원</div>
-                </div>
-                <div class="heart active">♥</div>
-            </div>
-
-
-            <div class="product-card">
-                <img src="../static/images/muffler.jpg" alt="상품 이미지">
-                <div class="product-info">
-                    <div class="product-name">초록색 머플러-상태 좋음</div>
-                    <div class="product-price">30,000원</div>
-                </div>
-                <div class="heart active">♥</div>
-            </div>
-
-            <div class="product-card">
-                <img src="../static/images/jelly.jpg" alt="상품 이미지">
-                <div class="product-info">
-                    <div class="product-name">딸기맛 젤리 모음 1박스</div>
-                    <div class="product-price">20,000원</div>
-                </div>
-                <div class="heart active">♥</div>
-            </div>
-
-            <div class="product-card">
-                <img src="../static/images/ugg.jpg" alt="상품 이미지">
-                <div class="product-info">
-                    <div class="product-name">어그 부츠(2회 미만 착용)</div>
-                    <div class="product-price">150,000원</div>
-                </div>
-                <div class="heart active">♥</div>
-            </div>
+                {% endfor %}
+            {% else %}
+                <p style="padding: 20px;">찜한 상품이 없습니다.</p>
+            {% endif %}
         </div>
-
+        
         <div class="pagination">
-            <button class="active">1</button>
-            <button>2</button>
-            <button>3</button>
-            <button>4</button>
-            <button>5</button>
-            <button>&gt;</button>
+            {% set block_index = (page - 1) // 5 %}           
+            {% set start_page = block_index * 5 + 1 %}       
+            {% set end_page = start_page + 4 %}
+            {% if end_page > total_pages %}
+                {% set end_page = total_pages %}
+            {% endif %}
+
+            {% if start_page > 1 %}
+                <a href="{{url_for('view_heart', page=start_page - 1)}}" class="page-btn">&lt;</a>
+            {% endif %}
+
+            {% for i in range(start_page, end_page + 1) %}
+                <a href="{{ url_for('view_heart', page=i) }}"
+                   class="page-btn {% if i == page %}active{% endif %}">
+                    {{ i }}
+                </a>        
+            {% endfor %}
+
+            {% if end_page < total_pages %}
+                <a href="{{ url_for('view_heart', page=end_page + 1) }}" class="page-btn">&gt;</a>
+            {% endif %}
         </div>
     </div>
 {% endblock section %}
-
