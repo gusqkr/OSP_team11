@@ -43,12 +43,18 @@
                                         <p>{{ item.answer }}</p>
                                     </div>
                                 {% else %}
-                                    <form class="answer-form" action="{{ url_for('reg_answer', name=item.product_key, id=item.key) }}" method="post">
-                                        <textarea name="answer_text" placeholder="답변을 입력하세요"></textarea>
-                                        <div class="button-area">
-                                            <button type="submit" class="answer-button">답변 등록</button>
+                                    {% if current_user == item.seller_id %}
+                                        <form class="answer-form" action="{{ url_for('reg_answer', name=item.product_key, id=item.key) }}" method="post">
+                                            <textarea name="answer_text" placeholder="답변을 입력하세요"></textarea>
+                                            <div class="button-area">
+                                                <button type="submit" class="answer-button">답변 등록</button>
+                                            </div>
+                                        </form>
+                                    {% else %}
+                                        <div class="answer-form">
+                                            <textarea readonly disabled class="waiting-textarea">답변을 기다리는 중입니다.</textarea>
                                         </div>
-                                    </form>
+                                    {% endif %}
                                 {% endif %}
                             </div>
                         </td>
@@ -77,9 +83,9 @@
         {% if total_pages > 1 %}
             {% for i in range(1, total_pages + 1) %}
                 <a href="{{ url_for('view_qna', page=i) }}">
-                    <button class="{% if i == page %}active{% endif %}">{{ i }}</button>"
+                    <button class="{% if i == page %}active{% endif %}">{{ i }}</button>
                 </a>
             {% endfor %}
         {% endif %}
-</div>
+    </div>
 {% endblock section %}
