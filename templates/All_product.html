@@ -7,11 +7,9 @@
 
 {% block section %}
 <div class="product-container">
-
     <div class="product-header">
       <h2>전체 상품 ({{ total_items }}개)</h2>
     </div>
-
     <div class="product-grid">
       {% if items %}
        {% for key, value in items.items() %}
