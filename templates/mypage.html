@@ -7,89 +7,75 @@
     <div class="product-container">
         <div class="product-header">마이페이지</div><hr>
         <p class="small-header">내가 올린 상품</p>
-         <div class="product-grid">
-            <div class="product-card">
-                <a href="/product_detail">
-                <img src="../static/images/chunsik.jpg" alt="상품 이미지">
-                <div class="product-info">
-                <div class="product-name">카카오프렌즈 춘식이 장난감</div>
-                <div class="product-price">22,000원</div>
+        <div class="product-grid">
+            {% if my_selling %}
+                {% for key, item in my_selling.items() %}
+                <div class="product-card">
+                    <a href="{{ url_for('view_product_detail', name=key) }}" style="text-decoration: none; color: inherit;">
+                        <img src="{{ item.img_path }}" alt="상품 이미지">
+                        <div class="product-info">
+                            <div class="product-name">{{ item.name }}</div>
+                            <div class="product-price">{{ item.price }}원</div>
+                            {% if item.selling_status == 'sold' %}
+                                <div style="color: red; font-size: 0.8rem;">(판매완료)</div>
+                            {% endif %}
+                        </div>
+                    </a>
                 </div>
-                </a>
-            </div>
-
-            <div class="product-card">
-                <img src="../static/images/hakjam.jpg" alt="상품 이미지">
-                <div class="product-info">
-                <div class="product-name">학잠 s사이즈(상태 A급)</div>
-                <div class="product-price">30,000원</div>
-                </div>
-            </div>
+                {% endfor %}
+            {% else %}
+                <p style="padding: 10px; color: #777;">올린 상품이 없습니다.</p>
+            {% endif %}
         </div>
     </div>
 
     <div class="product-container">
         <p class="small-header">내가 구매한 상품</p>
-         <div class="product-grid">
-            <div class="product-card">
-                <img src="../static/images/roomspray.jpeg" alt="상품 이미지">
-                <div class="product-info">
-                <div class="product-name">룸스프레이</div>
-                <div class="product-price">10,000원</div>
+        <div class="product-grid">
+            {% if my_purchases %}
+                {% for key, item in my_purchases.items() %}
+                <div class="product-card">
+                <a href="{{ url_for('view_product_detail', name=key) }}" style="text-decoration: none; color: inherit;">
+                <img src="{{ item.img_path }}" alt="상품 이미지">
+                    <div class="product-info">
+                        <div class="product-name">{{ item.name }}</div>
+                        <div class="product-price">{{ item.price }}원</div>
+                    </div>
+                </a>
                 </div>
-            </div>
-
-            <div class="product-card">
-                <img src="../static/images/doll.jpeg" alt="상품 이미지">
-                <div class="product-info">
-                <div class="product-name">꿀벌 리락쿠마 인형</div>
-                <div class="product-price">25,000원</div>
-                </div>
-            </div>
+                {% endfor %}
+            {% else %}
+                <p style="padding: 10px; color: #777;">구매한 상품이 없습니다.</p>
+            {% endif %}
         </div>
     </div>
 
-    <div class="review-container">
+<div class="review-container">
         <p class="small-header">내가 작성한 리뷰</p>
-         <div class="review-grid">
-            <div class="review-card">
-                <a href="/review_detail">
-                <div class="review-content">
-                    <h3 class="review-title">싸게 잘 샀어용</h3>
-                    <p class="review-subtitle">아이폰16 케이스 구매</p>
-                    <div class="review-stars">
-                        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-                    </div>
+        <div class="review-grid">
+            {% if my_reviews %}
+                {% for key, review in my_reviews.items() %}
+                <div class="review-card">
+                    <a href="{{ url_for('view_review_detail', review_id=key) }}" style="text-decoration: none; color: inherit; display: flex; width: 100%;">
+                        <div class="review-content" style="flex: 1;">
+                            <h3 class="review-title">{{ review.title }}</h3>
+                            <p class="review-subtitle">{{ review.item_name }} 구매</p>
+                            <div class="review-stars">
+                                {% for i in range(review.rating | int) %}
+                                    <span>★</span>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% if review.img_path %}
+                        <img src="{{ url_for('static', filename='images/' + review.img_path) }}" 
+                             alt="리뷰 상품 이미지" class="review-image">
+                        {% endif %}
+                    </a>
                 </div>
-                <img src="../static/images/pcase.jpeg" alt="리뷰 상품 이미지" class="review-image">
-                </a>
-            </div>
-
-            <div class="review-card">
-                <a href="#">
-                <div class="review-content">
-                    <h3 class="review-title">싸게 잘 샀어용</h3>
-                    <p class="review-subtitle">아이폰16 케이스 구매</p>
-                    <div class="review-stars">
-                        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-                    </div>
-                </div>
-                <img src="../static/images/pcase.jpeg" alt="리뷰 상품 이미지" class="review-image">
-                </a>
-            </div>
-
-            <div class="review-card">
-                <a href="#">
-                <div class="review-content">
-                    <h3 class="review-title">싸게 잘 샀어용</h3>
-                    <p class="review-subtitle">아이폰16 케이스 구매</p>
-                    <div class="review-stars">
-                        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
-                    </div>
-                </div>
-                <img src="../static/images/pcase.jpeg" alt="리뷰 상품 이미지" class="review-image">
-                </a>
-            </div>
+                {% endfor %}
+            {% else %}
+                <p style="padding: 10px; color: #777;">작성한 리뷰가 없습니다.</p>
+            {% endif %}
         </div>
     </div>
 
@@ -99,7 +85,7 @@
         <form class="edit-form">
             <div class="form-group">
                 <label for="user-id">아이디</label>
-                <input type="text" id="user-id" value="chunsikabba" readonly>
+                <input type="text" id="user-id" value="{{ user_info.id }}" readonly>
             </div>
 
             <div class="form-group">
@@ -126,12 +112,12 @@
 
             <div class="form-group">
                 <label for="email">이메일</label>
-                <input type="text" id="user-email" value="ewhain@gmail.com" readonly>
+                <input type="text" id="user-email" value="{{ user_info.email }}" readonly>
             </div>
 
             <div class="form-group">
                 <label for="phone">전화번호(선택)</label>
-                <input type="text" id="phone" placeholder="">
+                <input type="text" id="phone" value="{{ user_info.tel if user_info.tel else '' }}" placeholder="">
             </div>
         </form>
     </div>

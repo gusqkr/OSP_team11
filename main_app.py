@@ -51,7 +51,19 @@ def view_heart():
 def view_mypage():
     if "id" not in session:
         return redirect(url_for("login", next="view_mypage", need_login=1)) #로그인 후 mypage로 redirect
-    return render_template('mypage.html') 
+    
+    user_id = session['id']
+    user_info = DB.get_user(user_id)
+    
+    my_selling = DB.get_my_selling_items(user_id)             # 내가 올린 상품
+    my_purchases = DB.get_my_purchased_items_details(user_id) # 내가 구매한 상품
+    my_reviews = DB.get_my_reviews(user_id)                   # 내가 쓴 리뷰
+
+    return render_template('mypage.html', 
+                           user_info=user_info,
+                           my_selling=my_selling,
+                           my_purchases=my_purchases,
+                           my_reviews=my_reviews) 
 
 #로그인/로그아웃/회원가입
 @application.route('/login')

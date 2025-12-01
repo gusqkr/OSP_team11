@@ -136,7 +136,7 @@ class DBhandler:
         items_detail = {}
         for item_id in hearted_items.keys():
             item = self.db.child("items").child(item_id).get().val()
-            if item: # 상품이 삭제되지 않았을 경우에만 추가
+            if item: 
                 items_detail[item_id] = item
         
         return items_detail
@@ -197,3 +197,39 @@ class DBhandler:
                 return True
 
         return False
+    
+    # 마이페이지에 필요한 정보
+    def get_my_selling_items(self, user_id): #내가 올린 물건
+        items = self.db.child("items").get().val()
+        if not items:
+            return {}
+        
+        my_items = {}
+        for item_id, data in items.items():
+            if data.get("seller") == user_id:
+                my_items[item_id] = data
+        return my_items
+
+    def get_my_purchased_items_details(self, user_id): #내가 구매한 상품 정보
+        purchases = self.db.child("user").child(user_id).child("purchases").get().val()
+        if not purchases:
+            return {}
+        
+        purchased_items = {}
+        for item_id in purchases.keys():
+            item_detail = self.db.child("items").child(item_id).get().val()
+            if item_detail:
+                purchased_items[item_id] = item_detail
+                
+        return purchased_items
+
+    def get_my_reviews(self, user_id): #내가 쓴 리뷰 정보
+        all_reviews = self.db.child("reviews").get().val()
+        if not all_reviews:
+            return {}
+            
+        my_reviews = {}
+        for review_id, data in all_reviews.items():
+            if data.get("user_id") == user_id:
+                my_reviews[review_id] = data
+        return my_reviews
