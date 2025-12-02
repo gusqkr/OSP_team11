@@ -53,7 +53,18 @@ def login_confirm():
         session.permanent = False
         
     next_page = request.form.get("next")
-    return redirect(url_for(next_page)) if next_page else redirect(url_for("home"))
+    
+    if next_page:
+        if next_page.startswith('/'):
+            return redirect(next_page)
+        else:
+            try:
+                return redirect(url_for(next_page))
+            except:
+                return redirect(url_for("home"))
+    else:
+        return redirect(url_for("home"))
+
 @application.route('/logout')
 def logout():
     session.clear()

@@ -39,10 +39,11 @@
                     <span class="heart-symbol">{% if my_heart %}♥{% else %}♡{% endif %}</span>
                     <span class="like-count">{{ count }}</span> 
                 </button>
-                <!-- 구매하기 팝업 임시 생성 -->
-                <form method="POST" id="purchaseForm" action="{{ url_for('purchase', name=name) }}">
-                    <button type="button" id="buy-button" class="buy">구매하기</button>
-                </form>
+                <!-- 구매하기 팝업 -->
+                <button type="button" id="buy-button" class="buy"
+                        data-logged-in="{{ 'true' if session.get('id') else 'false' }}">
+                        구매하기</button>
+                <form method="POST" id="purchaseForm" action="{{ url_for('purchase', name=name) }}" style="display:none;"></form>
                 <div id="buyModal" class="modal">
                     <div class="modal-backdrop"></div>
 
@@ -50,8 +51,8 @@
                         <h2>구매 확인</h2>
                         <hr>
                         <div class="modal-body">
-                            <p><div style="color:gray">상품</div> {{ data.name }}</p>
-                            <p><div style="color:gray">가격</div> {{ data.price }}원</p>
+                            <p><span style="color:gray">상품</span> {{ data.name }}</p>
+                            <p><span style="color:gray">가격</span> {{ data.price }}원</p>
                         </div>
                         <p id="check">해당 상품을 정말 구매하시겠습니까?</p>
 
