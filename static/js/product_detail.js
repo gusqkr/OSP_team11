@@ -83,4 +83,38 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('요청 처리 중 오류가 발생했습니다.');
         });
     });
+
+    /* --- 2. 구매하기 버튼 및 모달 기능 --- */
+    const purchaseForm = document.getElementById('purchaseForm');
+    const buyButton = document.getElementById('buy-button'); // 구매하기 버튼
+    const buyModal = document.getElementById('buyModal');
+    const confirmPurchase = document.getElementById('confirmPurchase');
+    const cancelPurchase = document.getElementById('cancelPurchase');
+
+    if (buyButton) {
+        buyButton.addEventListener('click', () => {
+            const isLoggedIn = buyButton.dataset.loggedIn === 'true';
+
+            if (!isLoggedIn) {
+                const nextUrl = encodeURIComponent(window.location.pathname);
+                window.location.href = `/login?next=${nextUrl}&need_login=1`;
+                return;
+            }
+
+            buyModal.classList.add('active');
+        });
+    }
+
+    function closeModal() {
+        if (buyModal) buyModal.classList.remove('active');
+    }
+
+    if (cancelPurchase) cancelPurchase.addEventListener('click', closeModal);
+
+    if (confirmPurchase) {
+        confirmPurchase.addEventListener('click', () => {
+            closeModal();
+            if (purchaseForm) purchaseForm.submit();
+        });
+    }
 });
