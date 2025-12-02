@@ -272,7 +272,7 @@ def register_product():
         data = request.form
 
         product_name = data['name']
-        seller = data['seller']
+        seller = session.get("id")
         addr = data['addr']
         status = data['status']
         price = data['price']
@@ -324,9 +324,54 @@ def reg_answer(name, id):
 
 @application.route('/qna_list')
 def view_qna():
+
+    if "id" not in session:
+        return redirect(url_for("login", next="view_qna", need_login=1))
+    
+    page = request.args.get('page', 1, type=int)
+    per_page = 5
+
+    current_user = session.get("id")
+
     all_qna = DB.get_all_questions()
 
-    return render_template('qna_list.html', qna_list=all_qna) 
+    result_list = []
+
+    if all_qna:
+        for product_key, questions in all_qna.items():
+            item_info = DB.get_item_detail(product_key)
+            seller = item_info.get('seller') if item_info else None
+
+            for key, val in questions.items():
+                writer = val.get("writer")
+
+                if current_user == seller:
+
+                    real_name = val.get("product_name", product_key)
+
+                    qna_entry = {
+                        "product_key": product_key,
+                        "product_name": real_name,
+                        "writer": writer, 
+                        "question": val.get("question"),
+                        "answer": val.get("answer", ""),
+                        "key": key,
+                        "img_path": val.get("img_path"),
+                        "seller_id": seller
+                    }
+                    result_list.append(qna_entry)
+    
+    result_list.sort(key=lambda x: x['key'], reverse=True)
+
+    total_items = len(result_list)
+    total_pages = math.ceil(total_items / per_page)
+
+    start_index = (page - 1) * per_page
+    end_index = start_index + per_page
+    current_items = result_list[start_index:end_index]
+
+
+    return render_template('qna_list.html', qna_list=current_items, page=page, total_pages=total_pages, current_user=current_user) 
 
 @application.route('/product_detail/<name>')
 def view_product_detail(name):
