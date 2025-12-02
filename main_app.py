@@ -294,6 +294,10 @@ def reg_answer(name, id):
 
 @application.route('/qna_list')
 def view_qna():
+
+    if "id" not in session:
+        return redirect(url_for("login", next="view_qna", need_login=1))
+    
     page = request.args.get('page', 1, type=int)
     per_page = 5
 
@@ -309,20 +313,25 @@ def view_qna():
             seller = item_info.get('seller') if item_info else None
 
             for key, val in questions.items():
+                writer = val.get("writer")
 
-                real_name = val.get("product_name", product_key)
+                if current_user == writer or current_user == seller:
 
-                qna_entry = {
-                    "product_key": product_key,
-                    "product_name": val.get("product_name", product_key),
-                    "writer": val.get("writer"),
-                    "question": val.get("question"),
-                    "answer": val.get("answer", ""),
-                    "key": key,
-                    "img_path": val.get("img_path"),
-                    "seller_id": seller
-                }
-                result_list.append(qna_entry)
+                    real_name = val.get("product_name", product_key)
+
+                    qna_entry = {
+                        "product_key": product_key,
+                        "product_name": real_name,
+                        "writer": writer, 
+                        "question": val.get("question"),
+                        "answer": val.get("answer", ""),
+                        "key": key,
+                        "img_path": val.get("img_path"),
+                        "seller_id": seller
+                    }
+                    result_list.append(qna_entry)
+    
+    result_list.sort(key=lambda x: x['key'], reverse=True)
 
     total_items = len(result_list)
     total_pages = math.ceil(total_items / per_page)

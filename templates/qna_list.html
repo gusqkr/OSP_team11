@@ -80,7 +80,7 @@
     </table>
 
     <div class="pagination">
-        {% if total_pages > 1 %}
+        {% if total_pages > 0 %}
             {% for i in range(1, total_pages + 1) %}
                 <a href="{{ url_for('view_qna', page=i) }}">
                     <button class="{% if i == page %}active{% endif %}">{{ i }}</button>
