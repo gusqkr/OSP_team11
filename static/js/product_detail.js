@@ -78,10 +78,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 alert(data.message || '처리 중 오류가 발생했습니다.'); 
             }
         })
-        .catch(error => {
-            console.error('하트 토글 오류:', error);
-            alert('요청 처리 중 오류가 발생했습니다.');
-        });
     });
 
     /* --- 2. 구매하기 버튼 및 모달 기능 --- */
