@@ -315,7 +315,7 @@ def view_qna():
             for key, val in questions.items():
                 writer = val.get("writer")
 
-                if current_user == writer or current_user == seller:
+                if current_user == seller:
 
                     real_name = val.get("product_name", product_key)
 
