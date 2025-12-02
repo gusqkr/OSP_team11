@@ -26,7 +26,7 @@
         
         {% set is_active = key in hearted_items %}
         <div class="heart {% if is_active %}active{% endif %}" data-product-id="{{ key }}"> 
-            {% if is_active %}♥{% else %}♡{% endif %} 
+            {% if is_active %}❤︎{% else %}♡{% endif %} 
         </div>
       </div>
       {% endfor %}
