@@ -19,7 +19,6 @@ hearts.forEach(h => {
                 // 서버에서 'login_required: true'를  응답할 경우
                 return response.json().then(data => {
                     if (data.login_required) {
-                        alert(data.message || "로그인이 필요합니다.");
                         const nextUrl = encodeURIComponent(window.location.pathname);
                         window.location.href = `/login?next=${nextUrl}&need_login=1`; 
                     } else {
@@ -36,12 +35,11 @@ hearts.forEach(h => {
             if (data.success) {
                 if (data.new_status) { // 찜 성공
                     h.classList.add('active');
-                    h.textContent = '❤︎ ';
+                    h.textContent = '♥ ';
                 } else { // 찜 취소 성공
                     h.classList.remove('active');
                     h.textContent = '♡';
                 }
-                console.log(data.message);
             } else {
                 alert(data.message || '처리 중 오류가 발생했습니다.');
             }

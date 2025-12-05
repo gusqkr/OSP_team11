@@ -195,10 +195,10 @@ def toggle_heart(product_id):
 
     if action == 'add':
         DB.add_heart(user_id, product_id)
-        return jsonify({"success": True, "message": "찜 목록에 추가되었습니다.", "new_status": True})
+        return jsonify({"success": True, "new_status": True})
     elif action == 'remove':
         DB.remove_heart(user_id, product_id)
-        return jsonify({"success": True, "message": "찜 목록에서 삭제되었습니다.", "new_status": False})
+        return jsonify({"success": True, "new_status": False})
     else:
         return jsonify({"success": False, "message": "잘못된 요청입니다."}), 400
 
@@ -400,7 +400,6 @@ def purchase(name):
         return redirect(url_for('view_product_detail', name=name))
 
     return redirect(url_for('view_product', name=name))
-    # return redirect(url_for('view_product')) # 나중에 마이페이지로 이동?? 
 
 
 if __name__ == "__main__":
