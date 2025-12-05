@@ -1,128 +1,137 @@
-.reg-title{
-    margin: 20px 160px;
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 40px auto; 
+    padding: 0 20px;   
 }
 
-hr {
-    width: 1120px;
-    margin: 0 auto;
+.reg-title {
+    font-weight: 600;
+    margin: 20px auto 10px;
+    margin-bottom: 20px;
+    width: 800px;
 }
-.photo-placeholder{
-    width: 120px;
-    height: 120px;
+
+.reg-container {
+    width: 100%;        
+    max-width: 800px;
+    margin: 10px auto 100px;
     border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: #f8f8f8;
+    border-radius: 10px;
+    padding: 40px 60px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    background: #fff;
+}
 
-    display:inline-flex;
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.form-row {
+    display: flex;
+    align-items: center; 
+    gap: 20px;
+}
+
+.form-row label {
+    font-weight: 600;
+    min-width: 120px; 
+    font-size: 15px;
+    color: #000;
+}
+
+input[type="text"],
+select,
+textarea {
+    flex: 1; 
+    border: none;
+    background-color: #f3f3f3;
+    border-radius: 6px;
+    padding: 10px 12px;
+    font-size: 15px;
+    color: #333;
+    font-family: "Pretendard", "Noto Sans KR", sans-serif;
+}
+
+input[type="text"]:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    background-color: #e9e9e9;
+    box-shadow: inset 0 0 0 2px #c7c7c7;
+}
+
+.product-content {
+    height: 130px;
+    resize: none;
+}
+
+.photo-input-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.photo-placeholder {
+    width: 40px;
+    height: 80px;
+    background-color: #e7e7e7; 
+    border: none;              
+    border-radius: 10px;       
+    
+    display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
-
-    margin-left: 20px;
-    vertical-align: middle;
+    margin: 0; 
 }
 
-.photo-placeholder{
-    padding: 0;
-    margin: 0;
-    width:80px;
-    height:80px;
-    background-color: #e7e7e7;
-    border: none;
-    border-radius: 10px;
-}
-.photo-placeholder .camera-icon::before{
+.photo-placeholder .camera-icon::before {
     content: "\1F4F7";
     font-size: 40px;
     line-height: 1;
-
+    
     position: relative;
-    top: -5px;
+    top: -5px; 
+    opacity: 0.6; 
 }
 
-#seller, #name, #addr, #price{
-    background-color: #e7e7e7;
-    border: 1px solid #e7e7e7;
-    border-radius: 10px;
-    height: 40px;
-
-    font-size:20px;
-    padding: 10px;
-}
-#status{
-    width: 240px;
-    height: 40px;
-    border-radius: 10px;
-
-    font-size:20px;
-    padding-left: 10px;
-}
-#seller{
-    width: 250px;
-}
-#name, #addr{
-    width: 600px;
-}
-#price{
-    width: 200px;
+#won {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
-#description{
-    width: 600px;
-    height: 150px;
-    border-radius: 10px;
-    background-color: #e7e7e7;
-    border: 1px solid #e7e7e7;
-    resize: none;
-
-    font-size:20px;
-    padding: 20px;
-}
-
-.form-group{
-    display: grid;
-    max-width: 600px;
-    margin: 20px 180px;
-    font-size: 20px;
-}
-.form-group > div{
-    display: grid;
-    grid-template-columns: 150px 1fr;
-    align-items: start;
-    margin-bottom:20px;
-    gap:0px;
-
-}
-
-.form-section label {
-    grid-column: 1 / 2;
-    text-align: right; 
-    padding-right: 20px;
-}
-
-.form-section input, 
-.form-section select,
-.form-section textarea
-div #won { 
-    grid-column: 2 / 3; 
-    width: 100%;
-    max-width: 100px;
-    background-color: #ccc; 
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 8px;
-}
-.button-wrapper{
+#won input {
     text-align: right;
-    margin-right: 160px;
 }
-#submit-btn{
+
+#won span {
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.submit-btn {
     margin-top: 30px;
     width: 120px;
-    padding: 8px;
-    background-color: #00462a;
+    padding: 10px;
+    background-color: #bfbfbf; 
     color: #fff;
     font-size: 15px;
     border: none;
     border-radius: 10px;
+    cursor: not-allowed;
+    align-self: flex-end;
+    transition: background 0.2s ease;
+}
+
+.submit-btn.active {
+    background-color: #00462a;
+    cursor: pointer;
+}
+
+.submit-btn.active:hover {
+    background-color: #00331e;
 }

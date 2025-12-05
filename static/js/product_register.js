@@ -1,20 +1,26 @@
 const fileInput = document.getElementById('img');
-const plaaceholder = document.querySelector('.photo-placeholder');
+const placeholder = document.querySelector('.photo-placeholder');
+const submitBtn = document.getElementById('submitBtn');
 
-document.querySelector('form').addEventListener('submit', function(event) {
-    event.preventDefault();
+const inputs = document.querySelectorAll('#name, #addr, #price, #description');
 
-    if (fileInput.files.length === 0){
-        alert('상품 사진을 첨부해 주세요.');
-        plaaceholder.style.border = '2px solid red';
-    }
-    else {
-        event.target.submit();
-    }
+fileInput.addEventListener('change', function() {
+    checkFormFilled();
 });
 
-fileInput.addEventListener('change', function(){
-    if (fileInput.files.length > 0) {
-        plaaceholder.style.border = '2px solid green';
-    }
+inputs.forEach(input => {
+    input.addEventListener('input', checkFormFilled);
 });
+
+function checkFormFilled() {
+    const allTextFilled = Array.from(inputs).every(input => input.value.trim() !== '');
+    const fileSelected = fileInput.files.length > 0;
+
+    if (allTextFilled && fileSelected) {
+        submitBtn.classList.add('active'); 
+        submitBtn.disabled = false;        
+    } else {
+        submitBtn.classList.remove('active'); 
+        submitBtn.disabled = true;            
+    }
+}
