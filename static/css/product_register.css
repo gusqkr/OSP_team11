@@ -74,7 +74,7 @@ textarea:focus {
 }
 
 .photo-placeholder {
-    width: 40px;
+    width: 30px;
     height: 80px;
     background-color: #e7e7e7; 
     border: none;              
@@ -93,7 +93,8 @@ textarea:focus {
     line-height: 1;
     
     position: relative;
-    top: -5px; 
+    top: -6px; 
+    left: -1px;
     opacity: 0.6; 
 }
 
@@ -104,15 +105,14 @@ textarea:focus {
     gap: 10px;
 }
 
-#won input {
-    text-align: right;
-}
-
 #won span {
     font-size: 15px;
     font-weight: 600;
 }
-
+#won #price {
+    flex: none;  
+    width: 50%;  
+}
 .submit-btn {
     margin-top: 30px;
     width: 120px;

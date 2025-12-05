@@ -5,6 +5,9 @@ const submitBtn = document.getElementById('submitBtn');
 const inputs = document.querySelectorAll('#name, #addr, #price, #description');
 
 fileInput.addEventListener('change', function() {
+    if (fileInput.files.length > 0) {
+        placeholder.style.border = '2px solid green'; 
+    }
     checkFormFilled();
 });
 
