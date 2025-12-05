@@ -1,8 +1,16 @@
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 40px auto; 
+    padding: 0 20px;   
+}
+
 table {
-    width: 1120px;
+    width: 100%;
+    max-width: 1200px;
     border-collapse: collapse;
-    margin: 20px 160px;
-    table-layout: fixed;
+    margin: 0 auto;
+    table-layout: fixed; 
 }
 table thead th:nth-child(1),
 table tbody td:nth-child(1) {
@@ -139,7 +147,6 @@ textarea {
 }
 
 .answer-button {
-    margin-left: 450px;
     background-color: #00462a;
     color: white;
     border: none;
@@ -151,10 +158,18 @@ textarea {
     text-align: center;
     white-space: nowrap;
 }
+.button-area {
+    width: 95%; 
+    display: flex;
+    justify-content: flex-end; 
+    margin-top: 5px; 
+}
 
-#page-title{
-    margin-left: 160px;
-    margin-top: 20px;
+#page-title {
+    width: 100%;
+    max-width: 1200px;
+    margin: 40px auto 20px;
+    padding: 0 20px;
 }
 
 .pagination {
