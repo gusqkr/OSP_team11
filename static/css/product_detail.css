@@ -1,12 +1,20 @@
-.top-section{
-    display:flex;
-    padding:40px 160px;
-    gap:40px;
+.top-section {
+    display: flex;
+    padding: 40px 20px; 
+    gap: 40px;
+    
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    flex-wrap: wrap; 
+    justify-content: center; 
 }
 
 .product{
-    width:400px;
-    height:400px;
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    aspect-ratio: 1/1; 
     object-fit:cover;
     border-radius:10px;
 }
@@ -14,6 +22,7 @@
 .top-column{
     flex: 1;
     padding-left:25px;
+    min-width: 300px;
 }
 
 .product-name {
@@ -56,6 +65,7 @@
     margin:10px;
     padding-top:70px;
     gap:18px;
+    flex-wrap: wrap;
 }
 
 .like, .buy{
@@ -99,14 +109,21 @@
 }
 
 .bottom-section{
-    padding:20px 160px;
-    display:flex;
-    justify-content:space-between;
+    padding: 20px 20px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto 80px; 
+
+    display: flex;
+    justify-content: space-between;
+    gap: 40px; 
+    
+    flex-wrap: wrap; 
 }
 
 .left-column{
-    padding:10px;
-    width: 58%;
+    flex: 1.5;     
+    min-width: 320px; 
 }
 
 p.small-heading{
@@ -127,10 +144,9 @@ p.small-heading{
     line-height:1.5;
 }
 
-.right-column{
-    padding:10px;
-    padding-left:50px;
-    width:40%;
+.right-column {
+    flex: 1;        
+    min-width: 320px; 
 }
 
 .qa-box{
@@ -141,7 +157,8 @@ p.small-heading{
 
 .qa-content{
     flex:1;
-    overflow-y:auto;
+    overflow-y: auto; 
+    padding-right: 5px; 
 }
 
 .question-item{
