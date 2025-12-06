@@ -156,8 +156,9 @@ p.small-heading{
 }
 
 .qa-content{
-    flex:1;
-    overflow-y: auto; 
+    max-height: 300px;
+    overflow-y: auto;
+    flex:1; 
     padding-right: 5px; 
 }
 
@@ -181,6 +182,11 @@ p.small-heading{
 
 .question-item .bubble{
     background-color: rgba(0, 70, 42, 0.3);
+}
+
+.question-item .bubble.my-question{
+    background-color: rgba(0, 70, 42);
+    color: white;
 }
 
 .answer-item .bubble{
