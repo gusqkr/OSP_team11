@@ -82,7 +82,7 @@
                     {% if qna %}
                         {% for key, val in qna.items() %}
                             <div class="question-item">
-                                <div class="bubble">
+                                <div class="bubble {% if val.writer == session.get('id') %}my-question{% endif %}">
                                     <strong>Q</strong>
                                     <p>{{ val.question }}</p>
                                 </div>
@@ -90,7 +90,7 @@
                             {% if val.answer %}
                             <div class="answer-item">
                                 <div class="bubble">
-                                    <strong>A (판매자)</strong>
+                                    <strong>A</strong>
                                     <p>{{ val.answer }}</p>
                                 </div>
                             </div>

@@ -1,8 +1,9 @@
 {% extends "base.html" %}
 {% block head %}
-    <link rel="stylesheet" href="../static/css/qna_list.css">  
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/qna_list.css') }}">  
   <script src="{{ url_for('static', filename='js/qna_list.js') }}" defer></script>
 {% endblock head %}
+
 {% block section %}
     <h2 id="page-title">Q&A 답변하기</h2>
 
@@ -16,156 +17,75 @@
             </tr>
         </thead>
         <tbody>
-            <tr class="data-row">
-                <td>
-                    <div class="item-wrapper">
-                        <img src="../static/images/chunsik.jpg" alt="상품 이미지" class="product-image">
-                        <div class="name">카카오프렌즈 춘식이 잠옷 인형</div>
-                    </div>
-                </td>
-                <td>
-                    <div class="summary">Q 새상품 맞나요? 때가 좀 타있는 것 같은데 제 착각일까요? 판매자님 빠른 답변 부탁드려요!~~</div>
-                    <div class="detail-content">
-                    <div class="question-section">
-                        <strong>Q:</strong>
-                        <p>비닐 안 뜯은 새상품 맞나요?</p>
-                        <p>때가 좀 타있는 것 같은데 제 착각일까요? 판매자님 빠른 답변 부탁드려요!~~</p>
-                    </div>
-                    <div class="seller-answer">
-                    </div>
-                    <form class="answer-form">
-                        <textarea name="answer_content" row="2" placeholder="답변을 입력하세요"></textarea>
-                        <br>
-                        <button type="submit" class="answer-button">답변 등록</button>
-                    </form>
-                    </div>
-                </td>
-                <td>ilovecat</td>
-                <td>
-                    <div class="is-unanswered">답변 미완료</div>
-                </td>
-            </tr>
-            <tr class="data-row">
-                <td>
-                    <div class="item-wrapper">
-                        <img src="../static/images/hakjam.jpg" alt="상품 이미지" class="product-image">
-                        <div class="name">학잠 s사이즈 (상태 A급)</div>
-                    </div>
-                </td>
-                <td>
-                    <div class="summary">Q 혹시 상세 사진 더 올려주실 수 있나요? 상태가 좋은지 확인이 잘 안 되네요.</div>
-                    <div class="detail-content">
-                    <div class="question-section">
-                        <strong>Q:</strong>
-                        <p>혹시 상세 사진 더 올려주실 수 있나요? 상태가 좋은지 확인이 잘 안 되네요.</p>
-                    </div>
-                    <div class="seller-answer">
-                    </div>
-                    <form class="answer-form">
-                        <textarea name="answer_content" row="2" placeholder="답변을 입력하세요"></textarea>
-                        <br>
-                        <button type="submit" class="answer-button">답변 등록</button>
-                    </form>
-                    </div>
-                </td>
-                <td>ewhalove</td>
-                <td>
-                    <div class="is-unanswered">답변 미완료</div>
-                </td>
-            </tr>
-            <tr class="data-row">
-                <td>
-                    <div class="item-wrapper">
-                        <img src="../static/images/teaset.jpg" alt="상품 이미지" class="product-image">
-                        <div class="name">빈티지 티세트 -3p</div>
-                    </div>
-                </td>
-                <td>
-                    <div class="summary">Q 언제 구매하신 제품인가요?</div>
-                    <div class="detail-content">
-                    <div class="question-section">
-                        <strong>Q:</strong>
-                        <p>언제 구매하신 제품인가요?</p>
-                    </div>
-                    <div class="seller-answer">
-                    </div>
-                    <form class="answer-form">
-                        <textarea name="answer_content" row="2" placeholder="답변을 입력하세요"></textarea>
-                        <br>
-                        <button type="submit" class="answer-button">답변 등록</button>
-                    </form>
-                    </div>
-                </td>
-                <td>galaxy_user</td>
-                <td>
-                    <div class="is-unanswered">답변 미완료</div>
-                </td>
-            </tr>
-            <tr class="data-row">
-                <td>
-                    <div class="item-wrapper">
-                        <img src="../static/images/cup.jpg" alt="상품 이미지" class="product-image">
-                        <div class="name">냥냥 맹구 머그컵</div>
-                    </div>
-                </td>
-                <td>
-                    <div class="summary">Q 판매자님! 혹시 냥냥 버전 말고 멍멍 버전도 갖고 계신가요?</div>
-                    <div class="detail-content">
-                    <div class="question-section">
-                        <strong>Q:</strong>
-                        <p>판매자님! 혹시 냥냥 버전 말고 멍멍 버전도 갖고 계신가요?</p>
-                    </div>
-                    <div class="seller-answer">
-                    </div>
-                    <form class="answer-form">
-                        <textarea name="answer_content" row="2" placeholder="답변을 입력하세요"></textarea>
-                        <br>
-                        <button type="submit" class="answer-button">답변 등록</button>
-                    </form>
-                    </div>
-                </td>
-                <td>lovingdogdog</td>
-                <td>
-                    <div class="is-unanswered">답변 미완료</div>
-                </td>
-            </tr>
-            <tr class="data-row">
-                <td>
-                    <div class="item-wrapper">
-                        <img src="../static/images/woman.jpg" alt="상품 이미지" class="product-image">
-                        <div class="name">여성 빅사이즈 카라 셔츠 free</div>
-                    </div>
-                </td>
-                <td>
-                    <div class="summary">Q 지금 계절에 입을 수 있을까요?</div>
-                    <div class="detail-content">
-                    <div class="question-section">
-                        <strong>Q:</strong>
-                        <p>지금 계절에 입을 수 있을까요?</p>
-                    </div>
-                    <div class="seller-answer">
-                    </div>
-                    <form class="answer-form">
-                        <textarea name="answer_content" row="2" placeholder="답변을 입력하세요"></textarea>
-                        <br>
-                        <button type="submit" class="answer-button">답변 등록</button>
-                    </form>
-                    </div>
-                </td>
-                <td>lovingdogdog</td>
-                <td>
-                    <div class="is-unanswered">답변 미완료</div>
-                </td>
-            </tr>
+           {% if qna_list %}
+                {% for item in qna_list %}
+                    <tr class="data-row">
+                        <td>
+                            <div class="item-wrapper">
+                                <img src="/{{ item.img_path }}" alt="상품 이미지" class="product-image">
+                                <div class="name">{{ item.product_name }}</div>
+                            </div>
+                        </td>
+                        <td class="content-column">
+                            <div id="summary-{{ item.key }}" class="summary" onclick="toggleAnswerForm('{{ item.key }}')">
+                                <strong>Q. </strong> {{ item.question }}
+                            </div>
+
+                            <div id="detail-{{ item.key }}" class="detail-content" style="display: none;">
+                                <div class="question-section" onclick="toggleAnswerForm('{{ item.key }}')" style="cursor: pointer;">
+                                    <strong>Q: </strong> <br>
+                                    {{ item.question }}
+                                </div>
+
+                                 {% if item.answer %}
+                                    <div class="answer-section">
+                                        <strong>A: </strong> <br>
+                                        <p>{{ item.answer }}</p>
+                                    </div>
+                                {% else %}
+                                    {% if current_user == item.seller_id %}
+                                        <form class="answer-form" action="{{ url_for('reg_answer', name=item.product_key, id=item.key) }}" method="post">
+                                            <textarea name="answer_text" placeholder="답변을 입력하세요"></textarea>
+                                            <div class="button-area">
+                                                <button type="submit" class="answer-button">답변 등록</button>
+                                            </div>
+                                        </form>
+                                    {% else %}
+                                        <div class="answer-form">
+                                            <textarea readonly disabled class="waiting-textarea">답변을 기다리는 중입니다.</textarea>
+                                        </div>
+                                    {% endif %}
+                                {% endif %}
+                            </div>
+                        </td>
+
+                        <td> {{ item.writer }}</td>
+
+                        <td>
+                            {% if item.answer %}
+                                <span class="is-answered">답변 완료</span>
+                            {% else %}
+                                <span class="is-unanswered">답변 미완료</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+
+                <tr>
+                    <td colspan="4">등록된 Q&A가 없습니다.</td>
+                </tr>
+            {% endif %}
         </tbody>
     </table>
 
     <div class="pagination">
-  <button class="active">1</button>
-  <button>2</button>
-  <button>3</button>
-  <button>4</button>
-  <button>5</button>
-  <button>&gt;</button>
-</div>
+        {% if total_pages > 0 %}
+            {% for i in range(1, total_pages + 1) %}
+                <a href="{{ url_for('view_qna', page=i) }}">
+                    <button class="{% if i == page %}active{% endif %}">{{ i }}</button>
+                </a>
+            {% endfor %}
+        {% endif %}
+    </div>
 {% endblock section %}

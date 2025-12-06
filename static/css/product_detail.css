@@ -140,8 +140,9 @@ p.small-heading{
 }
 
 .qa-content{
+    max-height: 300px;
+    overflow-y: auto;
     flex:1;
-    overflow-y:auto;
 }
 
 .question-item{
@@ -164,6 +165,11 @@ p.small-heading{
 
 .question-item .bubble{
     background-color: rgba(0, 70, 42, 0.3);
+}
+
+.question-item .bubble.my-question{
+    background-color: rgba(0, 70, 42);
+    color: white;
 }
 
 .answer-item .bubble{

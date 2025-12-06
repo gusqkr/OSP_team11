@@ -42,8 +42,9 @@ thead th {
 }
 
 .item-wrapper img {
-   max-width: 50px;
+   width: 50px;
    height: auto;
+   object-fit: cover;
 }
 
 .data-row {
@@ -51,10 +52,8 @@ thead th {
     background-color: #f9f9f9;
 }
 
-.detail-row {
-    max-height: 0;
-    transition: max-height 0.3s ease-in-out;
-    visibility: hidden;
+.data-row:hover {
+    background-color: #f1f1f1;
 }
 
 .data-row .summary {
@@ -63,31 +62,72 @@ thead th {
     overflow: hidden;
     text-overflow: ellipsis;
 }
-.data-row.expanded .summary {
-    display: none;
+
+.data-row .summary:hover {
+    text-decoration: underline;
 }
-.data-row.expanded .detail-content{
-    max-height: 500px;
-    opacity: 1;
+
+.answer-row td {
+    background-color: #e0e0e0;
+    padding: 0;
+    border-top: none;
+}
+
+.empty-cell {
+    background-color: #fff;
+    border-right: none;
+}
+
+.content-cell {
+    background-color: #fff;
+    padding: 20px;
+    border-left: none;
+}
+
+
+.detail-content {
+    background-color: #f7f7f7;
+    padding: 30px;
+    border-radius: 5px;
+    box-sizing: border-box;
+    width: 100%;
+
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { 
+        opacity: 0; 
+        transform: translateY(-5px);
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0);
+    }
+}
+
+.question-section {
+    margin-bottom: 15px;
+}
+
+.answer-section {
+    background-color: #fff;
     padding: 15px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-top: 10px;
 }
 
 textarea {
-    margin: 10px 5px;
-    width : 95%;
+    margin: 10px 0;
+    width: 95%;
+    height: 80px;
     border-radius: 5px;
-    border : none;
-    padding : 10px;
-}
-.detail-content {
-    max-height: 0;
-    opacity: 0
-    padding 0 15px;
-    transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out, padding 0.3s;
-    overflow: hidden;
-    background-color: #e0e0e0;
-    margin-top: 5px;
-    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    box-sizing: border-box;
+    resize: none;
+    background-color: #fff;
 }
 
 .is-unanswered {
@@ -105,7 +145,13 @@ textarea {
     border: none;
     padding: 5px 16px;
     border-radius: 7px;
+
+    display: inline-block;
+    cursor: pointer;
+    text-align: center;
+    white-space: nowrap;
 }
+
 #page-title{
     margin-left: 160px;
     margin-top: 20px;

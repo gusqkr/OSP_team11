@@ -16,12 +16,11 @@ hearts.forEach(h => {
         })
         .then(response => {
             if (response.status === 401) { //로그인 필요
-                // 서버에서 'login_required: true'를 포함하여 응답할 경우
+                // 서버에서 'login_required: true'를  응답할 경우
                 return response.json().then(data => {
                     if (data.login_required) {
-                        alert(data.message || "로그인이 필요합니다.");
-                        // 로그인 페이지로 이동 (view_product 라우트에서 next 인자를 사용하지 않았으므로, next 없이 이동)
-                        window.location.href = '/login'; 
+                        const nextUrl = encodeURIComponent(window.location.pathname);
+                        window.location.href = `/login?next=${nextUrl}&need_login=1`; 
                     } else {
                         throw new Error("처리할 수 없는 응답 상태입니다.");
                     }
@@ -36,20 +35,15 @@ hearts.forEach(h => {
             if (data.success) {
                 if (data.new_status) { // 찜 성공
                     h.classList.add('active');
-                    h.textContent = '♥';
+                    h.textContent = '♥ ';
                 } else { // 찜 취소 성공
                     h.classList.remove('active');
                     h.textContent = '♡';
                 }
-                console.log(data.message);
             } else {
                 alert(data.message || '처리 중 오류가 발생했습니다.');
             }
         })
-        .catch(error => {
-            console.error('하트 토글 오류:', error);
-            alert('요청 처리 중 오류가 발생했습니다.');
-        });
     });
 });
 

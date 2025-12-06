@@ -22,7 +22,6 @@ document.addEventListener('DOMContentLoaded', () => {
     likeBtn.addEventListener('click', () => {
         let currentCount = parseInt(likeCountSpan.textContent);
         
-        // 현재 상태를 기반으로 서버에 요청할 action 결정
         const action = liked ? 'remove' : 'add'; 
 
         // 찜하기/찜 취소 요청을 서버에 전송 (AJAX)
@@ -34,11 +33,11 @@ document.addEventListener('DOMContentLoaded', () => {
             body: JSON.stringify({ action: action })
         })
         .then(response => {
-            if (response.status === 401) { // 401 Unauthorized (로그인 필요)
+            if (response.status === 401) { 
                 return response.json().then(data => {
                     if (data.login_required) {
-                        alert(data.message || "로그인이 필요합니다.");
-                        window.location.href = '/login?next=' + window.location.pathname; 
+                        const nextUrl = encodeURIComponent(window.location.pathname);
+                        window.location.href = `/login?next=${nextUrl}&need_login=1`; 
                     } else {
                         throw new Error("처리할 수 없는 응답 상태입니다.");
                     }
@@ -78,10 +77,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 alert(data.message || '처리 중 오류가 발생했습니다.'); 
             }
         })
-        .catch(error => {
-            console.error('하트 토글 오류:', error);
-            alert('요청 처리 중 오류가 발생했습니다.');
-        });
     });
 
     /* --- 2. 구매하기 버튼 및 모달 기능 --- */
