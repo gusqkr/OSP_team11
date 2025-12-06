@@ -1,8 +1,9 @@
         .product-container {
-            width: 1200px;
-            /*margin: 40px auto 80px;*/
-            margin-top: 20px;
-            margin-left: 160px;
+            max-width: 1200px;
+            width : 100%;
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
         }
 
 
@@ -12,14 +13,14 @@
             align-items: center;
         }
 
-            .product-header h2 {
+        .product-header h2 {
                 font-weight: 600;
-            }
+        }
 
 
         .product-grid {
             display: grid;
-            grid-template-columns: repeat(5, 1fr);
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
             gap: 24px;
             margin-top: 20px;
         }

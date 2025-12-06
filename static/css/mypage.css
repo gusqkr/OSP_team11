@@ -1,9 +1,10 @@
-.product-container {
-    width: 1200px;
-    /*margin: 40px auto 80px;*/
-    margin-top: 20px;
-    margin-left: 160px;
+.product-container, .review-container {
+    width: 100%;            /* 고정 1200px 제거 */
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
 }
+
 
 
 .product-header {
@@ -11,7 +12,7 @@
     justify-content: space-between;
     align-items: center;
     font-weight: 600;
-    padding:10px;
+    padding:10px 0;
     font-size:20px;
     margin-bottom:5px;
 }
@@ -34,7 +35,7 @@ p.small-header{
 
 .product-grid {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
     gap: 24px;
     margin-top: 10px;
 }
@@ -86,20 +87,13 @@ p.small-header{
     color: #222;
 }
 
-.review-container {
-    width: 1200px;
-    /*margin: 40px auto 80px;*/
-    margin-top: 20px;
-    margin-left: 160px;
-}
 
 .review-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
     gap: 24px;
     margin-top: 10px;
     overflow-x:auto;
-    scroll-behavior: smooth;
 }
 
 .review-grid::-webkit-scrollbar{
@@ -125,6 +119,7 @@ p.small-header{
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     position: relative;
+    height: 100%;
 }
 
 .review-card:hover {
@@ -181,8 +176,10 @@ p.small-header{
 }
 
 .edit-container {
-  width: 600px;
-  margin: 20px 0 0 160px;
+  width: 100%;
+  max-width: 1200px; /* 600px -> 1200px로 변경 (위쪽 컨테이너들과 통일) */
+  margin: 40px auto;
+  padding: 0 20px;   /* 안쪽 여백 추가 (위쪽 컨테이너들과 통일) */
   font-family: "Inter", "Pretendard", "Noto Sans KR", sans-serif;
   color: #222;
 }
@@ -191,8 +188,9 @@ p.small-header{
   display: flex;
   flex-direction: column;
   gap: 18px;
-  margin-left:10px;
-  padding-top:5px;
+  margin-left: 0;      
+  padding-top: 5px;
+  max-width: 600px;   
 }
 
 .form-group {
