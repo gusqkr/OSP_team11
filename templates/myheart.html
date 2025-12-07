@@ -30,7 +30,7 @@
                 <p style="padding: 20px;">찜한 상품이 없습니다.</p>
             {% endif %}
         </div>
-        
+        {% if total_items > 0 %}
         <div class="pagination">
             {% set block_index = (page - 1) // 5 %}           
             {% set start_page = block_index * 5 + 1 %}       
@@ -54,5 +54,6 @@
                 <a href="{{ url_for('view_heart', page=end_page + 1) }}" class="page-btn">&gt;</a>
             {% endif %}
         </div>
+        {% endif %}
     </div>
 {% endblock section %}
