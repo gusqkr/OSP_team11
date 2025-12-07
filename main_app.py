@@ -151,7 +151,7 @@ def check_id():
 
 @application.route('/product')
 def view_product():
-    per_page = 15
+    per_page = 16
     page = request.args.get('page', 1, type=int)
 
     items = DB.get_items_selling()
